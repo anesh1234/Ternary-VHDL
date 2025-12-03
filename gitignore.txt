@@ -1,0 +1,6 @@
+*.o
+*.ghw
+*.cf
+*.exe
+
+relevant_ieee_testbenches/

@@ -1,4 +1,0 @@
-v 4
-file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "testbench/paper/paper_tb.vhdl" "3174ce893b188495c85fb56e78009734b4ef5678" "20251203180709.723":
-  entity paper_tb at 1( 0) + 0 on 13;
-  architecture sim of paper_tb at 9( 127) + 0 on 14;
