@@ -1,0 +1,13 @@
+v 4
+file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "tvl_lib/bal_numeric-body.vhdl" "d6fe3bb2f680b682959dd0f7861ea8b88ac538ac" "20251203174735.727":
+  package body bal_numeric at 26( 1159) + 0 on 22;
+file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "tvl_lib/bal_logic-body.vhdl" "97b3944b84413ff11fd89e43da2192ce732e4577" "20251203174731.617":
+  package body bal_logic at 30( 1352) + 0 on 20;
+file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "tvl_lib/kleene_type-body.vhdl" "15b22e7c586db7e41e04e184634d99ad32c4cec7" "20251203174727.649":
+  package body kleene_type at 21( 761) + 0 on 18;
+file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "tvl_lib/kleene_type.vhdl" "ab6bce4f33366119e3d654d595040bd45f05546b" "20251203174725.821":
+  package kleene_type at 21( 756) + 0 on 17 body;
+file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "tvl_lib/bal_logic.vhdl" "3115c4eea7c98906fdcacc0b292036e0879b4210" "20251203174729.769":
+  package bal_logic at 29( 1361) + 0 on 19 body;
+file "C:\Users\ander\OneDrive - USN\Minde Masters Thesis - Dokumenter\General\code_rep\ternary_vhdl\" "tvl_lib/bal_numeric.vhdl" "cd67203ba6e76d0e7ff290f84d4abbd1a1dd10e4" "20251203174733.898":
+  package bal_numeric at 26( 1155) + 0 on 21 body;

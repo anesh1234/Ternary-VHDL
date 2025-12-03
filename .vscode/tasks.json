@@ -1,0 +1,981 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+
+//======================================================================================================
+// Compile TVL Library
+//======================================================================================================
+{
+    "label": "kleene_type",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=TVL --workdir=tvl_lib/workdir tvl_lib/kleene_type.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "kleene_type-body",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=TVL --workdir=tvl_lib/workdir tvl_lib/kleene_type-body.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "bal_logic",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=TVL --workdir=tvl_lib/workdir tvl_lib/bal_logic.vhdl",
+    "problemMatcher": [],
+    "hide": true
+    },
+{
+    "label": "bal_logic-body",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=TVL --workdir=tvl_lib/workdir tvl_lib/bal_logic-body.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{    "label": "bal_numeric",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=TVL --workdir=tvl_lib/workdir tvl_lib/bal_numeric.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "bal_numeric-body",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=TVL --workdir=tvl_lib/workdir tvl_lib/bal_numeric-body.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "TVL Lib",
+    "dependsOn": ["kleene_type", "kleene_type-body", "bal_logic", "bal_logic-body", "bal_numeric", "bal_numeric-body"],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+
+//======================================================================================================
+// Testbenches
+//======================================================================================================
+//truncate
+{
+    "label": "ANA kleene_kleene_binaryfunc",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/kleene/workdir -Ptvl_lib/workdir testbench/kleene/kleene_binaryfunc_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA kleene_kleene_binaryfunc",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/kleene/workdir -Ptvl_lib/workdir kleene_binaryfunc_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile kleene_kleene_binaryfunc",
+    "dependsOn": [
+        "ANA kleene_kleene_binaryfunc",
+        "ELA kleene_kleene_binaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run kleene_kleene_binaryfunc",
+    "type": "shell",
+    "command": "ghdl -r kleene_binaryfunc_tb --wave=testbench/kleene/workdir/kleene_binaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk kleene_kleene_binaryfunc",
+    "type": "shell",
+    "command": "gtkwave testbench/kleene/workdir/kleene_binaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim kleene_kleene_binaryfunc",
+    "dependsOn": [
+        "run kleene_kleene_binaryfunc",
+        "gtk kleene_kleene_binaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA kleene_kleene_shift",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/kleene/workdir -Ptvl_lib/workdir testbench/kleene/kleene_shift_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA kleene_kleene_shift",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/kleene/workdir -Ptvl_lib/workdir kleene_shift_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile kleene_kleene_shift",
+    "dependsOn": [
+        "ANA kleene_kleene_shift",
+        "ELA kleene_kleene_shift"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run kleene_kleene_shift",
+    "type": "shell",
+    "command": "ghdl -r kleene_shift_tb --wave=testbench/kleene/workdir/kleene_shift_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk kleene_kleene_shift",
+    "type": "shell",
+    "command": "gtkwave testbench/kleene/workdir/kleene_shift_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim kleene_kleene_shift",
+    "dependsOn": [
+        "run kleene_kleene_shift",
+        "gtk kleene_kleene_shift"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA kleene_kleene_unaryfunc",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/kleene/workdir -Ptvl_lib/workdir testbench/kleene/kleene_unaryfunc_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA kleene_kleene_unaryfunc",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/kleene/workdir -Ptvl_lib/workdir kleene_unaryfunc_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile kleene_kleene_unaryfunc",
+    "dependsOn": [
+        "ANA kleene_kleene_unaryfunc",
+        "ELA kleene_kleene_unaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run kleene_kleene_unaryfunc",
+    "type": "shell",
+    "command": "ghdl -r kleene_unaryfunc_tb --wave=testbench/kleene/workdir/kleene_unaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk kleene_kleene_unaryfunc",
+    "type": "shell",
+    "command": "gtkwave testbench/kleene/workdir/kleene_unaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim kleene_kleene_unaryfunc",
+    "dependsOn": [
+        "run kleene_kleene_unaryfunc",
+        "gtk kleene_kleene_unaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_binaryfunc",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/binaryfunc_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_binaryfunc",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir binaryfunc_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_binaryfunc",
+    "dependsOn": [
+        "ANA logic_binaryfunc",
+        "ELA logic_binaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_binaryfunc",
+    "type": "shell",
+    "command": "ghdl -r binaryfunc_tb --wave=testbench/logic/workdir/binaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_binaryfunc",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/binaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_binaryfunc",
+    "dependsOn": [
+        "run logic_binaryfunc",
+        "gtk logic_binaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_convfunc",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/convfunc_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_convfunc",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir convfunc_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_convfunc",
+    "dependsOn": [
+        "ANA logic_convfunc",
+        "ELA logic_convfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_convfunc",
+    "type": "shell",
+    "command": "ghdl -r convfunc_tb --wave=testbench/logic/workdir/convfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_convfunc",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/convfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_convfunc",
+    "dependsOn": [
+        "run logic_convfunc",
+        "gtk logic_convfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_edgefunc",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/edgefunc_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_edgefunc",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir edgefunc_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_edgefunc",
+    "dependsOn": [
+        "ANA logic_edgefunc",
+        "ELA logic_edgefunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_edgefunc",
+    "type": "shell",
+    "command": "ghdl -r edgefunc_tb --wave=testbench/logic/workdir/edgefunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_edgefunc",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/edgefunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_edgefunc",
+    "dependsOn": [
+        "run logic_edgefunc",
+        "gtk logic_edgefunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_match_relops",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/match_relops_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_match_relops",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir match_relops_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_match_relops",
+    "dependsOn": [
+        "ANA logic_match_relops",
+        "ELA logic_match_relops"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_match_relops",
+    "type": "shell",
+    "command": "ghdl -r match_relops_tb --wave=testbench/logic/workdir/match_relops_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_match_relops",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/match_relops_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_match_relops",
+    "dependsOn": [
+        "run logic_match_relops",
+        "gtk logic_match_relops"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_misc_operators",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/misc_operators_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_misc_operators",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir misc_operators_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_misc_operators",
+    "dependsOn": [
+        "ANA logic_misc_operators",
+        "ELA logic_misc_operators"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_misc_operators",
+    "type": "shell",
+    "command": "ghdl -r misc_operators_tb --wave=testbench/logic/workdir/misc_operators_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_misc_operators",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/misc_operators_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_misc_operators",
+    "dependsOn": [
+        "run logic_misc_operators",
+        "gtk logic_misc_operators"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_ord_relops",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/ord_relops_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_ord_relops",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir ord_relops_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_ord_relops",
+    "dependsOn": [
+        "ANA logic_ord_relops",
+        "ELA logic_ord_relops"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_ord_relops",
+    "type": "shell",
+    "command": "ghdl -r ord_relops_tb --wave=testbench/logic/workdir/ord_relops_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_ord_relops",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/ord_relops_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_ord_relops",
+    "dependsOn": [
+        "run logic_ord_relops",
+        "gtk logic_ord_relops"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_shift",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/shift_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_shift",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir shift_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_shift",
+    "dependsOn": [
+        "ANA logic_shift",
+        "ELA logic_shift"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_shift",
+    "type": "shell",
+    "command": "ghdl -r shift_tb --wave=testbench/logic/workdir/shift_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_shift",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/shift_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_shift",
+    "dependsOn": [
+        "run logic_shift",
+        "gtk logic_shift"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_spaceship",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/spaceship_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_spaceship",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir spaceship_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_spaceship",
+    "dependsOn": [
+        "ANA logic_spaceship",
+        "ELA logic_spaceship"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_spaceship",
+    "type": "shell",
+    "command": "ghdl -r spaceship_tb --wave=testbench/logic/workdir/spaceship_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_spaceship",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/spaceship_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_spaceship",
+    "dependsOn": [
+        "run logic_spaceship",
+        "gtk logic_spaceship"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_test",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/test_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_test",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir test_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_test",
+    "dependsOn": [
+        "ANA logic_test",
+        "ELA logic_test"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_test",
+    "type": "shell",
+    "command": "ghdl -r test_tb --wave=testbench/logic/workdir/test_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_test",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/test_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_test",
+    "dependsOn": [
+        "run logic_test",
+        "gtk logic_test"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_textio",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/textio_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_textio",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir textio_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_textio",
+    "dependsOn": [
+        "ANA logic_textio",
+        "ELA logic_textio"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_textio",
+    "type": "shell",
+    "command": "ghdl -r textio_tb --wave=testbench/logic/workdir/textio_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_textio",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/textio_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_textio",
+    "dependsOn": [
+        "run logic_textio",
+        "gtk logic_textio"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA logic_unaryfunc",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir testbench/logic/unaryfunc_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA logic_unaryfunc",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/logic/workdir -Ptvl_lib/workdir unaryfunc_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile logic_unaryfunc",
+    "dependsOn": [
+        "ANA logic_unaryfunc",
+        "ELA logic_unaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run logic_unaryfunc",
+    "type": "shell",
+    "command": "ghdl -r unaryfunc_tb --wave=testbench/logic/workdir/unaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk logic_unaryfunc",
+    "type": "shell",
+    "command": "gtkwave testbench/logic/workdir/unaryfunc_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim logic_unaryfunc",
+    "dependsOn": [
+        "run logic_unaryfunc",
+        "gtk logic_unaryfunc"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA numeric_addition",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir testbench/numeric/addition_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA numeric_addition",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir addition_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile numeric_addition",
+    "dependsOn": [
+        "ANA numeric_addition",
+        "ELA numeric_addition"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run numeric_addition",
+    "type": "shell",
+    "command": "ghdl -r addition_tb --wave=testbench/numeric/workdir/addition_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk numeric_addition",
+    "type": "shell",
+    "command": "gtkwave testbench/numeric/workdir/addition_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim numeric_addition",
+    "dependsOn": [
+        "run numeric_addition",
+        "gtk numeric_addition"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA numeric_division",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir testbench/numeric/division_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA numeric_division",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir division_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile numeric_division",
+    "dependsOn": [
+        "ANA numeric_division",
+        "ELA numeric_division"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run numeric_division",
+    "type": "shell",
+    "command": "ghdl -r division_tb --wave=testbench/numeric/workdir/division_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk numeric_division",
+    "type": "shell",
+    "command": "gtkwave testbench/numeric/workdir/division_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim numeric_division",
+    "dependsOn": [
+        "run numeric_division",
+        "gtk numeric_division"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA numeric_multiplication",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir testbench/numeric/multiplication_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA numeric_multiplication",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir multiplication_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile numeric_multiplication",
+    "dependsOn": [
+        "ANA numeric_multiplication",
+        "ELA numeric_multiplication"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run numeric_multiplication",
+    "type": "shell",
+    "command": "ghdl -r multiplication_tb --wave=testbench/numeric/workdir/multiplication_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk numeric_multiplication",
+    "type": "shell",
+    "command": "gtkwave testbench/numeric/workdir/multiplication_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim numeric_multiplication",
+    "dependsOn": [
+        "run numeric_multiplication",
+        "gtk numeric_multiplication"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA numeric_to_tern_to_int",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir testbench/numeric/to_tern_to_int_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA numeric_to_tern_to_int",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/numeric/workdir -Ptvl_lib/workdir to_tern_to_int_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile numeric_to_tern_to_int",
+    "dependsOn": [
+        "ANA numeric_to_tern_to_int",
+        "ELA numeric_to_tern_to_int"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run numeric_to_tern_to_int",
+    "type": "shell",
+    "command": "ghdl -r to_tern_to_int_tb --wave=testbench/numeric/workdir/to_tern_to_int_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk numeric_to_tern_to_int",
+    "type": "shell",
+    "command": "gtkwave testbench/numeric/workdir/to_tern_to_int_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim numeric_to_tern_to_int",
+    "dependsOn": [
+        "run numeric_to_tern_to_int",
+        "gtk numeric_to_tern_to_int"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA paper_paper",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/paper/workdir -Ptvl_lib/workdir testbench/paper/paper_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA paper_paper",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/paper/workdir -Ptvl_lib/workdir paper_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile paper_paper",
+    "dependsOn": [
+        "ANA paper_paper",
+        "ELA paper_paper"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run paper_paper",
+    "type": "shell",
+    "command": "ghdl -r paper_tb --wave=testbench/paper/workdir/paper_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk paper_paper",
+    "type": "shell",
+    "command": "gtkwave testbench/paper/workdir/paper_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim paper_paper",
+    "dependsOn": [
+        "run paper_paper",
+        "gtk paper_paper"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "ANA paper_tvl_demo",
+    "type": "shell",
+    "command": "ghdl -a --std=08 --work=work --workdir=testbench/paper/workdir -Ptvl_lib/workdir testbench/paper/tvl_demo_tb.vhdl",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "ELA paper_tvl_demo",
+    "type": "shell",
+    "command": "ghdl -e --std=08 --work=work --workdir=testbench/paper/workdir -Ptvl_lib/workdir tvl_demo_tb",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Compile paper_tvl_demo",
+    "dependsOn": [
+        "ANA paper_tvl_demo",
+        "ELA paper_tvl_demo"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+},
+{
+    "label": "run paper_tvl_demo",
+    "type": "shell",
+    "command": "ghdl -r tvl_demo_tb --wave=testbench/paper/workdir/tvl_demo_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "gtk paper_tvl_demo",
+    "type": "shell",
+    "command": "gtkwave testbench/paper/workdir/tvl_demo_wave.ghw",
+    "problemMatcher": [],
+    "hide": true
+},
+{
+    "label": "Sim paper_tvl_demo",
+    "dependsOn": [
+        "run paper_tvl_demo",
+        "gtk paper_tvl_demo"
+    ],
+    "dependsOrder": "sequence",
+    "problemMatcher": []
+}
+]
+}
