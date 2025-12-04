@@ -150,10 +150,10 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(RESIZE(L, SIZE), 'X');
+    LM2P := To_M2P(RESIZE(L, SIZE), 'X');
     if (LM2P(LM2P'left) = 'X') then return LM2P;
     end if;
-    RM2P := TO_M2P(RESIZE(R, SIZE), 'X');
+    RM2P := To_M2P(RESIZE(R, SIZE), 'X');
     if (RM2P(RM2P'left) = 'X') then return RM2P;
     end if;
     return ADD_BTERN_VEC(LM2P, RM2P, '0');
@@ -207,10 +207,10 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(RESIZE(L, SIZE), 'X');
+    LM2P := To_M2P(RESIZE(L, SIZE), 'X');
     if (LM2P(LM2P'left) = 'X') then return LM2P;
     end if;
-    RM2P := TO_M2P(RESIZE(R, SIZE), 'X');
+    RM2P := To_M2P(RESIZE(R, SIZE), 'X');
     if (RM2P(RM2P'left) = 'X') then return RM2P;
     end if;
     return ADD_BTERN_VEC(LM2P, STI(RM2P), '0');
@@ -270,8 +270,8 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(XL, 'X');
-    RM2P := TO_M2P(XR, 'X');
+    LM2P := To_M2P(XL, 'X');
+    RM2P := To_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       RESULT := (others => 'X');
       return RESULT;
@@ -316,8 +316,8 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := RESIZE(TO_M2P(XL, 'X'), SIZE);
-    RM2P := RESIZE(TO_M2P(XR, 'X'), SIZE);
+    LM2P := RESIZE(To_M2P(XL, 'X'), SIZE);
+    RM2P := RESIZE(To_M2P(XR, 'X'), SIZE);
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       FQUOT := (others => 'X');
       return FQUOT;
@@ -374,7 +374,7 @@ package body bal_numeric is
   begin
     if L'length < 1 then return NAC;
     end if;
-    RESULT := TO_M2P(XL, 'X');
+    RESULT := To_M2P(XL, 'X');
     if (RESULT(RESULT'left) = 'X') then return RESULT;
     end if;
     if RESULT < ZERO then

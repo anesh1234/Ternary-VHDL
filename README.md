@@ -1,2 +1,9 @@
 # Ternary-VHDL
 VHDL library based on IEEE 1076-2008 which enables expression of balanced ternary RTL hardware designs.
+
+## Prerequisites
+The reccomended open-source VHDL compiler is [GHDL](https://github.com/ghdl/ghdl?tab=readme-ov-file#getting-ghdl) >= v5.1.1.
+The library has only been verified to work with the VHDL 2008 standard.
+To be able to see the new types in GTKWave, the output waveform files must be of type .ghw. 
+The commands used by the author to compile the library can be found in .vscode/tasks.json under the section "Compile TVL Library".
+The reccomended simulation waveform viewer is [GTKWave](https://sourceforge.net/projects/gtkwave/) >= v3.3.100.

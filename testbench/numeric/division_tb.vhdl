@@ -21,21 +21,21 @@ begin
     -- Stimulus process
     stim_proc: process
     begin
-        -- 13 / 13, must give 1
+        -- 13 / 13
         input_1 <= "000+++";
         input_2 <= "000+++";
         int_1   <= 13;
         int_2   <= 13;
 
         wait for 10 ns;
-        -- 13 / 0, must give error
+        -- 13 / 0
         input_1 <= "000+++";
         input_2 <= "000000";
         int_1   <= 13;
         int_2   <= 0;
 
         wait for 10 ns;
-        -- 13 / 1, must give 13
+        -- 13 / 1
         input_1 <= "000+++";
         input_2 <= "00000+";
         int_1   <= 13;
@@ -49,30 +49,30 @@ begin
         int_2   <= 2;
 
         wait for 10 ns;
-        -- -13 / 13 (dividend negative)
+        -- -13 / 13
         input_1 <= "000---";
         input_2 <= "000+++";
         int_1   <= -13;
         int_2   <= 13;
 
         wait for 10 ns;
-        -- 13 / -13 (divisor negative)
+        -- 13 / -13
         input_1 <= "000+++";
         input_2 <= "000---";
         int_1   <= 13;
         int_2   <= -13;
 
         wait for 10 ns;
-        -- -13 / -13 (both negative)
+        -- -13 / -13, 00000+
         input_1 <= "000---";
         input_2 <= "000---";
         int_1   <= -13;
         int_2   <= -13;
 
         wait for 10 ns;
-        -- 364/27 (magnitude test)
+        -- 364/27, 000+++
         input_1 <= "++++++";
-        input_2 <= "000+++";
+        input_2 <= "00+000";
         int_1   <= 364;
         int_2   <= 27;
 
