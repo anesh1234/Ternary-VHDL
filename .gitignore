@@ -4,3 +4,4 @@
 *.exe
 
 relevant_ieee_testbenches/
+vunit_out/

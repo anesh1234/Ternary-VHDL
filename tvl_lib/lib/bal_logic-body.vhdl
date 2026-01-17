@@ -2505,7 +2505,6 @@ package body bal_logic is
   -------------------------------------------------------------------
 
   function SPACE (L, R : BTERN_ULOGIC) return KLEENE is
-    variable RESULT : KLEENE;
     variable LM2P  : BTERN_ULOGIC;
     variable RM2P  : BTERN_ULOGIC;
   begin
@@ -2532,7 +2531,6 @@ package body bal_logic is
     constant SIZE   : NATURAL := MAXIMUM(L'length, R'length);
     constant L_LEFT : INTEGER := L'length-1;
     constant R_LEFT : INTEGER := R'length-1;
-    variable RESULT : KLEENE;
     variable LM2P   : BTERN_ULOGIC_VECTOR(L_LEFT downto 0);
     variable RM2P   : BTERN_ULOGIC_VECTOR(R_LEFT downto 0);
     alias XL        : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) is L;
@@ -2880,7 +2878,6 @@ package body bal_logic is
   -------------------------------------------------------------------
 
   function M_SPACE (L, R : BTERN_ULOGIC) return BTERN_ULOGIC is
-    variable RESULT : KLEENE;
   begin
     if L = 'D' then
       report "TVL.BAL_LOGIC.M_SPACE: 'D' found in compare string"

@@ -1,0 +1,19 @@
+Written to file:
+
+\data1\data2\q$and
+
+Written to standard output:
+
+digraph m102 {
+  pi0 [label="\"];
+  pi0 -> i4 [label="n1"];
+
+  pi1 [label="\"];
+  pi1 -> i4 [label="n2"];
+
+  po0 [label="\"];
+  i4 -> po0 [label="n4"];
+
+  i4 [label=""];
+
+}

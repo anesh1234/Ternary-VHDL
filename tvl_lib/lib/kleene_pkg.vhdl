@@ -1,7 +1,6 @@
 -- -----------------------------------------------------------------
 --
---   Title     :  Type KLEENE package
---             :  (kleene package declaration)
+--   Title     :  Kleene package (declaration)
 --             :
 --   Library   :  This package shall be compiled into a library
 --             :  symbolically named TVL.
@@ -18,7 +17,7 @@
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
-package kleene_type is
+package kleene_pkg is
 
   type KLEENE is (FALSE, UNK, TRUE);
 
@@ -197,4 +196,4 @@ package kleene_type is
   function "rol" (l : KLEENE_VECTOR; r : INTEGER) return KLEENE_VECTOR;
   function "ror" (l : KLEENE_VECTOR; r : INTEGER) return KLEENE_VECTOR;
 
-end package kleene_type;
+end package kleene_pkg;

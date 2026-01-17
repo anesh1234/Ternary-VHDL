@@ -27,7 +27,7 @@ package body bal_numeric is
 
   -- null range array constant and implementation controls
   constant NAC : BTERN_ULOGIC_VECTOR (0 downto 1) := (others => '0');
-  constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
+  -- constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
 
   ------------------------------------------------------------------------
   -- Local subprograms

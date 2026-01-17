@@ -1,6 +1,6 @@
 library TVL;
 use TVL.bal_logic.all;
-use TVL.kleene_type.all;
+use TVL.kleene_pkg.all;
 
 entity misc_operators_tb is
 end entity;

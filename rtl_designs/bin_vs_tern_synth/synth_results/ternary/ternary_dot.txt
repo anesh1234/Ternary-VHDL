@@ -1,0 +1,65 @@
+Written to file:
+
+\data1\data2\q$const_UB32$sub$const_UB32$sub$const_bit$utrunc$uextend$memory_init$uextend$uextend$const_UB32$umul$add$mem_rd
+
+Written to standard output:
+
+tvl_lib/lib/bal_logic-body.vhdl:914:22:note: found ROM "n13", width: 4 bits, depth: 121
+    return (min_table(l, r));
+                     ^
+tvl_lib/lib/bal_logic-body.vhdl:914:23:note: internal width 44 of memory is not a power of 2
+    return (min_table(l, r));
+                      ^
+digraph m102 {
+  pi0 [label="\"];
+  pi0 -> i12 [label="n1"];
+
+  pi1 [label="\"];
+  pi1 -> i9 [label="n2"];
+
+  po0 [label="\"];
+  i18 -> po0 [label="n18"];
+
+  i8 [label=""];
+  i8 -> i9 [label="n8"];
+
+  i9 [label=""];
+  i9 -> i7 [label="n9"];
+
+  i11 [label=""];
+  i11 -> i12 [label="n11"];
+
+  i12 [label=""];
+  i12 -> i6 [label="n12"];
+
+  i15 [label=""];
+  i15 -> i3 [label="n15"];
+
+  i17 [label=""];
+  i17 -> i18 [label="n17"];
+
+  i18 [label=""];
+
+  i3 [label=""];
+  i3 -> i10 [label="n3"];
+
+  i7 [label=""];
+  i7 -> i19 [label="n7"];
+
+  i6 [label=""];
+  i6 -> i4 [label="n6"];
+
+  i5 [label=""];
+  i5 -> i4 [label="n5"];
+
+  i4 [label=""];
+  i4 -> i19 [label="n4"];
+
+  i19 [label=""];
+  i19 -> i10 [label="n19"];
+
+  i10 [label=""];
+  i10 -> i3 [label="n20"];
+  i10 -> i17 [label="n21"];
+
+}

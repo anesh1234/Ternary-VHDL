@@ -1,7 +1,6 @@
 -- -----------------------------------------------------------------
 --
---   Title     :  Type KLEENE package body
---             :  (kleene package declaration)
+--   Title     :  Kleene package (body)
 --             :
 --   Library   :  This package shall be compiled into a library
 --             :  symbolically named TVL.
@@ -18,7 +17,7 @@
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
-package body kleene_type is
+package body kleene_pkg is
   -------------------------------------------------------------------
   -- local types
   -------------------------------------------------------------------
@@ -1424,4 +1423,4 @@ package body kleene_type is
     return result;
   end function "ror";
 
-end package body kleene_type;
+end package body kleene_pkg;

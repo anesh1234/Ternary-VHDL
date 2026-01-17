@@ -1,5 +1,5 @@
 library TVL;
-use TVL.KLEENE_TYPE.all;
+use TVL.kleene_pkg.all;
 
 entity kleene_shift_tb is
 end entity;

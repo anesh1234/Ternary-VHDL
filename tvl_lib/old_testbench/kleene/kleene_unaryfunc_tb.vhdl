@@ -1,5 +1,5 @@
 library TVL;
-use TVL.kleene_type.all;
+use TVL.kleene_pkg.all;
 
 entity kleene_unaryfunc_tb is
 end entity;

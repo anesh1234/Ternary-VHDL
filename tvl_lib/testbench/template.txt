@@ -1,0 +1,44 @@
+-- --------------------------------------------------------------------
+-- Title   : 
+-- Purpose :
+-- ---------------------------------------------------------------------------
+
+library vunit_lib;
+context vunit_lib.vunit_context;
+library TVL;
+use TVL.bal_logic.all;
+use TVL.bal_numeric.all;
+use TVL.kleene_pkg.all;
+
+entity ENTITY_NAME is
+  generic (runner_cfg : string);
+end entity;
+
+architecture tb of ENTITY_NAME is
+  signal start_, stop_ : BOOLEAN := false;
+begin
+  main : process
+  begin
+    test_runner_setup(runner, runner_cfg);
+
+    -- Put test suite setup code here. This code is common to the entire test suite
+    -- and is executed *once* prior to all test cases.
+
+    while test_suite loop
+
+      -- Put test case setup code here. This code executed before *every* test case.
+
+      if run("Test To_STRING Kleene") then
+        start_kleenelog <= true;
+        wait until stop_kleenelog;
+      end if;
+
+      -- Put test case cleanup code here. This code executed after *every* test case.
+
+    end loop;
+
+    -- Put test suite cleanup code here. This code is common to the entire test suite
+    -- and is executed *once* after all test cases have been run.
+
+    test_runner_cleanup(runner);
+  end process;

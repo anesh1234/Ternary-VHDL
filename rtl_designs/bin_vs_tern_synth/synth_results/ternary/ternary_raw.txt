@@ -1,0 +1,34 @@
+Written to standard output:
+
+tvl_lib/lib/bal_logic-body.vhdl:914:22:note: found ROM "n13", width: 4 bits, depth: 121
+    return (min_table(l, r));
+                     ^
+tvl_lib/lib/bal_logic-body.vhdl:914:23:note: internal width 44 of memory is not a power of 2
+    return (min_table(l, r));
+
+Written to file:
+
+module {m2} $top
+  module {m102} \ternary_ex
+    input \data1[3:0];
+    input \data2[3:0];
+    output \q[3:0];
+    %16:$o{n18w4} := $uextend{i18} (
+      .$i{p17}: %15:$o{n17w3} := $utrunc{i17} (
+          .$i{p16}: %23:$data{n21w4}))
+    (%23:$oport{n20w484}, %23:$data{n21w4}) := $mem_rd{i10} (
+      .$iport{p12}: %17:$oport{n3w484} := $memory_init{i3} (
+          .$iport{p18}: %23:$oport{n20w484},
+          .$init{p19}: %13:$o{n15w484} := $const_bit{i15} #(286331153, 286331153, 286331153, 286331153, 286331153, 286331153, 286331153, 286331153, 286331153, 286331444, 287518993, 571543825, 286331154, 286331153, 286331153, 1)),
+      .$addr{p13}: %22:$o{n19w7} := $add{i19} (
+          .$a{p22}: %18:$o{n7w7} := $uextend{i7} (
+              .$i{p2}: %7:$o{n9w4} := $sub{i9} (
+                  .$a{p6}: %6:$o{n8w4} := 4'uha,
+                  .$b{p7}: \data2{n2w4})),
+          .$b{p23}: %21:$o{n4w7} := $umul{i4} (
+              .$a{p20}: %19:$o{n6w7} := $uextend{i6} (
+                  .$i{p5}: %10:$o{n12w4} := $sub{i12} (
+                      .$a{p9}: %9:$o{n11w4} := 4'uha,
+                      .$b{p10}: \data1{n1w4})),
+              .$b{p21}: %20:$o{n5w7} := 7'uh0b)))
+    \q := %16:$o{n18w4}

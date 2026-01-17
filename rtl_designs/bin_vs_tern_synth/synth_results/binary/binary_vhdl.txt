@@ -1,0 +1,26 @@
+library IEEE;
+use IEEE.std_logic_1164.all;
+entity binary_ex is
+  port (
+    data1, data2: in std_logic;
+    q: out std_logic
+  );
+end;
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+architecture rtl of binary_ex is
+  signal wrap_data1: std_logic;
+  signal wrap_data2: std_logic;
+  signal wrap_q: std_logic;
+  signal n1 : std_logic;
+begin
+  wrap_data1 <= data1;
+  wrap_data2 <= data2;
+  q <= wrap_q;
+  wrap_q <= n1;
+  -- rtl_designs\bin_vs_tern_synth\binary_ex.vhdl:11:16
+  n1 <= wrap_data1 and wrap_data2;
+end rtl;

@@ -27,7 +27,7 @@
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
 library TVL;
-use TVL.kleene_type.all;
+use TVL.kleene_pkg.all;
 
 package bal_logic is
 
@@ -305,7 +305,7 @@ package bal_logic is
   -- mz - minus to zero
   -- pm - plus to minus
   -------------------------------------------------------------------
-  function any_rising_edge  (signal s : BTERN_ULOGIC) return BOOLEAN;
+  function any_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
   function mz_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
   function zp_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
   function mp_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;

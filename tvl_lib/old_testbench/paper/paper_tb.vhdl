@@ -1,7 +1,7 @@
 library TVL;
 use TVL.bal_logic.all;
 use TVL.bal_numeric.all;
-use TVL.kleene_type.all;
+use TVL.kleene_pkg.all;
 
 entity paper_tb is
 end entity;
@@ -41,8 +41,8 @@ begin
         logop_input_1 <= "------";
         logop_input_2 <= "000000";
 
-        arith_input_1 <= "++++++++++++++++++++++++";
-        arith_input_2 <= "000";
+        arith_input_1 <= "00000000++++++++--------";
+        arith_input_2 <= "+++";
 
         wait for 10 ns;
 
@@ -52,8 +52,8 @@ begin
         logop_input_1 <= "000000";
         logop_input_2 <= "++++++";
 
-        arith_input_1 <= "00000000++++++++--------";
-        arith_input_2 <= "+++";
+        arith_input_1 <= "000000000000000000000000";
+        arith_input_2 <= "000";
 
         wait for 10 ns;
 
@@ -62,10 +62,7 @@ begin
 
         logop_input_1 <= "++++++";
         logop_input_2 <= "------";
-
-        arith_input_1 <= "00000000--------++++++++";
-        arith_input_2 <= "---";
-
+        
         wait for 10 ns;
         wait;
     end process;

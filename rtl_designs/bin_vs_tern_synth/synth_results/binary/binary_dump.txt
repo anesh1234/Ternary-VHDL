@@ -1,0 +1,401 @@
+module {m2} $top
+  module {m3} $and
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m4} $or
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m5} $xor
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m6} $nand
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m7} $nor
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m8} $xnor
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m9} $add
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m10} $sub
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m11} $umin
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m12} $smin
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m13} $umax
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m14} $smax
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m15} $umul
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m16} $smul
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m17} $udiv
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m18} $sdiv
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m19} $umod
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m20} $smod
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m21} $srem
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m22} $lsl
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m23} $lsr
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m24} $asr
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m25} $rol
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m26} $ror
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m27} $not
+    input $i[?];
+    output $o[?];
+  module {m28} $neg
+    input $i[?];
+    output $o[?];
+  module {m29} $abs
+    input $i[?];
+    output $o[?];
+  module {m30} $eq
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m31} $ne
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m32} $ult
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m33} $ule
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m34} $ugt
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m35} $uge
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m36} $slt
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m37} $sle
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m38} $sgt
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m39} $sge
+    input $a[?];
+    input $b[?];
+    output $o;
+  module {m40} $concat2
+    input $i1[?];
+    input $i2[?];
+    output $o[?];
+  module {m41} $concat3
+    input $i1[?];
+    input $i2[?];
+    input $i3[?];
+    output $o[?];
+  module {m42} $concat4
+    input $i1[?];
+    input $i2[?];
+    input $i3[?];
+    input $i4[?];
+    output $o[?];
+  module {m43} $concatn
+    parameter $n: uns32
+    output $o[?];
+  module {m44} $const_UB32
+    parameter $val: uns32
+    output $o[?];
+  module {m45} $const_SB32
+    parameter $val: uns32
+    output $o[?];
+  module {m46} $const_UL32
+    parameter $val: uns32
+    parameter $xz: uns32
+    output $o[?];
+  module {m47} $const_Z
+    output $o[?];
+  module {m48} $const_X
+    output $o[?];
+  module {m49} $const_bit
+    output $o[?];
+  module {m50} $const_log
+    output $o[?];
+  module {m51} $extract
+    parameter $offset: uns32
+    input $i[?];
+    output $o[?];
+  module {m52} $dyn_extract
+    parameter $offset: uns32
+    input $v[?];
+    input $i[?];
+    output $o[?];
+  module {m53} $dyn_insert
+    parameter $offset: uns32
+    input $v[?];
+    input $d[?];
+    input $i[?];
+    output $o[?];
+  module {m54} $dyn_insert_en
+    parameter $offset: uns32
+    input $v[?];
+    input $d[?];
+    input $i[?];
+    input $en[?];
+    output $o[?];
+  module {m55} $memidx
+    parameter $step: uns32
+    parameter $max: uns32
+    input $i[?];
+    output $o[?];
+  module {m56} $addidx
+    input $i0[?];
+    input $i1[?];
+    output $o[?];
+  module {m57} $memory
+    input $iport[?];
+    output $oport[?];
+  module {m58} $memory_init
+    input $iport[?];
+    input $init[?];
+    output $oport[?];
+  module {m59} $mem_rd
+    input $iport[?];
+    input $addr[?];
+    output $oport[?];
+    output $data[?];
+  module {m60} $mem_rd_sync
+    input $iport[?];
+    input $addr[?];
+    input $clk[?];
+    input $en[?];
+    output $oport[?];
+    output $data[?];
+  module {m61} $mem_wr_sync
+    input $iport[?];
+    input $addr[?];
+    input $clk[?];
+    input $en[?];
+    input $data[?];
+    output $oport[?];
+  module {m62} $mem_multiport
+    input $i0[?];
+    input $i1[?];
+    output $oport[?];
+  module {m63} $utrunc
+    input $i[?];
+    output $o[?];
+  module {m64} $strunc
+    input $i[?];
+    output $o[?];
+  module {m65} $uextend
+    input $i[?];
+    output $o[?];
+  module {m66} $sextend
+    input $i[?];
+    output $o[?];
+  module {m67} $red_or
+    input $i[?];
+    output $o[?];
+  module {m68} $red_and
+    input $i[?];
+    output $o[?];
+  module {m69} $red_xor
+    input $i[?];
+    output $o[?];
+  module {m70} $posedge
+    input $i;
+    output $o;
+  module {m71} $negedge
+    input $i;
+    output $o;
+  module {m72} $mux2
+    input $s;
+    input $i0[?];
+    input $i1[?];
+    output $o[?];
+  module {m73} $mux4
+    input $s[1:0];
+    input $i0[?];
+    input $i1[?];
+    input $i2[?];
+    input $i3[?];
+    output $o[?];
+  module {m74} $pmux
+    parameter $n: uns32
+    input $s[?];
+    input $def[?];
+    output $o[?];
+  module {m75} $bmux
+    input $mem[?];
+    input $idx[?];
+    output $o[?];
+  module {m76} $output
+    input $i[?];
+    output $o[?];
+  module {m77} $ioutput
+    input $i[?];
+    input $init[?];
+    output $o[?];
+  module {m78} $signal
+    input $i[?];
+    output $o[?];
+  module {m79} $isignal
+    input $i[?];
+    input $init[?];
+    output $o[?];
+  module {m80} $port
+    input $i[?];
+    output $o[?];
+  module {m81} $nop
+    input $i[?];
+    output $o[?];
+  module {m82} $enable
+    input $i[?];
+    output $o[?];
+  module {m83} $inout
+    input $i[?];
+    output $o[?];
+    output $oport[?];
+  module {m84} $iinout
+    input $i[?];
+    input $init[?];
+    output $o[?];
+    output $oport[?];
+  module {m85} $dff
+    input $clk;
+    input $d[?];
+    output $q[?];
+  module {m86} $idff
+    input $clk;
+    input $d[?];
+    input $init[?];
+    output $q[?];
+  module {m87} $adff
+    input $clk;
+    input $d[?];
+    input $rst;
+    input $rst_val[?];
+    output $q[?];
+  module {m88} $iadff
+    input $clk;
+    input $d[?];
+    input $rst[?];
+    input $rst_val[?];
+    input $init[?];
+    output $q[?];
+  module {m89} $mdff
+    input $clk;
+    input $d[?];
+    input $els[?];
+    output $q[?];
+  module {m90} $midff
+    input $clk;
+    input $d[?];
+    input $els[?];
+    input $init[?];
+    output $q[?];
+  module {m91} $dlatch
+    input $d[?];
+    input $en;
+    output $q[?];
+  module {m92} $assert
+    input $cond;
+  module {m93} $assume
+    input $cond;
+  module {m94} $cover
+    input $cond;
+  module {m95} $assert_cover
+    input $cond;
+  module {m96} $allconst
+    output $o[?];
+  module {m97} $anyconst
+    output $o[?];
+  module {m98} $allseq
+    output $o[?];
+  module {m99} $anyseq
+    output $o[?];
+  module {m100} $tri
+    input $en[?];
+    input $i[?];
+    output $o[?];
+  module {m101} $resolver
+    input $a[?];
+    input $b[?];
+    output $o[?];
+  module {m102} \binary_ex
+    input \data1;
+    input \data2;
+    output \q;
+    # rtl_designs\bin_vs_tern_synth\binary_ex.vhdl:4:8
+    instance \binary_ex{i2}: \binary_ex
+      input \binary_ex.\q{p1} <- %1.$o{n4w1}
+      outputs \binary_ex.\data1{n1w1} \binary_ex.\data2{n2w1}
+    # rtl_designs\bin_vs_tern_synth\binary_ex.vhdl:11:16
+    instance %1{i4}: $and
+      input %1.$a{p3} <- \binary_ex.\data1{n1w1}
+      input %1.$b{p4} <- \binary_ex.\data2{n2w1}
+      outputs %1.$o{n4w1}
+    connect \binary_ex.\data1{n1w1} -> %1.$a{p3}
+    connect \binary_ex.\data2{n2w1} -> %1.$b{p4}
+    connect %1.$o{n4w1} -> \binary_ex.\q{p1}
+  instance $top{i1}: $top

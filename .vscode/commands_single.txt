@@ -1,0 +1,26 @@
+-- TEMPLATE analysis & elaboration
+-- For TVL-dependencies: -Ptvl_lib/workdir
+ghdl -a --std=08 --work=work --workdir=rtl_designs/binary/workdir filepath
+ghdl -e --std=08 --work=work --workdir=rtl_designs/binary/workdir top-level-entity-name
+
+-- Template Running Sim & Waveform Viewing
+ghdl -r top-level-entity-name --wave=rtl_designs/binary/workdir/top-level-entity-name.ghw
+gtkwave rtl_designs/binary/workdir/top-level-entity-name.ghw
+
+Template netlist generation
+ghdl --synth --std=08 --out=vhdl -o=rtl_designs\bin_vs_tern_synth\synth_results\binary\OUT_FILENAME
+--out=vhdl        -- Default, equivalent to raw-vhdl, but top-level unit is preserved unmodified
+--out=raw-vhdl    -- all statements are converted to a simple VHDL 1993 netlist, for allowing instantiation in other synthesis tools without modern VHDL support.
+--out=dot         -- generate a graphviz dot diagram of the netlist AST.
+--out=raw         -- print the internal representation of the design, for debugging purposes.
+--out=dump        -- similar to raw, with even more internal details for debugging.
+
+
+NOTES
+
+To synthesize an RTL design using the TVL lib, one must explicitly link the library with the -P option, like so:
+ghdl --synth --std=08 --out=raw -Ptvl_lib/workdir -o=rtl_designs\bin_vs_tern_synth\synth_results\ternary\ternary_raw rtl_designs\bin_vs_tern_synth\ternary_ex.vhdl -e ternary_ex
+
+
+VUnit Run Command:
+py run.py --output-path "C:/Users/ander/Documents/vunit_out"
