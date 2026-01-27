@@ -7,18 +7,13 @@ library vunit_lib;
 context vunit_lib.vunit_context;
 
 library TVL;
-use TVL.bal_logic.all;
+use TVL.kleene_pkg.all;
 
-entity logops_tb is
+entity kleene_logops_tb is
   generic (runner_cfg : string);
 end entity;
 
-architecture tb of logops_tb is
-  -- Strings to test handling of metalogical -and weak values.
-  -- Until defined in future work, these should all be evaluated to X's 
-  signal test_vec1 : BTERN_LOGIC_VECTOR(65 downto 0) := "UXZWBLHDZWBLHDUXUXUXZWBLHDLHDZWBLHDUXUXUXZWBLHLHDZWBLHDUXUXUXZWBLH";
-  signal test_vec2 : BTERN_LOGIC_VECTOR(65 downto 0) := "HDUXUXUXZWBLHLHDZWBLHDUXUXUXZWBLHUXZWBLHDZWBLHDUXUXUXZWBLHDLHDZWBL";
-  signal verif_str : STRING(1 to 66) := "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+architecture tb of kleene_logops_tb is
 begin
   main : process
 
@@ -26,77 +21,77 @@ begin
   -- 1-arity (unary) logical function calls. 
   --------------------------------------------------------------------------------
 
-  procedure U_COL(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_COL(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert COL(LEFT) = RESULT severity FAILURE;
   end U_COL;
 
-  procedure U_NTI(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_NTI(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert NTI(LEFT) = RESULT severity FAILURE;
   end U_NTI;
 
-  procedure U_STI(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_STI(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert STI(LEFT) = RESULT severity FAILURE;
   end U_STI;
 
-  procedure U_MTI(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_MTI(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert MTI(LEFT) = RESULT severity FAILURE;
   end U_MTI;
 
-  procedure U_INC(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_INC(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert INC(LEFT) = RESULT severity FAILURE;
   end U_INC;
 
-  procedure U_PTI(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_PTI(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert PTI(LEFT) = RESULT severity FAILURE;
   end U_PTI;
 
-  procedure U_DEC(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_DEC(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert DEC(LEFT) = RESULT severity FAILURE;
   end U_DEC;
 
-  procedure U_CLD(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_CLD(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert CLD(LEFT) = RESULT severity FAILURE;
   end U_CLD;
 
-  procedure U_COM(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_COM(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert COM(LEFT) = RESULT severity FAILURE;
   end U_COM;
 
-  procedure U_IPT(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_IPT(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert IPT(LEFT) = RESULT severity FAILURE;
   end U_IPT;
 
-  procedure U_IMT(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_IMT(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert IMT(LEFT) = RESULT severity FAILURE;
   end U_IMT;
 
-  procedure U_BUF(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_BUF(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert BUF(LEFT) = RESULT severity FAILURE;
   end U_BUF;
 
-  procedure U_CLU(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_CLU(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert CLU(LEFT) = RESULT severity FAILURE;
   end U_CLU;
 
-  procedure U_INT(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_INT(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert INT(LEFT) = RESULT severity FAILURE;
   end U_INT;
 
-  procedure U_COH(LEFT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure U_COH(LEFT, RESULT: in KLEENE_VECTOR) is
   begin
     assert COH(LEFT) = RESULT severity FAILURE;
   end U_COH;
@@ -105,79 +100,79 @@ begin
   -- 2-arity (diadic) logical function calls. 
   --------------------------------------------------------------------------------
 
-  procedure D_SUM(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_SUM(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert SUM(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_SUM;
   
-  procedure D_CON(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_CON(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert CON(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_CON;
 
-  procedure D_NCO(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_NCO(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert NCO(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_NCO;
 
-  procedure D_MINI(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_MINI(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert MINI(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_MINI;
 
-  procedure D_MAX(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_MAX(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert MAX(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_MAX;
 
-  procedure D_NMI(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_NMI(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert NMI(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_NMI;
 
-  procedure D_NMA(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_NMA(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert NMA(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_NMA;
 
   -- Call to XOR must be different from the others due to the 
   -- existence of predefined operator XOR
-  procedure D_XOR(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_XOR(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert (LEFT XOR RIGHT) = RESULT severity FAILURE;
   end D_XOR;
 
-  procedure D_MUL(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_MUL(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert MUL(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_MUL;
 
-  procedure D_IMP(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_IMP(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert IMP(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_IMP;
 
-  procedure D_ANY(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_ANY(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert ANY(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_ANY;
 
-  procedure D_NAN(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_NAN(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert NAN(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_NAN;
 
-  procedure D_MLE(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_MLE(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert MLE(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_MLE;
 
-  procedure D_ENA(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_ENA(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert ENA(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_ENA;
 
-  procedure D_DES(LEFT, RIGHT, RESULT: in BTERN_LOGIC_VECTOR) is
+  procedure D_DES(LEFT, RIGHT, RESULT: in KLEENE_VECTOR) is
   begin
     assert DES(LEFT, RIGHT) = RESULT severity FAILURE;
   end D_DES;
@@ -196,325 +191,325 @@ begin
       -------------------------------------------------------------------
 
       if run("Test 1-arity COL") then
-        U_COL("-", "-");
-        U_COL("0", "-");
-        U_COL("+", "-");
+        U_COL(false, false);
+        U_COL(unk, false);
+        U_COL(true, false);
         U_COL("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "------------------------------------------------------------------");
-        check_equal(TO_STRING(COL(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity NTI") then
-        U_NTI("-", "+");
-        U_NTI("0", "-");
-        U_NTI("+", "-");
+        U_NTI(false, true);
+        U_NTI(unk, false);
+        U_NTI(true, false);
         U_NTI("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "+--+--+-++----+--+--+-+--+--+-++----+--+--+-+--+--+-++----+--+--+-");
-        check_equal(TO_STRING(NTI(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity STI") then
-        U_STI("-", "+");
-        U_STI("0", "0");
-        U_STI("+", "-");
+        U_STI(false, true);
+        U_STI(unk, unk);
+        U_STI(true, false);
         U_STI("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "+0-+0-+0++--00+0-+0-+0+0-+0-+0++--00+0-+0-+0+0-+0-+0++--00+0-+0-+0");
-        check_equal(TO_STRING(STI(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity MTI") then
-        U_MTI("-", "-");
-        U_MTI("0", "+");
-        U_MTI("+", "-");
+        U_MTI(false, false);
+        U_MTI(unk, true);
+        U_MTI(true, false);
         U_MTI("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "-+--+--+----++-+--+--+-+--+--+----++-+--+--+-+--+--+----++-+--+--+");
-        check_equal(TO_STRING(MTI(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity INC") then
-        U_INC("-", "0");
-        U_INC("0", "+");
-        U_INC("+", "-");
+        U_INC(false, unk);
+        U_INC(unk, true);
+        U_INC(true, false);
         U_INC("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "0+-0+-0+00--++0+-0+-0+0+-0+-0+00--++0+-0+-0+0+-0+-0+00--++0+-0+-0+");
-        check_equal(TO_STRING(INC(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity PTI") then
-        U_PTI("-", "+");
-        U_PTI("0", "+");
-        U_PTI("+", "-");
+        U_PTI(false, true);
+        U_PTI(unk, true);
+        U_PTI(true, false);
         U_PTI("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "++-++-++++--++++-++-++++-++-++++--++++-++-++++-++-++++--++++-++-++");
-        check_equal(TO_STRING(PTI(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity DEC") then
-        U_DEC("-", "+");
-        U_DEC("0", "-");
-        U_DEC("+", "0");
+        U_DEC(false, true);
+        U_DEC(unk, false);
+        U_DEC(true, unk);
         U_DEC("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "+-0+-0+-++00--+-0+-0+-+-0+-0+-++00--+-0+-0+-+-0+-0+-++00--+-0+-0+-");
-        check_equal(TO_STRING(DEC(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity CLD") then
-        U_CLD("-", "-");
-        U_CLD("0", "0");
-        U_CLD("+", "0");
+        U_CLD(false, false);
+        U_CLD(unk, unk);
+        U_CLD(true, unk);
         U_CLD("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "-00-00-0--0000-00-00-0-00-00-0--0000-00-00-0-00-00-0--0000-00-00-0");
-        check_equal(TO_STRING(CLD(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity COM") then
-        U_COM("-", "0");
-        U_COM("0", "0");
-        U_COM("+", "0");
+        U_COM(false, unk);
+        U_COM(unk, unk);
+        U_COM(true, unk);
         U_COM("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "000000000000000000000000000000000000000000000000000000000000000000");
-        check_equal(TO_STRING(COM(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity IPT") then
-        U_IPT("-", "-");
-        U_IPT("0", "-");
-        U_IPT("+", "+");
+        U_IPT(false, false);
+        U_IPT(unk, false);
+        U_IPT(true, true);
         U_IPT("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "--+--+----++----+--+----+--+----++----+--+----+--+----++----+--+--");
-        check_equal(TO_STRING(IPT(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity IMT") then
-        U_IMT("-", "+");
-        U_IMT("0", "-");
-        U_IMT("+", "+");
+        U_IMT(false, true);
+        U_IMT(unk, false);
+        U_IMT(true, true);
         U_IMT("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "+-++-++-++++--+-++-++-+-++-++-++++--+-++-++-+-++-++-++++--+-++-++-");
-        check_equal(TO_STRING(IMT(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity BUF") then
-        U_BUF("-", "-");
-        U_BUF("0", "0");
-        U_BUF("+", "+");
+        U_BUF(false, false);
+        U_BUF(unk, unk);
+        U_BUF(true, true);
         U_BUF("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0");
-        check_equal(TO_STRING(BUF(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity CLU") then
-        U_CLU("-", "0");
-        U_CLU("0", "0");
-        U_CLU("+", "+");
+        U_CLU(false, unk);
+        U_CLU(unk, unk);
+        U_CLU(true, true);
         U_CLU("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "00+00+0000++0000+00+0000+00+0000++0000+00+0000+00+0000++0000+00+00");
-        check_equal(TO_STRING(CLU(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity INT") then
-        U_INT("-", "-");
-        U_INT("0", "+");
-        U_INT("+", "+");
+        U_INT(false, false);
+        U_INT(unk, true);
+        U_INT(true, true);
         U_INT("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "-++-++-+--++++-++-++-+-++-++-+--++++-++-++-+-++-++-+--++++-++-++-+");
-        check_equal(TO_STRING(INT(test_vec1)), verif_str);
+        
       elsif run("Test 1-arity COH") then
-        U_COH("-", "+");
-        U_COH("0", "+");
-        U_COH("+", "+");
+        U_COH(false, true);
+        U_COH(unk, true);
+        U_COH(true, true);
         U_COH("-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0-0+-0+-0--++00-0+-0+-0",
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        check_equal(TO_STRING(COH(test_vec1)), verif_str);
+        
 
       -------------------------------------------------------------------
       -- Test vectors for 2-arity logops
       -------------------------------------------------------------------
 
       elsif run("Test 2-arity SUM") then
-        D_SUM("-", "-", "+");
-        D_SUM("-", "0", "-");
-        D_SUM("-", "+", "0");
-        D_SUM("0", "-", "-");
-        D_SUM("0", "0", "0");
-        D_SUM("0", "+", "+");
-        D_SUM("+", "-", "0");
-        D_SUM("+", "0", "+");
-        D_SUM("+", "+", "-");
+        D_SUM(false, false, true);
+        D_SUM(false, unk, false);
+        D_SUM(false, true, unk);
+        D_SUM(unk, false, false);
+        D_SUM(unk, unk, unk);
+        D_SUM(unk, true, true);
+        D_SUM(true, false, unk);
+        D_SUM(true, unk, true);
+        D_SUM(true, true, false);
         D_SUM("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "000000000000000000000000000000000000000000000000000000000000000000");
-        check_equal(TO_STRING(SUM(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity CON") then
-        D_CON("-", "-", "-");
-        D_CON("-", "0", "0");
-        D_CON("-", "+", "0");
-        D_CON("0", "-", "0");
-        D_CON("0", "0", "0");
-        D_CON("0", "+", "0");
-        D_CON("+", "-", "0");
-        D_CON("+", "0", "0");
-        D_CON("+", "+", "+");
+        D_CON(false, false, false);
+        D_CON(false, unk, unk);
+        D_CON(false, true, unk);
+        D_CON(unk, false, unk);
+        D_CON(unk, unk, unk);
+        D_CON(unk, true, unk);
+        D_CON(true, false, unk);
+        D_CON(true, unk, unk);
+        D_CON(true, true, true);
         D_CON("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "000000000000000000000000000000000000000000000000000000000000000000");
-        check_equal(TO_STRING(CON(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity NCO") then
-        D_NCO("-", "-", "+");
-        D_NCO("-", "0", "0");
-        D_NCO("-", "+", "0");
-        D_NCO("0", "-", "0");
-        D_NCO("0", "0", "0");
-        D_NCO("0", "+", "0");
-        D_NCO("+", "-", "0");
-        D_NCO("+", "0", "0");
-        D_NCO("+", "+", "-");
+        D_NCO(false, false, true);
+        D_NCO(false, unk, unk);
+        D_NCO(false, true, unk);
+        D_NCO(unk, false, unk);
+        D_NCO(unk, unk, unk);
+        D_NCO(unk, true, unk);
+        D_NCO(true, false, unk);
+        D_NCO(true, unk, unk);
+        D_NCO(true, true, false);
         D_NCO("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "000000000000000000000000000000000000000000000000000000000000000000");
-        check_equal(TO_STRING(NCO(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity MINI") then
-        D_MINI("-", "-", "-");
-        D_MINI("-", "0", "-");
-        D_MINI("-", "+", "-");
-        D_MINI("0", "-", "-");
-        D_MINI("0", "0", "0");
-        D_MINI("0", "+", "0");
-        D_MINI("+", "-", "-");
-        D_MINI("+", "0", "0");
-        D_MINI("+", "+", "+");
+        D_MINI(false, false, false);
+        D_MINI(false, unk, false);
+        D_MINI(false, true, false);
+        D_MINI(unk, false, false);
+        D_MINI(unk, unk, unk);
+        D_MINI(unk, true, unk);
+        D_MINI(true, false, false);
+        D_MINI(true, unk, unk);
+        D_MINI(true, true, true);
         D_MINI("--------------------------------------------------------------++00", 
                "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
                "----------------------------------------------------------------00");
-        check_equal(TO_STRING(MINI(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity MAX") then
-        D_MAX("-", "-", "-");
-        D_MAX("-", "0", "0");
-        D_MAX("-", "+", "+");
-        D_MAX("0", "-", "0");
-        D_MAX("0", "0", "0");
-        D_MAX("0", "+", "+");
-        D_MAX("+", "-", "+");
-        D_MAX("+", "0", "+");
-        D_MAX("+", "+", "+");
+        D_MAX(false, false, false);
+        D_MAX(false, unk, unk);
+        D_MAX(false, true, true);
+        D_MAX(unk, false, unk);
+        D_MAX(unk, unk, unk);
+        D_MAX(unk, true, true);
+        D_MAX(true, false, true);
+        D_MAX(true, unk, true);
+        D_MAX(true, true, true);
         D_MAX("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++00");
-        check_equal(TO_STRING(MAX(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity NMI") then
-        D_NMI("-", "-", "+");
-        D_NMI("-", "0", "0");
-        D_NMI("-", "+", "-");
-        D_NMI("0", "-", "0");
-        D_NMI("0", "0", "0");
-        D_NMI("0", "+", "-");
-        D_NMI("+", "-", "-");
-        D_NMI("+", "0", "-");
-        D_NMI("+", "+", "-");
+        D_NMI(false, false, true);
+        D_NMI(false, unk, unk);
+        D_NMI(false, true, false);
+        D_NMI(unk, false, unk);
+        D_NMI(unk, unk, unk);
+        D_NMI(unk, true, false);
+        D_NMI(true, false, false);
+        D_NMI(true, unk, false);
+        D_NMI(true, true, false);
         D_NMI("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "----------------------------------------------------------------00");
-        check_equal(TO_STRING(NMI(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity NMA") then
-        D_NMA("-", "-", "+");
-        D_NMA("-", "0", "+");
-        D_NMA("-", "+", "+");
-        D_NMA("0", "-", "+");
-        D_NMA("0", "0", "0");
-        D_NMA("0", "+", "0");
-        D_NMA("+", "-", "+");
-        D_NMA("+", "0", "0");
-        D_NMA("+", "+", "-");
+        D_NMA(false, false, true);
+        D_NMA(false, unk, true);
+        D_NMA(false, true, true);
+        D_NMA(unk, false, true);
+        D_NMA(unk, unk, unk);
+        D_NMA(unk, true, unk);
+        D_NMA(true, false, true);
+        D_NMA(true, unk, unk);
+        D_NMA(true, true, false);
         D_NMA("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++00");
-        check_equal(TO_STRING(NMA(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity XOR") then
-        D_XOR("-", "-", "-");
-        D_XOR("-", "0", "0");
-        D_XOR("-", "+", "+");
-        D_XOR("0", "-", "0");
-        D_XOR("0", "0", "0");
-        D_XOR("0", "+", "0");
-        D_XOR("+", "-", "+");
-        D_XOR("+", "0", "0");
-        D_XOR("+", "+", "-");
+        D_XOR(false, false, false);
+        D_XOR(false, unk, unk);
+        D_XOR(false, true, true);
+        D_XOR(unk, false, unk);
+        D_XOR(unk, unk, unk);
+        D_XOR(unk, true, unk);
+        D_XOR(true, false, true);
+        D_XOR(true, unk, unk);
+        D_XOR(true, true, false);
         D_XOR("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++00");
-        check_equal(TO_STRING(test_vec1 XOR test_vec2), verif_str);
+
       elsif run("Test 2-arity MUL") then
-        D_MUL("-", "-", "+");
-        D_MUL("-", "0", "0");
-        D_MUL("-", "+", "-");
-        D_MUL("0", "-", "0");
-        D_MUL("0", "0", "0");
-        D_MUL("0", "+", "0");
-        D_MUL("+", "-", "-");
-        D_MUL("+", "0", "0");
-        D_MUL("+", "+", "+");
+        D_MUL(false, false, true);
+        D_MUL(false, unk, unk);
+        D_MUL(false, true, false);
+        D_MUL(unk, false, unk);
+        D_MUL(unk, unk, unk);
+        D_MUL(unk, true, unk);
+        D_MUL(true, false, false);
+        D_MUL(true, unk, unk);
+        D_MUL(true, true, true);
         D_MUL("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "----------------------------------------------------------------00");
-        check_equal(TO_STRING(MUL(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity IMP") then
-        D_IMP("-", "-", "+");
-        D_IMP("-", "0", "+");
-        D_IMP("-", "+", "+");
-        D_IMP("0", "-", "0");
-        D_IMP("0", "0", "0");
-        D_IMP("0", "+", "+");
-        D_IMP("+", "-", "-");
-        D_IMP("+", "0", "0");
-        D_IMP("+", "+", "+");
+        D_IMP(false, false, true);
+        D_IMP(false, unk, true);
+        D_IMP(false, true, true);
+        D_IMP(unk, false, unk);
+        D_IMP(unk, unk, unk);
+        D_IMP(unk, true, true);
+        D_IMP(true, false, false);
+        D_IMP(true, unk, unk);
+        D_IMP(true, true, true);
         D_IMP("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00");
-        check_equal(TO_STRING(IMP(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity ANY") then
-        D_ANY("-", "-", "-");
-        D_ANY("-", "0", "-");
-        D_ANY("-", "+", "0");
-        D_ANY("0", "-", "-");
-        D_ANY("0", "0", "0");
-        D_ANY("0", "+", "+");
-        D_ANY("+", "-", "0");
-        D_ANY("+", "0", "+");
-        D_ANY("+", "+", "+");
+        D_ANY(false, false, false);
+        D_ANY(false, unk, false);
+        D_ANY(false, true, unk);
+        D_ANY(unk, false, false);
+        D_ANY(unk, unk, unk);
+        D_ANY(unk, true, true);
+        D_ANY(true, false, unk);
+        D_ANY(true, unk, true);
+        D_ANY(true, true, true);
         D_ANY("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "000000000000000000000000000000000000000000000000000000000000000000");
-        check_equal(TO_STRING(ANY(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity NAN") then
-        D_NAN("-", "-", "+");
-        D_NAN("-", "0", "+");
-        D_NAN("-", "+", "0");
-        D_NAN("0", "-", "+");
-        D_NAN("0", "0", "0");
-        D_NAN("0", "+", "-");
-        D_NAN("+", "-", "0");
-        D_NAN("+", "0", "-");
-        D_NAN("+", "+", "-");
+        D_NAN(false, false, true);
+        D_NAN(false, unk, true);
+        D_NAN(false, true, unk);
+        D_NAN(unk, false, true);
+        D_NAN(unk, unk, unk);
+        D_NAN(unk, true, false);
+        D_NAN(true, false, unk);
+        D_NAN(true, unk, false);
+        D_NAN(true, true, false);
         D_NAN("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "000000000000000000000000000000000000000000000000000000000000000000");
-        check_equal(TO_STRING(NAN(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity MLE") then
-        D_MLE("-", "-", "0");
-        D_MLE("-", "0", "-");
-        D_MLE("-", "+", "-");
-        D_MLE("0", "-", "+");
-        D_MLE("0", "0", "0");
-        D_MLE("0", "+", "-");
-        D_MLE("+", "-", "+");
-        D_MLE("+", "0", "+");
-        D_MLE("+", "+", "0");
+        D_MLE(false, false, unk);
+        D_MLE(false, unk, false);
+        D_MLE(false, true, false);
+        D_MLE(unk, false, true);
+        D_MLE(unk, unk, unk);
+        D_MLE(unk, true, false);
+        D_MLE(true, false, true);
+        D_MLE(true, unk, true);
+        D_MLE(true, true, unk);
         D_MLE("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "--------------------------------------------------------------++00");
-        check_equal(TO_STRING(MLE(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity ENA") then
-        D_ENA("-", "-", "0");
-        D_ENA("-", "0", "0");
-        D_ENA("-", "+", "-");
-        D_ENA("0", "-", "0");
-        D_ENA("0", "0", "0");
-        D_ENA("0", "+", "0");
-        D_ENA("+", "-", "0");
-        D_ENA("+", "0", "0");
-        D_ENA("+", "+", "+");
+        D_ENA(false, false, unk);
+        D_ENA(false, unk, unk);
+        D_ENA(false, true, false);
+        D_ENA(unk, false, unk);
+        D_ENA(unk, unk, unk);
+        D_ENA(unk, true, unk);
+        D_ENA(true, false, unk);
+        D_ENA(true, unk, unk);
+        D_ENA(true, true, true);
         D_ENA("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "--------------------------------------------------------------0000");
-        check_equal(TO_STRING(ENA(test_vec1, test_vec2)), verif_str);
+        
       elsif run("Test 2-arity DES") then
-        D_DES("-", "-", "-");
-        D_DES("-", "0", "-");
-        D_DES("-", "+", "-");
-        D_DES("0", "-", "-");
-        D_DES("0", "0", "0");
-        D_DES("0", "+", "+");
-        D_DES("+", "-", "-");
-        D_DES("+", "0", "+");
-        D_DES("+", "+", "+");
+        D_DES(false, false, false);
+        D_DES(false, unk, false);
+        D_DES(false, true, false);
+        D_DES(unk, false, false);
+        D_DES(unk, unk, unk);
+        D_DES(unk, true, true);
+        D_DES(true, false, false);
+        D_DES(true, unk, true);
+        D_DES(true, true, true);
         D_DES("--------------------------------------------------------------++00", 
               "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--00", 
               "----------------------------------------------------------------00");
-        check_equal(TO_STRING(DES(test_vec1, test_vec2)), verif_str);
+        
       end if;
     end loop;
     test_runner_cleanup(runner);

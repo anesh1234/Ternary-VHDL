@@ -1,10 +1,10 @@
 -- -----------------------------------------------------------------
 --
 --   Title     :  Standard ternary logic package
---             :  (BTERN_LOGIC package declaration)
+--             :  (BAL_LOGIC package declaration)
 --             :
 --   Library   :  This package shall be compiled into a library
---             :  symbolically named BTERN.
+--             :  symbolically named TVL.
 --             :
 --   Developers:  Anders Mørk Minde, University of South Eastern Norway
 --             :
@@ -41,13 +41,13 @@ package bal_logic is
                         '+',       -- Forcing +
                         'Z',       -- High Impedance
                         'W',       -- Weak Unknown
-                        'B',       -- Weak -
-                        'L',       -- Weak 0
+                        'L',       -- Weak -
+                        'M',       -- Weak 0
                         'H',       -- Weak +
                         'D'        -- Don't care
                        );
   -------------------------------------------------------------------
-  -- unconstrained array of tern_ulogic for use with the resolution function
+  -- unconstrained array of btern_ulogic for use with the resolution function
   -- and for use in declaring signal arrays of unresolved elements
   -------------------------------------------------------------------
   type BTERN_ULOGIC_VECTOR is array (NATURAL range <>) of BTERN_ULOGIC;
@@ -55,7 +55,7 @@ package bal_logic is
   -------------------------------------------------------------------
   -- resolution function
   -------------------------------------------------------------------
-  function resolved (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
+  function resolved (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
 
   -------------------------------------------------------------------
   -- logic state system  (resolved)
@@ -63,7 +63,7 @@ package bal_logic is
   subtype BTERN_LOGIC is resolved BTERN_ULOGIC;
 
   -------------------------------------------------------------------
-  -- unconstrained array of resolved BTERN_ulogic for use in declaring
+  -- unconstrained array of resolved btern_ulogic for use in declaring
   -- signal arrays of resolved elements
   -------------------------------------------------------------------
   subtype BTERN_LOGIC_VECTOR is (resolved) BTERN_ULOGIC_VECTOR;
@@ -102,40 +102,40 @@ package bal_logic is
   -- [Z], CONST_HIGH (COH)
   --------------------------------------------------------------------------------
 
-  function COL (l : BTERN_ULOGIC) return U2P;
-  function NTI (l : BTERN_ULOGIC) return U2P;
-  function STI (l : BTERN_ULOGIC) return U2P;
-  function MTI (l : BTERN_ULOGIC) return U2P;
-  function INC (l : BTERN_ULOGIC) return U2P;
-  function PTI (l : BTERN_ULOGIC) return U2P;
-  function DEC (l : BTERN_ULOGIC) return U2P;
-  function CLD (l : BTERN_ULOGIC) return U2P;
-  function COM (l : BTERN_ULOGIC) return U2P;
-  function IPT (l : BTERN_ULOGIC) return U2P;
-  function IMT (l : BTERN_ULOGIC) return U2P;
-  function BUF (l : BTERN_ULOGIC) return U2P;
-  function CLU (l : BTERN_ULOGIC) return U2P;
-  function INT (l : BTERN_ULOGIC) return U2P;
-  function COH (l : BTERN_ULOGIC) return U2P;
+  function COL (L : BTERN_ULOGIC) return U2P;
+  function NTI (L : BTERN_ULOGIC) return U2P;
+  function STI (L : BTERN_ULOGIC) return U2P;
+  function MTI (L : BTERN_ULOGIC) return U2P;
+  function INC (L : BTERN_ULOGIC) return U2P;
+  function PTI (L : BTERN_ULOGIC) return U2P;
+  function DEC (L : BTERN_ULOGIC) return U2P;
+  function CLD (L : BTERN_ULOGIC) return U2P;
+  function COM (L : BTERN_ULOGIC) return U2P;
+  function IPT (L : BTERN_ULOGIC) return U2P;
+  function IMT (L : BTERN_ULOGIC) return U2P;
+  function BUF (L : BTERN_ULOGIC) return U2P;
+  function CLU (L : BTERN_ULOGIC) return U2P;
+  function INT (L : BTERN_ULOGIC) return U2P;
+  function COH (L : BTERN_ULOGIC) return U2P;
 
   --------------------------------------------------------------------------------
   -- Overloaded vectorized 1-arity logical functions
   --------------------------------------------------------------------------------
-  function COL (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function NTI (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function STI (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function MTI (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function INC (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function PTI (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function DEC (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function CLD (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function COM (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function IPT (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function IMT (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function BUF (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function CLU (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function INT (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function COH (l : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function COL (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function NTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function STI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function INC (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function PTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function DEC (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function CLD (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function COM (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function IPT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function IMT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function BUF (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function CLU (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function INT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function COH (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   --------------------------------------------------------------------------------
   -- Scalar 2-arity logical functions. 
@@ -159,84 +159,83 @@ package bal_logic is
   -- [RD4] ENABLE (ENA), ENABLE w/ binary
   -- [VP0] DESELECT (DES), A or B, with one being !ENABLE
   --------------------------------------------------------------------------------
-  function SUM (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function CON (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function NCO (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function MINI (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function MAX (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function NMI (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function NMA (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function "XOR" (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function MUL (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function IMP (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function ANY (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function NAN (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function MLE (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function ENA (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
-  function DES (l : BTERN_ULOGIC; r : BTERN_ULOGIC) return U2P;
+  function SUM   (L, R : BTERN_ULOGIC) return U2P;
+  function CON   (L, R : BTERN_ULOGIC) return U2P;
+  function NCO   (L, R : BTERN_ULOGIC) return U2P;
+  function MINI  (L, R : BTERN_ULOGIC) return U2P;
+  function MAX   (L, R : BTERN_ULOGIC) return U2P;
+  function NMI   (L, R : BTERN_ULOGIC) return U2P;
+  function NMA   (L, R : BTERN_ULOGIC) return U2P;
+  function "XOR" (L, R : BTERN_ULOGIC) return U2P;
+  function MUL   (L, R : BTERN_ULOGIC) return U2P;
+  function IMP   (L, R : BTERN_ULOGIC) return U2P;
+  function ANY   (L, R : BTERN_ULOGIC) return U2P;
+  function NAN   (L, R : BTERN_ULOGIC) return U2P;
+  function MLE   (L, R : BTERN_ULOGIC) return U2P;
+  function ENA   (L, R : BTERN_ULOGIC) return U2P;
+  function DES   (L, R : BTERN_ULOGIC) return U2P;
 
   -------------------------------------------------------------------
   -- Vectorized 2-arity logical functions
   -------------------------------------------------------------------
-  function SUM (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function SUM (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function SUM (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function SUM   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function SUM   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function SUM   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function CON   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function CON   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function CON   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function NCO   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function NCO   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function NCO   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function MINI  (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MINI  (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function MINI  (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MAX   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MAX   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function MAX   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function NMI   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function NMI   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function NMI   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function NMA   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function NMA   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function NMA   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
-  function CON (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function CON (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function CON (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function "XOR" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function "XOR" (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function "XOR" (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
-  function NCO (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function NCO (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function NCO (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function MINI (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function MINI (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function MINI (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function MAX (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function MAX (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function MAX (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function NMI (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function NMI (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function NMI (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function NMA (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function NMA (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function NMA (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function "XOR" (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function "XOR" (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function "XOR" (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function MUL (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function MUL (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function MUL (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function IMP (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function IMP (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function IMP (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function ANY (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function ANY (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function ANY (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function NAN (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function NAN (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function NAN (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function MLE (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function MLE (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function MLE (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function ENA (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function ENA (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function ENA (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  function DES (l, r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function DES (l : BTERN_ULOGIC_VECTOR; r : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  function DES (l : BTERN_ULOGIC; r : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MUL   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MUL   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function MUL   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function IMP   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function IMP   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function IMP   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function ANY   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function ANY   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function ANY   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function NAN   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function NAN   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function NAN   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function MLE   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function MLE   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function MLE   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function ENA   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function ENA   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function ENA   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+ 
+  function DES   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function DES   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
+  function DES   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   -------------------------------------------------------------------
   -- shift operators
@@ -247,10 +246,10 @@ package bal_logic is
   -- ror - rotate right
   -------------------------------------------------------------------
 
-  function "sll" (l : BTERN_ULOGIC_VECTOR; r : INTEGER) return BTERN_ULOGIC_VECTOR;
-  function "srl" (l : BTERN_ULOGIC_VECTOR; r : INTEGER) return BTERN_ULOGIC_VECTOR;
-  function "rol" (l : BTERN_ULOGIC_VECTOR; r : INTEGER) return BTERN_ULOGIC_VECTOR;
-  function "ror" (l : BTERN_ULOGIC_VECTOR; r : INTEGER) return BTERN_ULOGIC_VECTOR;
+  function "sll" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  function "srl" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  function "rol" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  function "ror" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
 
   -------------------------------------------------------------------
   -- conversion functions and strength strippers
@@ -267,9 +266,9 @@ package bal_logic is
 
   function To_INT (ARG : BTERN_ULOGIC_VECTOR) return INTEGER;
 
-  function To_TernLogicVector (s : BTERN_ULOGIC_VECTOR)
+  function To_TernLogicVector (S : BTERN_ULOGIC_VECTOR)
   return BTERN_LOGIC_VECTOR;
-  function To_TernULogicVector (s : BTERN_LOGIC_VECTOR)
+  function To_TernULogicVector (S : BTERN_LOGIC_VECTOR)
   return BTERN_ULOGIC_VECTOR;
 
   alias To_TLV is
@@ -278,25 +277,23 @@ package bal_logic is
   alias To_TULV is
     To_TernULogicVector[BTERN_LOGIC_VECTOR return BTERN_ULOGIC_VECTOR];
 
-  function To_M2P (s : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
+  function To_M2P (S : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
     return BTERN_ULOGIC_VECTOR;
-  function To_M2P (s : BTERN_ULOGIC; xmap : BTERN_ULOGIC := '0')
+  function To_M2P (S : BTERN_ULOGIC; xmap : BTERN_ULOGIC := '0')
     return BTERN_ULOGIC;
 
-  function To_X2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function To_X2P (s : BTERN_ULOGIC) return X2P;
-
-  function To_X2Z (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function To_X2Z (s : BTERN_ULOGIC) return X2Z;
-
-  function To_U2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function To_U2P (s : BTERN_ULOGIC) return U2P;
+  function To_X2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function To_X2P (S : BTERN_ULOGIC) return X2P;
+  function To_X2Z (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function To_X2Z (S : BTERN_ULOGIC) return X2Z;
+  function To_U2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function To_U2P (S : BTERN_ULOGIC) return U2P;
 
   -------------------------------------------------------------------
   -- Overload of the condition operator
   -------------------------------------------------------------------
-  function "??" (l : BTERN_ULOGIC) return KLEENE;
-  -- '-' or 'B' returns FALSE
+  function "??" (L : BTERN_ULOGIC) return KLEENE;
+  -- '-' or 'L' returns FALSE
   -- '+' or 'H' returns TRUE
   -- All others returns UNKNOWN
   
@@ -304,25 +301,34 @@ package bal_logic is
   -- edge detection
   -- mz - minus to zero
   -- pm - plus to minus
+  -- Only interested in true/false, therefore returning BOOLEAN.
+  -- This decision also makes the functions compatible 
+  -- with if-tests and assertions
   -------------------------------------------------------------------
-  function any_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
-  function mz_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
-  function zp_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
-  function mp_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
+  function any_rising_edge (signal S : BTERN_ULOGIC) return BOOLEAN;
+  function mz_rising_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
+  function zp_rising_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
+  function mp_rising_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
 
-  function any_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
-  function pz_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
-  function zm_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
-  function pm_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN;
+  function any_falling_edge (signal S : BTERN_ULOGIC) return BOOLEAN;
+  function pz_falling_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
+  function zm_falling_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
+  function pm_falling_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
 
   -------------------------------------------------------------------
   -- object contains an unknown
+  -- Only interested in true/false, therefore returning BOOLEAN.
+  -- This decision also makes the functions compatible 
+  -- with if-tests and assertions
   -------------------------------------------------------------------
-  function Is_X (s : BTERN_ULOGIC_VECTOR) return BOOLEAN;
-  function Is_X (s : BTERN_ULOGIC) return BOOLEAN;
+  function Is_X (S : BTERN_ULOGIC_VECTOR) return BOOLEAN;
+  function Is_X (S : BTERN_ULOGIC) return BOOLEAN;
 
   ------------------------------------------------------------------------
   -- ordinary relational operators
+  -- Only interested in true/false, therefore returning BOOLEAN.
+  -- This decision also makes the functions compatible 
+  -- with if-tests and assertions
   ------------------------------------------------------------------------
 
   function ">" (L, R  : BTERN_ULOGIC_VECTOR) return BOOLEAN;
@@ -363,26 +369,33 @@ package bal_logic is
   -------------------------------------------------------------------
   -- matching relational operator overloads
   -------------------------------------------------------------------
+
+  function "?>" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?>" (L, R  : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?>" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?>" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
+  function "?<" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?<" (L, R  : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?<" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?<" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
+  function "?<=" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?<=" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?<=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?<=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
+  function "?>=" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?>=" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?>=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?>=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
+  function "?=" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?=" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
+  function "?/=" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?/=" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?/=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
   function "?/=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
@@ -394,7 +407,7 @@ package bal_logic is
   function M_SPACE (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
   -------------------------------------------------------------------
-  -- MINIMUM overloads for array type
+  -- MINIMUM and MAXIMUM overloads for vector type
   -------------------------------------------------------------------
   
   function MINIMUM (L, R : BTERN_ULOGIC_VECTOR) 
@@ -405,10 +418,6 @@ package bal_logic is
 
   function MINIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
   return BTERN_ULOGIC_VECTOR;
-
-  -------------------------------------------------------------------
-  -- MAXIMUM overloads for array type
-  -------------------------------------------------------------------
 
   function MAXIMUM (L, R : BTERN_ULOGIC_VECTOR) 
   return BTERN_ULOGIC_VECTOR;

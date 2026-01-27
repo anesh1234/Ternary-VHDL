@@ -48,24 +48,24 @@ begin
     stim_proc: process
     begin
 
-        scal_in_1 <= 'FALSE';
-        vec_in_1 <= ('FALSE', 'FALSE', 'FALSE', 'FALSE');
-        scal_in_2 <= 'FALSE';
-        vec_in_2 <= ('FALSE', 'FALSE', 'FALSE', 'FALSE');
+        scal_in_1 <= FALSE;
+        vec_in_1 <= (FALSE, FALSE, FALSE, FALSE);
+        scal_in_2 <= FALSE;
+        vec_in_2 <= (FALSE, FALSE, FALSE, FALSE);
 
         wait for 10 ns;
 
-        scal_in_1 <= 'FALSE';
-        vec_in_1 <= ('FALSE', 'FALSE', 'FALSE', 'FALSE');
-        scal_in_2 <= 'UNK';
-        vec_in_2 <= ('UNK', 'UNK', 'UNK', 'UNK');
+        scal_in_1 <= FALSE;
+        vec_in_1 <= (FALSE, FALSE, FALSE, FALSE);
+        scal_in_2 <= UNK;
+        vec_in_2 <= (UNK, UNK, UNK, UNK);
 
         wait for 10 ns;
 
-        scal_in_1 <= 'FALSE';
-        vec_in_1 <= ('FALSE', 'FALSE', 'FALSE', 'FALSE');
-        scal_in_2 <= 'TRUE';
-        vec_in_2 <= ('TRUE', 'TRUE', 'TRUE', 'TRUE');
+        scal_in_1 <= FALSE;
+        vec_in_1 <= (FALSE, FALSE, FALSE, FALSE);
+        scal_in_2 <= TRUE;
+        vec_in_2 <= (TRUE, TRUE, TRUE, TRUE);
         
         wait for 10 ns;
         wait;

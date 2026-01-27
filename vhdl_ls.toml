@@ -1,9 +1,21 @@
-# File names are either absolute or relative to the parent folder of the
-# vhdl_ls.toml file and supports glob-style patterns.
+# What standard to use. This is optional and defaults to VHDL2008.
+standard = "2008"
 
+# File names are either absolute or relative to the parent folder of the vhdl_ls.toml file
 [libraries]
 
-# Defines library TVL
 TVL.files = [
-  'tvl_lib\lib\*.vhdl'
+  'tvl_lib/lib/*.vhdl',
+  'tvl_lib/testbench/**/*.vhdl'
+]
+
+# VUnit includes/excludes fetched from https://github.com/VHDL-LS/rust_hdl/blob/master/example_project/vhdl_ls.toml
+vunit_lib.files = [
+    "vunit_vhdl_src/**/*.vhd",
+]
+vunit_lib.exclude = [
+    "vunit_vhdl_src/**/*93*",
+    "vunit_vhdl_src/**/*2019*",
+    "vunit_vhdl_src/**/*2002*",
+    "vunit_vhdl_src/**/run.py"
 ]

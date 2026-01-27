@@ -14,9 +14,9 @@ architecture sim of convfunc_tb is
 
     signal input_s : BTERN_ULOGIC := 'H';
 
-    signal input_vec_all : BTERN_LOGIC_VECTOR(10 downto 0) := "UX-0+ZWBLHD";
-    signal input_vec_wf : BTERN_LOGIC_VECTOR(5 downto 0) := "-B0L+H";
-    signal input_vec_isx : BTERN_LOGIC_VECTOR(5 downto 0) := "++++++";
+    signal input_vec_all : BTERN_LOGIC_VECTOR(10 downto 0) := "UX-0+ZWLMHD";
+    signal input_vec_wf : BTERN_LOGIC_VECTOR(5 downto 0) := "-L0M+H";        
+    signal input_vec_isx : BTERN_LOGIC_VECTOR(5 downto 0) := "++++++";       
 
     -- Outputs
     signal out_bin : STD_LOGIC_VECTOR(10 downto 0);

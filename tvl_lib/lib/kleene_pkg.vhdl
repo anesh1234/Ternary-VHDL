@@ -46,40 +46,40 @@ package kleene_pkg is
   -- [Z], CONST_HIGH (COH)
   --------------------------------------------------------------------------------
 
-  function COL (l : KLEENE) return KLEENE;
-  function NTI (l : KLEENE) return KLEENE;
-  function STI (l : KLEENE) return KLEENE;
-  function MTI (l : KLEENE) return KLEENE;
-  function INC (l : KLEENE) return KLEENE;
-  function PTI (l : KLEENE) return KLEENE;
-  function DEC (l : KLEENE) return KLEENE;
-  function CLD (l : KLEENE) return KLEENE;
-  function COM (l : KLEENE) return KLEENE;
-  function IPT (l : KLEENE) return KLEENE;
-  function IMT (l : KLEENE) return KLEENE;
-  function BUF (l : KLEENE) return KLEENE;
-  function CLU (l : KLEENE) return KLEENE;
-  function INT (l : KLEENE) return KLEENE;
-  function COH (l : KLEENE) return KLEENE;
+  function COL (L : KLEENE) return KLEENE;
+  function NTI (L : KLEENE) return KLEENE;
+  function STI (L : KLEENE) return KLEENE;
+  function MTI (L : KLEENE) return KLEENE;
+  function INC (L : KLEENE) return KLEENE;
+  function PTI (L : KLEENE) return KLEENE;
+  function DEC (L : KLEENE) return KLEENE;
+  function CLD (L : KLEENE) return KLEENE;
+  function COM (L : KLEENE) return KLEENE;
+  function IPT (L : KLEENE) return KLEENE;
+  function IMT (L : KLEENE) return KLEENE;
+  function BUF (L : KLEENE) return KLEENE;
+  function CLU (L : KLEENE) return KLEENE;
+  function INT (L : KLEENE) return KLEENE;
+  function COH (L : KLEENE) return KLEENE;
 
   --------------------------------------------------------------------------------
   -- Vectorized 1-arity logical functions
   --------------------------------------------------------------------------------
-  function COL (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function NTI (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function STI (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function MTI (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function INC (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function PTI (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function DEC (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function CLD (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function COM (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function IPT (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function IMT (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function BUF (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function CLU (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function INT (l : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function COH (l : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function COL (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NTI (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function STI (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MTI (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function INC (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function PTI (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function DEC (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function CLD (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function COM (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function IPT (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function IMT (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function BUF (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function CLU (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function INT (L : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function COH (L : KLEENE_VECTOR) return KLEENE_VECTOR;
 
   --------------------------------------------------------------------------------
   -- Scalar 2-arity logical functions. 
@@ -103,97 +103,112 @@ package kleene_pkg is
   -- [RD4] ENABLE (ENA), ENABLE w/ binary
   -- [VP0] DESELECT (DES), A or B, with one being !ENABLE
   --------------------------------------------------------------------------------
-  function SUM (l : KLEENE; r : KLEENE) return KLEENE;
-  function CON (l : KLEENE; r : KLEENE) return KLEENE;
-  function NCO (l : KLEENE; r : KLEENE) return KLEENE;
-  function MINI (l : KLEENE; r : KLEENE) return KLEENE;
-  function MAX (l : KLEENE; r : KLEENE) return KLEENE;
-  function NMI (l : KLEENE; r : KLEENE) return KLEENE;
-  function NMA (l : KLEENE; r : KLEENE) return KLEENE;
-  function "XOR" (l : KLEENE; r : KLEENE) return KLEENE;
-  function MUL (l : KLEENE; r : KLEENE) return KLEENE;
-  function IMP (l : KLEENE; r : KLEENE) return KLEENE;
-  function ANY (l : KLEENE; r : KLEENE) return KLEENE;
-  function NAN (l : KLEENE; r : KLEENE) return KLEENE;
-  function MLE (l : KLEENE; r : KLEENE) return KLEENE;
-  function ENA (l : KLEENE; r : KLEENE) return KLEENE;
-  function DES (l : KLEENE; r : KLEENE) return KLEENE;
+  function SUM   (L, R : KLEENE) return KLEENE;
+  function CON   (L, R : KLEENE) return KLEENE;
+  function NCO   (L, R : KLEENE) return KLEENE;
+  function MINI  (L, R : KLEENE) return KLEENE;
+  function MAX   (L, R : KLEENE) return KLEENE;
+  function NMI   (L, R : KLEENE) return KLEENE;
+  function NMA   (L, R : KLEENE) return KLEENE;
+  function "XOR" (L, R : KLEENE) return KLEENE;
+  function MUL   (L, R : KLEENE) return KLEENE;
+  function IMP   (L, R : KLEENE) return KLEENE;
+  function ANY   (L, R : KLEENE) return KLEENE;
+  function NAN   (L, R : KLEENE) return KLEENE;
+  function MLE   (L, R : KLEENE) return KLEENE;
+  function ENA   (L, R : KLEENE) return KLEENE;
+  function DES   (L, R : KLEENE) return KLEENE;
 
   -------------------------------------------------------------------
   -- Vectorized 2-arity logical functions
   -------------------------------------------------------------------
-  function SUM (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function SUM (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function SUM (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function SUM (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function SUM (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function SUM (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function CON (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function CON (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function CON (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function CON (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function CON (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function CON (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function NCO (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function NCO (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function NCO (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NCO (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NCO (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function NCO (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function MINI (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function MINI (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function MINI (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MINI (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MINI (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function MINI (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function MAX (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function MAX (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function MAX (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MAX (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MAX (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function MAX (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function NMI (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function NMI (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function NMI (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NMI (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NMI (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function NMI (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function NMA (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function NMA (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function NMA (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NMA (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NMA (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function NMA (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function "XOR" (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function "XOR" (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function "XOR" (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function "XOR" (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function "XOR" (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function "XOR" (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function MUL (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function MUL (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function MUL (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MUL (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MUL (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function MUL (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function IMP (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function IMP (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function IMP (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function IMP (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function IMP (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function IMP (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function ANY (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function ANY (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function ANY (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function ANY (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function ANY (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function ANY (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
   
-  function NAN (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function NAN (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function NAN (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NAN (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function NAN (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function NAN (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function MLE (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function MLE (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function MLE (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MLE (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function MLE (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function MLE (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function ENA (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function ENA (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function ENA (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function ENA (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function ENA (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function ENA (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
-  function DES (l, r : KLEENE_VECTOR) return KLEENE_VECTOR;
-  function DES (l : KLEENE_VECTOR; r : KLEENE) return KLEENE_VECTOR;
-  function DES (l : KLEENE; r : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function DES (L, R : KLEENE_VECTOR) return KLEENE_VECTOR;
+  function DES (L : KLEENE_VECTOR; R : KLEENE) return KLEENE_VECTOR;
+  function DES (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
   -------------------------------------------------------------------
   -- shift operators
-  -- sll - shift left logical, shifts the vector left by amount r
-  -- srl - shift right logical, shifts the vector right by amount r
+  -- sll - shift left logical, shifts the vector left by amount R
+  -- srl - shift right logical, shifts the vector right by amount R
   -- sla/sra is skipped, they are not needed in balanced ternary
   -- rol - rotate left
   -- ror - rotate right
   -------------------------------------------------------------------
 
-  function "sll" (l : KLEENE_VECTOR; r : INTEGER) return KLEENE_VECTOR;
-  function "srl" (l : KLEENE_VECTOR; r : INTEGER) return KLEENE_VECTOR;
-  function "rol" (l : KLEENE_VECTOR; r : INTEGER) return KLEENE_VECTOR;
-  function "ror" (l : KLEENE_VECTOR; r : INTEGER) return KLEENE_VECTOR;
+  function "sll" (L : KLEENE_VECTOR; R : INTEGER) return KLEENE_VECTOR;
+  function "srl" (L : KLEENE_VECTOR; R : INTEGER) return KLEENE_VECTOR;
+  function "rol" (L : KLEENE_VECTOR; R : INTEGER) return KLEENE_VECTOR;
+  function "ror" (L : KLEENE_VECTOR; R : INTEGER) return KLEENE_VECTOR;
+
+  -------------------------------------------------------------------
+  -- conversion functions made to work around VHDL binary 
+  -- restrictions to allow e.g., the relational operators and 
+  -- edge detection functions in TVL.BAL_LOGIC to 
+  -- return KLEENE types
+  -------------------------------------------------------------------
+
+  function TO_KLEENE (EXPR : BOOLEAN) return KLEENE;
+  function TO_KLEENE (EXPR : BOOLEAN_VECTOR) return KLEENE_VECTOR;
+
+  -- Lossy conversion; converts UNK to FALSE 
+  function TO_BOOLEAN (EXPR : KLEENE) return BOOLEAN;
+  function TO_BOOLEAN (EXPR : KLEENE_VECTOR) return BOOLEAN_VECTOR;
+  
 
 end package kleene_pkg;

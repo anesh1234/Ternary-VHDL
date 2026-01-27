@@ -45,7 +45,7 @@ begin
     process(int, ternvec)
     begin
         result_int     <= TO_INT(ternvec);
-        result_ternvec <= TO_BALBTERN(int, result_ternvec'length);
+        result_ternvec <= TO_BALTERN(int, result_ternvec'length);
     end process;
 
 end architecture;

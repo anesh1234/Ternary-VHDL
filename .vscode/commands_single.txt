@@ -24,3 +24,9 @@ ghdl --synth --std=08 --out=raw -Ptvl_lib/workdir -o=rtl_designs\bin_vs_tern_syn
 
 VUnit Run Command:
 py run.py --output-path "C:/Users/ander/Documents/vunit_out"
+
+-- then, use wildcards to run a single file:
+py run.py *entity_name* --output-path "C:/Users/ander/Documents/vunit_out"
+
+-- And library.entity."test case name" for specific test case:
+py run.py TVL.."" --output-path "C:/Users/ander/Documents/vunit_out"

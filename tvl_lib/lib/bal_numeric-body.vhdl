@@ -22,6 +22,8 @@
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
+library TVL;
+use TVL.kleene_pkg.all;
 
 package body bal_numeric is
 

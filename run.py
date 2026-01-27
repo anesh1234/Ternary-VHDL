@@ -16,8 +16,11 @@ vu = VUnit.from_argv(compile_builtins=False)
 # See http://vunit.github.io/hdl_libraries.html.
 vu.add_vhdl_builtins()
 
+
 tvl_lib = vu.add_library("TVL")
 tvl_lib.add_source_files(str(root / "tvl_lib/lib/*.vhdl"))
-tvl_lib.add_source_files(str(root / "tvl_lib/testbench/*.vhdl"))
+tvl_lib.add_source_files(str(root / "tvl_lib/testbench/**/*.vhdl"))
+
+vu.set_sim_option("vhdl_assert_stop_level", "failure")
 
 vu.main()
