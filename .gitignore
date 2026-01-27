@@ -3,5 +3,7 @@
 *.cf
 *.exe
 
+settings.json
+
 relevant_ieee_testbenches/
 vunit_out/
