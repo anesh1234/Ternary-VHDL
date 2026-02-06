@@ -1357,15 +1357,15 @@ package body kleene_pkg is
   function "sll" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
-    alias lv        : KLEENE_VECTOR (1 to l'length) is l;
-    variable result : KLEENE_VECTOR (1 to l'length) := (others => UNK);
+    alias LV        : KLEENE_VECTOR (1 to L'length) is L;
+    variable RESULT : KLEENE_VECTOR (1 to L'length) := (others => UNK);
   begin
-    if r >= 0 then
-      result(1 to l'length - r) := lv(r + 1 to l'length);
+    if R >= 0 then
+      RESULT(1 to L'length - R) := LV(R + 1 to L'length);
     else
-      result := l srl -r;
+      RESULT := L srl -R;
     end if;
-    return result;
+    return RESULT;
   end function "sll";
 
   -------------------------------------------------------------------
@@ -1374,15 +1374,15 @@ package body kleene_pkg is
   function "srl" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
-    alias lv        : KLEENE_VECTOR (1 to l'length) is l;
-    variable result : KLEENE_VECTOR (1 to l'length) := (others => UNK);
+    alias LV        : KLEENE_VECTOR (1 to L'length) is L;
+    variable RESULT : KLEENE_VECTOR (1 to L'length) := (others => UNK);
   begin
-    if r >= 0 then
-      result(r + 1 to l'length) := lv(1 to l'length - r);
+    if R >= 0 then
+      RESULT(R + 1 to L'length) := LV(1 to L'length - R);
     else
-      result := l sll -r;
+      RESULT := L sll -R;
     end if;
-    return result;
+    return RESULT;
   end function "srl";
 
   -------------------------------------------------------------------
@@ -1391,17 +1391,17 @@ package body kleene_pkg is
   function "rol" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
-    alias lv        : KLEENE_VECTOR (1 to l'length) is l;
-    variable result : KLEENE_VECTOR (1 to l'length);
-    constant rm     : INTEGER := r mod l'length;
+    alias LV        : KLEENE_VECTOR (1 to L'length) is L;
+    variable RESULT : KLEENE_VECTOR (1 to L'length);
+    constant RM     : INTEGER := R mod L'length;
   begin
-    if r >= 0 then
-      result(1 to l'length - rm)            := lv(rm + 1 to l'length);
-      result(l'length - rm + 1 to l'length) := lv(1 to rm);
+    if R >= 0 then
+      RESULT(1 to L'length - RM)            := LV(RM + 1 to L'length);
+      RESULT(L'length - RM + 1 to L'length) := LV(1 to RM);
     else
-      result := l ror -r;
+      RESULT := L ror -R;
     end if;
-    return result;
+    return RESULT;
   end function "rol";
 
   -------------------------------------------------------------------
@@ -1410,17 +1410,17 @@ package body kleene_pkg is
   function "ror" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
-    alias lv        : KLEENE_VECTOR (1 to l'length) is l;
-    variable result : KLEENE_VECTOR (1 to l'length) := (others => UNK);
-    constant rm     : INTEGER := r mod l'length;
+    alias LV        : KLEENE_VECTOR (1 to L'length) is L;
+    variable RESULT : KLEENE_VECTOR (1 to L'length) := (others => UNK);
+    constant RM     : INTEGER := R mod L'length;
   begin
-    if r >= 0 then
-      result(rm + 1 to l'length) := lv(1 to l'length - rm);
-      result(1 to rm)            := lv(l'length - rm + 1 to l'length);
+    if R >= 0 then
+      RESULT(RM + 1 to L'length) := LV(1 to L'length - RM);
+      RESULT(1 to RM)            := LV(L'length - RM + 1 to L'length);
     else
-      result := l rol -r;
+      RESULT := L rol -R;
     end if;
-    return result;
+    return RESULT;
   end function "ror";
 
   -------------------------------------------------------------------

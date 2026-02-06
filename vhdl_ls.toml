@@ -9,7 +9,6 @@ TVL.files = [
   'tvl_lib/testbench/**/*.vhdl'
 ]
 
-# VUnit includes/excludes fetched from https://github.com/VHDL-LS/rust_hdl/blob/master/example_project/vhdl_ls.toml
 vunit_lib.files = [
     "vunit_vhdl_src/**/*.vhd",
 ]
@@ -17,5 +16,15 @@ vunit_lib.exclude = [
     "vunit_vhdl_src/**/*93*",
     "vunit_vhdl_src/**/*2019*",
     "vunit_vhdl_src/**/*2002*",
-    "vunit_vhdl_src/**/run.py"
+    "vunit_vhdl_src/**/run.py",
+    "vunit_vhdl_src/**/test/*",
+    "vunit_vhdl_src/osvvm/*"
+]
+
+osvvm.files = [
+    "vunit_vhdl_src/osvvm/**/*.vhd"
+]
+
+osvvm.exclude = [
+    "vunit_vhdl_src/osvvm/**/demo/*"
 ]

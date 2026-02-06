@@ -42,18 +42,18 @@ package body bal_logic is
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- ---------------------------------------------------------     
-         ('U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U'),  -- | U |
-         ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'),  -- | X |
-         ('U', 'X', '-', 'X', 'X', '-', '-', '-', '-', '-', 'X'),  -- | - |
-         ('U', 'X', 'X', '0', 'X', '0', '0', '0', '0', '0', 'X'),  -- | 0 |
-         ('U', 'X', 'X', 'X', '+', '+', '+', '+', '+', '+', 'X'),  -- | + |
-         ('U', 'X', '-', '0', '+', 'Z', 'W', 'L', 'M', 'H', 'X'),  -- | Z |
-         ('U', 'X', '-', '0', '+', 'W', 'W', 'W', 'W', 'W', 'X'),  -- | W |
-         ('U', 'X', '-', '0', '+', 'L', 'W', 'L', 'W', 'W', 'X'),  -- | L |
-         ('U', 'X', '-', '0', '+', 'M', 'W', 'W', 'M', 'W', 'X'),  -- | M |
-         ('U', 'X', '-', '0', '+', 'H', 'W', 'W', 'W', 'H', 'X'),  -- | H |
-         ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X')   -- | D |
-         );
+        ('U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U'),  -- | U |
+        ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'),  -- | X |
+        ('U', 'X', '-', 'X', 'X', '-', '-', '-', '-', '-', 'X'),  -- | - |
+        ('U', 'X', 'X', '0', 'X', '0', '0', '0', '0', '0', 'X'),  -- | 0 |
+        ('U', 'X', 'X', 'X', '+', '+', '+', '+', '+', '+', 'X'),  -- | + |
+        ('U', 'X', '-', '0', '+', 'Z', 'W', 'L', 'M', 'H', 'X'),  -- | Z |
+        ('U', 'X', '-', '0', '+', 'W', 'W', 'W', 'W', 'W', 'X'),  -- | W |
+        ('U', 'X', '-', '0', '+', 'L', 'W', 'L', 'W', 'W', 'X'),  -- | L |
+        ('U', 'X', '-', '0', '+', 'M', 'W', 'W', 'M', 'W', 'X'),  -- | M |
+        ('U', 'X', '-', '0', '+', 'H', 'W', 'W', 'W', 'H', 'X'),  -- | H |
+        ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X')   -- | D |
+        );
 
   function resolved (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
     variable result : BTERN_ULOGIC := 'Z';  -- weakest state default
@@ -494,6 +494,28 @@ package body bal_logic is
         ('U', 'X', '-', '-', '+', 'X', 'X', '-', '-', '+', 'X'),  -- | M |
         ('U', 'X', '-', '-', '-', 'X', 'X', '-', '-', '-', 'X'),  -- | H |
         ('X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X')   -- | D |
+        );
+
+  -- The VHDL LRM offers no advice for construction of a spaceship operator. 
+  -- The choice was made to inherit the handling of D's from the 
+  -- "btern_eq_table" defined above which is based on the 
+  -- LRM-specified "?="-table for scalar types. This table form makes 
+  -- it easy to change later should the need arise.
+  constant btern_space_table : bternlogic_table := (
+    -- ---------------------------------------------------------
+    -- |  U    X    -    0    +    Z    W    L    M    H    D   |
+    -- ---------------------------------------------------------     
+        ('U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', 'U', '+'),  -- | U |  
+        ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '+'),  -- | X |
+        ('U', 'X', '0', '-', '-', 'X', 'X', '0', '-', '-', '+'),  -- | - |
+        ('U', 'X', '+', '0', '-', 'X', 'X', '+', '0', '-', '+'),  -- | 0 |
+        ('U', 'X', '+', '+', '0', 'X', 'X', '+', '+', '0', '+'),  -- | + |
+        ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '+'),  -- | Z |
+        ('U', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', '+'),  -- | W |
+        ('U', 'X', '0', '-', '-', 'X', 'X', '0', '-', '-', '+'),  -- | L |
+        ('U', 'X', '+', '0', '-', 'X', 'X', '+', '0', '-', '+'),  -- | M |
+        ('U', 'X', '+', '+', '0', 'X', 'X', '+', '+', '0', '+'),  -- | H |
+        ('+', '+', '+', '+', '+', '+', '+', '+', '+', '+', '+')   -- | D |
         );
 
   --=================================================================
@@ -1739,11 +1761,11 @@ package body bal_logic is
 
   -- Converts an integer to a balanced ternary vector of the given size.
   -- Does not guard against overflow.
-  function To_BALTERN (ARG : INTEGER; SIZE : NATURAL) return BTERN_ULOGIC_VECTOR is
+  function TO_BALTERN (ARG : INTEGER; SIZE : NATURAL) return BTERN_ULOGIC_VECTOR is
     variable RESULT    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
     variable I_VAL     : INTEGER := ARG;
     variable REMAINDER : INTEGER;
-    begin
+  begin
     if (SIZE < 1) then return NAC;
     end if;
     for I in 0 to RESULT'length - 1 loop
@@ -1761,56 +1783,67 @@ package body bal_logic is
     end loop;
     if not(I_VAL = 0) then
       assert NO_WARNING
-        report "TVL.BAL_LOGIC.To_BALTERN: vector truncated"
+        report "TVL.BAL_LOGIC.TO_BALTERN: vector truncated"
         severity warning;
     end if;
     return RESULT;
-  end function To_BALTERN;
+  end function TO_BALTERN;
 
   ------------------------------------------------------------------------
 
-  -- Converts a BTERN_ULOGIC_VECTOR to an integer.
-  -- Used in the overloads of relational operators.
+  -- Converts a BTERN_(U)LOGIC_VECTOR to an integer.
   -- The predefined 32-bit INTEGER type in VHDL is guaranteed by the VHDL LRM to 
   -- include the range –2'147'483'647 to +2'147'483'647
   -- The closest all-plus trit-count is 20 with values +/- 1'743'392'200
-  -- However, as it is the norm to not protect against overflows, the decision was made to stick to that.
-  function To_INT (ARG : BTERN_ULOGIC_VECTOR) return INTEGER is
+  -- However, as it is the norm to not protect against overflows, the 
+  -- decision was made to stick to that.
+  function TO_INTEGER (ARG : BTERN_ULOGIC_VECTOR) return INTEGER is
     variable RESULT : INTEGER := 0;
     variable BASE   : INTEGER;
+    variable WEIGHT : INTEGER := 1;
     alias XARG      : BTERN_ULOGIC_VECTOR(ARG'length - 1 downto 0) is ARG;
     variable ARGM2P : BTERN_ULOGIC_VECTOR(ARG'length - 1 downto 0);
   begin
     if (ARG'length < 1) then
-      assert false
-        report "TVL.BAL_LOGIC.To_INT: "
+      assert NO_WARNING
+        report "TVL.BAL_LOGIC.TO_INTEGER: "
         & "null argument detected, returning 0"
         severity warning;
         return 0;
     end if;
-    ARGM2P := To_M2P(XARG, 'X');
+    ARGM2P := TO_M2P(XARG, 'X');
     if ARGM2P(ARGM2P'left) = 'X' then
       assert NO_WARNING
-        report "TVL.BAL_LOGIC."">"": metavalue detected, returning 0"
+        report "TVL.BAL_LOGIC.TO_INTEGER: "
+        & "metavalue detected, returning 0"
         severity warning;
       return 0;
     end if;
-    for I in ARGM2P'range loop
+    for I in ARGM2P'reverse_range loop
       if    ARGM2P(I) = '-' then BASE := -1;
       elsif ARGM2P(I) = '0' then BASE :=  0;
       elsif ARGM2P(I) = '+' then BASE :=  1;
       end if;
-      RESULT := RESULT + (BASE * 3**I);
+      RESULT := RESULT + (BASE * WEIGHT);
+      WEIGHT := WEIGHT * 3;
     end loop;
     return RESULT;
-  end function To_INT;
+  end function TO_INTEGER;
 
-  
+  ------------------------------------------------------------------------
+
+  function TO_INTEGER (ARG : BTERN_ULOGIC) return INTEGER is
+    variable RESULT : BTERN_ULOGIC_VECTOR(0 downto 0);
+  begin
+    RESULT(0) := ARG;
+    return TO_INTEGER(RESULT);
+  end function TO_INTEGER;
+
   ------------------------------------------------------------------------
   -- conversions between logic/ulogic vectors
   ------------------------------------------------------------------------
 
-  function To_TernLogicVector (s : BTERN_ULOGIC_VECTOR)
+  function TO_BternLogicVector (s : BTERN_ULOGIC_VECTOR)
     return BTERN_LOGIC_VECTOR
   is
     alias sv        : BTERN_ULOGIC_VECTOR (s'length-1 downto 0) is s;
@@ -1820,11 +1853,11 @@ package body bal_logic is
       result(i) := sv(i);
     end loop;
     return result;
-  end function To_TernLogicVector;
+  end function TO_BternLogicVector;
 
   ------------------------------------------------------------------------
 
-  function To_TernULogicVector (s : BTERN_LOGIC_VECTOR)
+  function TO_BternULogicVector (s : BTERN_LOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
     alias sv        : BTERN_LOGIC_VECTOR (s'length-1 downto 0) is s;
@@ -1834,13 +1867,13 @@ package body bal_logic is
       result(i) := sv(i);
     end loop;
     return result;
-  end function To_TernULogicVector;
+  end function TO_BternULogicVector;
 
   ------------------------------------------------------------------------
   -- removing metalogical values and strength
   ------------------------------------------------------------------------
 
-  function To_M2P (s : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
+  function TO_M2P (s : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
     return BTERN_ULOGIC_VECTOR
   is
     variable RESULT      : BTERN_ULOGIC_VECTOR(s'length-1 downto 0);
@@ -1861,9 +1894,11 @@ package body bal_logic is
       end loop;
     end if;
     return RESULT;
-  end function To_M2P;
+  end function TO_M2P;
+
   -------------------------------------------------------------------
-  function To_M2P (s : BTERN_ULOGIC; xmap : BTERN_ULOGIC := '0') return BTERN_ULOGIC is
+  
+  function TO_M2P (s : BTERN_ULOGIC; xmap : BTERN_ULOGIC := '0') return BTERN_ULOGIC is
   begin
     case s is
       when '-' | 'L' => RETURN '-';
@@ -1871,11 +1906,11 @@ package body bal_logic is
       when '+' | 'H' => RETURN '+';
       when others    => return xmap;
     end case;
-  end function To_M2P;
+  end function TO_M2P;
 
   -------------------------------------------------------------------
 
-  function To_X2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+  function TO_X2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias sv        : BTERN_ULOGIC_VECTOR (1 to s'length) is s;
     variable result : BTERN_ULOGIC_VECTOR (1 to s'length);
   begin
@@ -1883,18 +1918,18 @@ package body bal_logic is
       result(i) := cvt_to_x2p (sv(i));
     end loop;
     return result;
-  end function To_X2P;
+  end function TO_X2P;
 
   --------------------------------------------------------------------
 
-  function To_X2P (s : BTERN_ULOGIC) return X2P is
+  function TO_X2P (s : BTERN_ULOGIC) return X2P is
   begin
     return (cvt_to_x2p(s));
-  end function To_X2P;
+  end function TO_X2P;
 
   --------------------------------------------------------------------
   
-  function To_X2Z (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+  function TO_X2Z (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias sv        : BTERN_ULOGIC_VECTOR (1 to s'length) is s;
     variable result : BTERN_ULOGIC_VECTOR (1 to s'length);
   begin
@@ -1902,18 +1937,18 @@ package body bal_logic is
       result(i) := cvt_to_x2z (sv(i));
     end loop;
     return result;
-  end function To_X2Z;
+  end function TO_X2Z;
 
   --------------------------------------------------------------------
 
-  function To_X2Z (s : BTERN_ULOGIC) return X2Z is
+  function TO_X2Z (s : BTERN_ULOGIC) return X2Z is
   begin
     return (cvt_to_x2z(s));
-  end function To_X2Z;
+  end function TO_X2Z;
 
   --------------------------------------------------------------------
   
-  function To_U2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+  function TO_U2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias sv        : BTERN_ULOGIC_VECTOR (1 to s'length) is s;
     variable result : BTERN_ULOGIC_VECTOR (1 to s'length);
   begin
@@ -1921,14 +1956,14 @@ package body bal_logic is
       result(i) := cvt_to_u2p (sv(i));
     end loop;
     return result;
-  end function To_U2P;
+  end function TO_U2P;
 
   --------------------------------------------------------------------
 
-  function To_U2P (s : BTERN_ULOGIC) return U2P is
+  function TO_U2P (s : BTERN_ULOGIC) return U2P is
   begin
     return (cvt_to_u2p(s));
-  end function To_U2P;
+  end function TO_U2P;
   
   --------------------------------------------------------------------
   -- Overload of the condition operator
@@ -1951,37 +1986,36 @@ package body bal_logic is
 
   function any_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '+') and
-            (To_X2P(s'last_value) = '0')) or
-            (s'event and (To_X2P(s) = '0') and
-            (To_X2P(s'last_value) = '-')) or
-            (s'event and (To_X2P(s) = '+') and
-            (To_X2P(s'last_value) = '-')
-           );
+    return ((s'event and (TO_X2P(s) = '+') and
+            (TO_X2P(s'last_value) = '0')) or
+            (s'event and (TO_X2P(s) = '0') and
+            (TO_X2P(s'last_value) = '-')) or
+            (s'event and (TO_X2P(s) = '+') and
+            (TO_X2P(s'last_value) = '-')));
   end function any_rising_edge;
 
   ------------------------------------------------------------------- 
 
   function mz_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '0') and
-            (To_X2P(s'last_value) = '-'));
+    return (s'event and (TO_X2P(s) = '0') and
+            (TO_X2P(s'last_value) = '-'));
   end function mz_rising_edge;
   
  -------------------------------------------------------------------
 
   function zp_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '+') and
-            (To_X2P(s'last_value) = '0'));
+    return (s'event and (TO_X2P(s) = '+') and
+            (TO_X2P(s'last_value) = '0'));
   end function zp_rising_edge;
 
  -------------------------------------------------------------------
 
   function mp_rising_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '+') and
-            (To_X2P(s'last_value) = '-'));
+    return (s'event and (TO_X2P(s) = '+') and
+            (TO_X2P(s'last_value) = '-'));
   end function mp_rising_edge;
 
   -------------------------------------------------------------------
@@ -1990,37 +2024,36 @@ package body bal_logic is
 
   function any_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return ((s'event and (To_X2P(s) = '0') and
-            (To_X2P(s'last_value) = '+')) or
-            (s'event and (To_X2P(s) = '-') and
-            (To_X2P(s'last_value) = '0')) or
-            (s'event and (To_X2P(s) = '-') and
-            (To_X2P(s'last_value) = '+'))
-           );
+    return ((s'event and (TO_X2P(s) = '0') and
+            (TO_X2P(s'last_value) = '+')) or
+            (s'event and (TO_X2P(s) = '-') and
+            (TO_X2P(s'last_value) = '0')) or
+            (s'event and (TO_X2P(s) = '-') and
+            (TO_X2P(s'last_value) = '+')));
   end function any_falling_edge;
 
   ------------------------------------------------------------------- 
 
   function pz_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '0') and
-            (To_X2P(s'last_value) = '+'));
+    return (s'event and (TO_X2P(s) = '0') and
+            (TO_X2P(s'last_value) = '+'));
   end function pz_falling_edge;
 
  -------------------------------------------------------------------
 
   function zm_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '-') and
-            (To_X2P(s'last_value) = '0'));
+    return (s'event and (TO_X2P(s) = '-') and
+            (TO_X2P(s'last_value) = '0'));
   end function zm_falling_edge;
 
  -------------------------------------------------------------------
 
   function pm_falling_edge (signal s : BTERN_ULOGIC) return BOOLEAN is
   begin
-    return (s'event and (To_X2P(s) = '-') and
-            (To_X2P(s'last_value) = '+'));
+    return (s'event and (TO_X2P(s) = '-') and
+            (TO_X2P(s'last_value) = '+'));
   end function pm_falling_edge;
 
   -------------------------------------------------------------------
@@ -2096,8 +2129,8 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC."">"": metavalue detected, returning FALSE"
@@ -2120,14 +2153,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    RM2P := To_M2P(XR, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if (RM2P(RM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC."">"": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return not LESS_OR_EQUAL(To_BALTERN(L, RM2P'length), RM2P);
+    return not LESS_OR_EQUAL(TO_BALTERN(L, RM2P'length), RM2P);
   end function ">";
 
   -------------------------------------------------------------------
@@ -2142,14 +2175,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(L, 'X');
+    LM2P := TO_M2P(L, 'X');
     if (LM2P(LM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC."">"": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return not LESS_OR_EQUAL(LM2P, To_BALTERN(R, LM2P'length));
+    return not LESS_OR_EQUAL(LM2P, TO_BALTERN(R, LM2P'length));
   end function ">";
 
   -------------------------------------------------------------------
@@ -2171,8 +2204,8 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""<"": metavalue detected, returning FALSE"
@@ -2195,14 +2228,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    RM2P := To_M2P(XR, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if (RM2P(RM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""<"": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return LESS(To_BALTERN(L, RM2P'length), RM2P);
+    return LESS(TO_BALTERN(L, RM2P'length), RM2P);
   end function "<";
 
   -------------------------------------------------------------------
@@ -2218,14 +2251,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
+    LM2P := TO_M2P(XL, 'X');
     if (LM2P(LM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""<"": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return LESS(LM2P, To_BALTERN(R, LM2P'length));
+    return LESS(LM2P, TO_BALTERN(R, LM2P'length));
   end function "<";
 
   -------------------------------------------------------------------
@@ -2247,8 +2280,8 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""<="": metavalue detected, returning FALSE"
@@ -2271,14 +2304,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    RM2P := To_M2P(XR, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if (RM2P(RM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""<="": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return LESS_OR_EQUAL(To_BALTERN(L, RM2P'length), RM2P);
+    return LESS_OR_EQUAL(TO_BALTERN(L, RM2P'length), RM2P);
   end function "<=";
 
   -------------------------------------------------------------------
@@ -2294,14 +2327,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
+    LM2P := TO_M2P(XL, 'X');
     if (LM2P(LM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""<="": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return LESS_OR_EQUAL(LM2P, To_BALTERN(R, LM2P'length));
+    return LESS_OR_EQUAL(LM2P, TO_BALTERN(R, LM2P'length));
   end function "<=";
 
   -------------------------------------------------------------------
@@ -2323,8 +2356,8 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC."">="": metavalue detected, returning FALSE"
@@ -2347,14 +2380,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    RM2P := To_M2P(XR, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if (RM2P(RM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC."">="": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return not LESS(To_BALTERN(L, RM2P'length), RM2P);
+    return not LESS(TO_BALTERN(L, RM2P'length), RM2P);
   end function ">=";
 
   -------------------------------------------------------------------
@@ -2370,14 +2403,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
+    LM2P := TO_M2P(XL, 'X');
     if (LM2P(LM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC."">="": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return not LESS(LM2P, To_BALTERN(R, LM2P'length));
+    return not LESS(LM2P, TO_BALTERN(R, LM2P'length));
   end function ">=";
   
   -------------------------------------------------------------------
@@ -2399,8 +2432,8 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""="": metavalue detected, returning FALSE"
@@ -2423,14 +2456,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    RM2P := To_M2P(XR, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if (RM2P(RM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""="": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return EQUAL(To_BALTERN(L, RM2P'length), RM2P);
+    return EQUAL(TO_BALTERN(L, RM2P'length), RM2P);
   end function "=";
 
   -------------------------------------------------------------------
@@ -2446,14 +2479,14 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
+    LM2P := TO_M2P(XL, 'X');
     if (LM2P(LM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""="": metavalue detected, returning FALSE"
         severity warning;
       return false;
     end if;
-    return EQUAL(LM2P, To_BALTERN(R, LM2P'length));
+    return EQUAL(LM2P, TO_BALTERN(R, LM2P'length));
   end function "=";
   
   -------------------------------------------------------------------
@@ -2479,8 +2512,8 @@ package body bal_logic is
         severity warning;
       return true;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""/="": metavalue detected, returning TRUE"
@@ -2503,14 +2536,14 @@ package body bal_logic is
         severity warning;
       return true;
     end if;
-    RM2P := To_M2P(XR, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if (RM2P(RM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""/="": metavalue detected, returning TRUE"
         severity warning;
       return true;
     end if;
-    return not EQUAL(To_BALTERN(L, RM2P'length), RM2P);
+    return not EQUAL(TO_BALTERN(L, RM2P'length), RM2P);
   end function "/=";
 
   -------------------------------------------------------------------
@@ -2526,14 +2559,14 @@ package body bal_logic is
         severity warning;
       return true;
     end if;
-    LM2P := To_M2P(XL, 'X');
+    LM2P := TO_M2P(XL, 'X');
     if (LM2P(LM2P'left) = 'X') then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.""/="": metavalue detected, returning TRUE"
         severity warning;
       return true;
     end if;
-    return not EQUAL(LM2P, To_BALTERN(R, LM2P'length));
+    return not EQUAL(LM2P, TO_BALTERN(R, LM2P'length));
   end function "/=";
 
   -------------------------------------------------------------------
@@ -2544,8 +2577,8 @@ package body bal_logic is
     variable LM2P  : BTERN_ULOGIC;
     variable RM2P  : BTERN_ULOGIC;
   begin
-    LM2P := To_M2P(L, 'X');
-    RM2P := To_M2P(R, 'X');
+    LM2P := TO_M2P(L, 'X');
+    RM2P := TO_M2P(R, 'X');
     if ((LM2P = 'X') or (RM2P = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.SPACE: metavalue detected, returning FALSE"
@@ -2578,8 +2611,8 @@ package body bal_logic is
         severity warning;
       return false;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       assert NO_WARNING
         report "TVL.BAL_LOGIC.SPACE: metavalue detected, returning FALSE"
@@ -2601,14 +2634,14 @@ package body bal_logic is
 
   function SPACE (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return KLEENE is
   begin
-    return SPACE(To_BALTERN(L, R'length), R);
+    return SPACE(TO_BALTERN(L, R'length), R);
   end function SPACE;
 
   -------------------------------------------------------------------
   
   function SPACE (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return KLEENE is
   begin
-    return SPACE(L, To_BALTERN(R, L'length));
+    return SPACE(L, TO_BALTERN(R, L'length));
   end function SPACE;
 
       
@@ -2667,14 +2700,14 @@ package body bal_logic is
 
   function "?>" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return To_BALTERN(L, R'length) ?> R;
+    return TO_BALTERN(L, R'length) ?> R;
   end function "?>";
 
   -------------------------------------------------------------------
   
   function "?>" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return L ?> To_BALTERN(R, L'length);
+    return L ?> TO_BALTERN(R, L'length);
   end function "?>";
 
   -------------------------------------------------------------------
@@ -2723,14 +2756,14 @@ package body bal_logic is
 
   function "?<" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return To_BALTERN(L, R'length) ?< R;
+    return TO_BALTERN(L, R'length) ?< R;
   end function "?<";
 
   -------------------------------------------------------------------
   
   function "?<" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return L ?< To_BALTERN(R, L'length);
+    return L ?< TO_BALTERN(R, L'length);
   end function "?<";
 
   -------------------------------------------------------------------
@@ -2779,14 +2812,14 @@ package body bal_logic is
 
   function "?<=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return To_BALTERN(L, R'length) ?<= R;
+    return TO_BALTERN(L, R'length) ?<= R;
   end function "?<=";
 
   -------------------------------------------------------------------
   
   function "?<=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return L ?<= To_BALTERN(R, L'length);
+    return L ?<= TO_BALTERN(R, L'length);
   end function "?<=";
 
   -------------------------------------------------------------------
@@ -2835,14 +2868,14 @@ package body bal_logic is
 
   function "?>=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return To_BALTERN(L, R'length) ?>= R;
+    return TO_BALTERN(L, R'length) ?>= R;
   end function "?>=";
 
   -------------------------------------------------------------------
   
   function "?>=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return L ?>= To_BALTERN(R, L'length);
+    return L ?>= TO_BALTERN(R, L'length);
   end function "?>=";
 
   -------------------------------------------------------------------
@@ -2891,14 +2924,14 @@ package body bal_logic is
 
   function "?=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return To_BALTERN(L, R'length) ?= R;
+    return TO_BALTERN(L, R'length) ?= R;
   end function "?=";
 
   -------------------------------------------------------------------
   
   function "?=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return L ?= To_BALTERN(R, L'length);
+    return L ?= TO_BALTERN(R, L'length);
   end function "?=";
 
   -------------------------------------------------------------------
@@ -2947,14 +2980,14 @@ package body bal_logic is
 
   function "?/=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return To_BALTERN(L, R'length) ?/= R;
+    return TO_BALTERN(L, R'length) ?/= R;
   end function "?/=";
 
   -------------------------------------------------------------------
   
   function "?/=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return L ?/= To_BALTERN(R, L'length);
+    return L ?/= TO_BALTERN(R, L'length);
   end function "?/=";
 
   -------------------------------------------------------------------
@@ -2963,19 +2996,7 @@ package body bal_logic is
 
   function M_SPACE (L, R : BTERN_ULOGIC) return BTERN_ULOGIC is
   begin
-    if (L ?> R) = '+' then
-      return '+';
-    -- The ?= operator is defined by its table, which will 
-    -- return '+' when either operand contains 'D'. Thus,
-    -- this function will return '0' in those cases.
-    elsif (L ?= R) = '+' then
-      return '0';
-    -- Returns X or U based on the less-table if no other relation 
-    -- was true. This keeps this overload working like the other 
-    -- scalar relational overloads
-    else 
-      return (L ?< R);
-    end if;
+    return btern_space_table(L, R);
   end function M_SPACE;
 
   -------------------------------------------------------------------
@@ -3017,14 +3038,14 @@ package body bal_logic is
 
   function M_SPACE (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
   begin
-    return M_SPACE(To_BALTERN(L, R'length), R);
+    return M_SPACE(TO_BALTERN(L, R'length), R);
   end function M_SPACE;
 
   -------------------------------------------------------------------
   
   function M_SPACE (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC is
   begin
-    return M_SPACE(L, To_BALTERN(R, L'length));
+    return M_SPACE(L, TO_BALTERN(R, L'length));
   end function M_SPACE;
 
   -------------------------------------------------------------------
@@ -3041,10 +3062,10 @@ package body bal_logic is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := To_M2P(RESIZE(XL, SIZE), 'X');
+    LM2P := TO_M2P(RESIZE(XL, SIZE), 'X');
     if (LM2P(LM2P'left) = 'X') then return LM2P;
     end if;
-    RM2P := To_M2P(RESIZE(XR, SIZE), 'X');
+    RM2P := TO_M2P(RESIZE(XR, SIZE), 'X');
     if (RM2P(RM2P'left) = 'X') then return RM2P;
     end if;
     if LESS(LM2P, RM2P) then
@@ -3059,7 +3080,7 @@ package body bal_logic is
   function MINIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
   return BTERN_ULOGIC_VECTOR is
   begin
-    return MINIMUM(To_BALTERN(L, R'length), R);
+    return MINIMUM(TO_BALTERN(L, R'length), R);
   end function MINIMUM;
 
   -------------------------------------------------------------------
@@ -3067,7 +3088,7 @@ package body bal_logic is
   function MINIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
   return BTERN_ULOGIC_VECTOR is
   begin
-    return MINIMUM(L, To_BALTERN(R, L'length));
+    return MINIMUM(L, TO_BALTERN(R, L'length));
   end function MINIMUM;
 
   -------------------------------------------------------------------
@@ -3084,10 +3105,10 @@ package body bal_logic is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := To_M2P(RESIZE(XL, SIZE), 'X');
+    LM2P := TO_M2P(RESIZE(XL, SIZE), 'X');
     if (LM2P(LM2P'left) = 'X') then return LM2P;
     end if;
-    RM2P := To_M2P(RESIZE(XR, SIZE), 'X');
+    RM2P := TO_M2P(RESIZE(XR, SIZE), 'X');
     if (RM2P(RM2P'left) = 'X') then return RM2P;
     end if;
     if LESS(LM2P, RM2P) then
@@ -3102,7 +3123,7 @@ package body bal_logic is
   function MAXIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
   return BTERN_ULOGIC_VECTOR is
   begin
-    return MAXIMUM(To_BALTERN(L, R'length), R);
+    return MAXIMUM(TO_BALTERN(L, R'length), R);
   end function MAXIMUM;
 
   -------------------------------------------------------------------
@@ -3110,7 +3131,7 @@ package body bal_logic is
   function MAXIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
   return BTERN_ULOGIC_VECTOR is
   begin
-    return MAXIMUM(L, To_BALTERN(R, L'length));
+    return MAXIMUM(L, TO_BALTERN(R, L'length));
   end function MAXIMUM;
 
   -------------------------------------------------------------------

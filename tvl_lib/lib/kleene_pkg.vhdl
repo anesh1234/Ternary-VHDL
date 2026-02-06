@@ -209,6 +209,5 @@ package kleene_pkg is
   -- Lossy conversion; converts UNK to FALSE 
   function TO_BOOLEAN (EXPR : KLEENE) return BOOLEAN;
   function TO_BOOLEAN (EXPR : KLEENE_VECTOR) return BOOLEAN_VECTOR;
-  
 
 end package kleene_pkg;

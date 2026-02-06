@@ -29,7 +29,7 @@ package body bal_numeric is
 
   -- null range array constant and implementation controls
   constant NAC : BTERN_ULOGIC_VECTOR (0 downto 1) := (others => '0');
-  -- constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
+  constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
 
   ------------------------------------------------------------------------
   -- Local subprograms
@@ -142,6 +142,34 @@ package body bal_numeric is
   end function NUM_TRITS;
 
   ------------------------------------------------------------------------
+  -- absolute value and 1-arity "-"
+  ------------------------------------------------------------------------
+
+  function "abs" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+    constant L_LEFT : INTEGER := L'length-1;
+    alias XL        : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) is L;
+    variable ZERO   : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) := (others => '0');
+    variable RESULT : BTERN_ULOGIC_VECTOR(L_LEFT downto 0);
+  begin
+    if L'length < 1 then return NAC;
+    end if;
+    RESULT := TO_M2P(XL, 'X');
+    if (RESULT(RESULT'left) = 'X') then return RESULT;
+    end if;
+    if RESULT < ZERO then
+      RESULT := -RESULT;
+    end if;
+    return RESULT;
+  end function "abs";
+
+  ------------------------------------------------------------------------
+
+  function "-" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+  begin
+    return STI(L);
+  end function "-";
+  
+  ------------------------------------------------------------------------
   -- Overloads of the "+" predefined operator
   ------------------------------------------------------------------------
 
@@ -152,10 +180,10 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := To_M2P(RESIZE(L, SIZE), 'X');
+    LM2P := TO_M2P(RESIZE(L, SIZE), 'X');
     if (LM2P(LM2P'left) = 'X') then return LM2P;
     end if;
-    RM2P := To_M2P(RESIZE(R, SIZE), 'X');
+    RM2P := TO_M2P(RESIZE(R, SIZE), 'X');
     if (RM2P(RM2P'left) = 'X') then return RM2P;
     end if;
     return ADD_BTERN_VEC(LM2P, RM2P, '0');
@@ -187,7 +215,7 @@ package body bal_numeric is
   function "+" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
    return BTERN_ULOGIC_VECTOR is
   begin
-   return L + To_BALTERN(R, L'length);
+   return L + TO_BALTERN(R, L'length);
   end function "+";
 
   -- ------------------------------------------------------------------------
@@ -195,7 +223,7 @@ package body bal_numeric is
   function "+" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
    return BTERN_ULOGIC_VECTOR is
   begin
-   return To_BALTERN(L, R'length) + R;
+   return TO_BALTERN(L, R'length) + R;
   end function "+";
  
   ------------------------------------------------------------------------
@@ -209,10 +237,10 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := To_M2P(RESIZE(L, SIZE), 'X');
+    LM2P := TO_M2P(RESIZE(L, SIZE), 'X');
     if (LM2P(LM2P'left) = 'X') then return LM2P;
     end if;
-    RM2P := To_M2P(RESIZE(R, SIZE), 'X');
+    RM2P := TO_M2P(RESIZE(R, SIZE), 'X');
     if (RM2P(RM2P'left) = 'X') then return RM2P;
     end if;
     return ADD_BTERN_VEC(LM2P, STI(RM2P), '0');
@@ -244,7 +272,7 @@ package body bal_numeric is
   function "-" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
    return BTERN_ULOGIC_VECTOR is
   begin
-   return L + STI(To_BALTERN(R, L'length));
+   return L + STI(TO_BALTERN(R, L'length));
   end function "-";
 
   -- ------------------------------------------------------------------------
@@ -252,7 +280,7 @@ package body bal_numeric is
   function "-" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
    return BTERN_ULOGIC_VECTOR is
   begin
-   return To_BALTERN(L, R'length) + STI(R);
+   return TO_BALTERN(L, R'length) + STI(R);
   end function "-";
 
   ------------------------------------------------------------------------
@@ -272,8 +300,8 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := To_M2P(XL, 'X');
-    RM2P := To_M2P(XR, 'X');
+    LM2P := TO_M2P(XL, 'X');
+    RM2P := TO_M2P(XR, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       RESULT := (others => 'X');
       return RESULT;
@@ -293,14 +321,14 @@ package body bal_numeric is
   function "*" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR is
   begin
-    return L * To_BALTERN(R, L'length);
+    return L * TO_BALTERN(R, L'length);
   end function "*";
 
   -----------------------------------------------------------------------
 
   function "*" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
   begin
-    return To_BALTERN(L, R'length) * R;
+    return TO_BALTERN(L, R'length) * R;
   end function "*";
 
   ------------------------------------------------------------------------
@@ -318,8 +346,8 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := RESIZE(To_M2P(XL, 'X'), SIZE);
-    RM2P := RESIZE(To_M2P(XR, 'X'), SIZE);
+    LM2P := RESIZE(TO_M2P(XL, 'X'), SIZE);
+    RM2P := RESIZE(TO_M2P(XR, 'X'), SIZE);
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       FQUOT := (others => 'X');
       return FQUOT;
@@ -342,7 +370,7 @@ package body bal_numeric is
       QUOT := (others => '0');
       return RESIZE(QUOT, L'length);
     end if;
-    XR   := To_BALTERN(R, R_LENGTH);
+    XR   := TO_BALTERN(R, R_LENGTH);
     QUOT := RESIZE((L / XR), QUOT'length);
     return RESIZE(QUOT, L'length);
   end function "/";
@@ -361,30 +389,97 @@ package body bal_numeric is
       QUOT := (others => '0');
       return RESIZE(QUOT, R'length);
     end if;
-    XL   := To_BALTERN(L, L_LENGTH);
+    XL   := TO_BALTERN(L, L_LENGTH);
     QUOT := RESIZE((XL / R), QUOT'length);
     return RESIZE(QUOT, R'length);
   end function "/";
 
   ------------------------------------------------------------------------
+  -- find_ functions
+  ------------------------------------------------------------------------
 
-  function "abs" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
-    constant L_LEFT : INTEGER := L'length-1;
-    alias XL        : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) is L;
-    variable ZERO   : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) := (others => '0');
-    variable RESULT : BTERN_ULOGIC_VECTOR(L_LEFT downto 0);
+  function find_leftmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC)
+    return INTEGER is
   begin
-    if L'length < 1 then return NAC;
-    end if;
-    RESULT := To_M2P(XL, 'X');
-    if (RESULT(RESULT'left) = 'X') then return RESULT;
-    end if;
-    if RESULT < ZERO then
-      RESULT := STI(RESULT);
-    end if;
-    return RESULT;
-  end function "abs";
+    for INDEX in ARG'range loop
+      if ARG(INDEX) = Y then
+        return INDEX;
+      end if;
+    end loop;
+    return -1;
+  end function find_leftmost;
 
+  ------------------------------------------------------------------------
+
+  function find_rightmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC)
+    return INTEGER is
+  begin
+    for INDEX in ARG'reverse_range loop
+      if ARG(INDEX) = Y then
+        return INDEX;
+      end if;
+    end loop;
+    return -1;
+  end function find_rightmost;
+
+
+  ------------------------------------------------------------------------
+  -- STD_MATCH functions
+  ------------------------------------------------------------------------
+
+  -- support constants for STD_MATCH:
+  type BOOLEAN_TABLE is array(BTERN_ULOGIC, BTERN_ULOGIC) of BOOLEAN;
+
+  constant MATCH_TABLE : BOOLEAN_TABLE := (
+    -- ------------------------------------------------------------------------------------------
+    -- |   U      X      -      0      +      Z      W      L      M      H      D    
+    -- ------------------------------------------------------------------------------------------  
+        (false, false, false, false, false, false, false, false, false, false, true),  -- | U |  
+        (false, false, false, false, false, false, false, false, false, false, true),  -- | X |
+        (false, false, true,  false, false, false, false, true,  false, false, true),  -- | - |
+        (false, false, false, true,  false, false, false, false, true,  false, true),  -- | 0 |
+        (false, false, false, false, true,  false, false, false, false, true,  true),  -- | + |
+        (false, false, false, false, false, false, false, false, false, false, true),  -- | Z |
+        (false, false, false, false, false, false, false, false, false, false, true),  -- | W |
+        (false, false, true,  false, false, false, false, true,  false, false, true),  -- | L |
+        (false, false, false, true,  false, false, false, false, true,  false, true),  -- | M |
+        (false, false, false, false, true,  false, false, false, false, true,  true),  -- | H |
+        (true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true)   -- | D |
+        ); 
+
+
+
+  function STD_MATCH (L, R : BTERN_ULOGIC) return BOOLEAN is
+  begin
+    return MATCH_TABLE(L, R);
+  end function STD_MATCH;
+
+  ------------------------------------------------------------------------
+
+  function STD_MATCH (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
+    alias LV : BTERN_ULOGIC_VECTOR(1 to L'length) is L;
+    alias RV : BTERN_ULOGIC_VECTOR(1 to R'length) is R;
+  begin
+    if ((L'length < 1) or (R'length < 1)) then
+      assert NO_WARNING
+        report "BAL_NUMERIC.STD_MATCH: null detected, returning FALSE"
+        severity warning;
+      return false;
+    end if;
+    if LV'length /= RV'length then
+      assert NO_WARNING
+        report "BAL_NUMERIC.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
+        severity warning;
+      return false;
+    else
+      for I in LV'low to LV'high loop
+        if not (MATCH_TABLE(LV(I), RV(I))) then
+          return false;
+        end if;
+      end loop;
+      return true;
+    end if;
+  end function STD_MATCH;
 
 
 end package body bal_numeric;

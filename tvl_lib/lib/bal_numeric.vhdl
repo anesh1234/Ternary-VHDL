@@ -28,8 +28,21 @@ use TVL.bal_logic.all;
 
 package bal_numeric is
 
+  function "abs" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
+  function "-" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
   ------------------------------------------------------------------------
-  -- Overloads of the "+" predefined operator
+  -- Overloads of the "+" predefined operator.
+
+  -- As in the IEEE library, the arithmetic functions + and – returns
+  -- a value with the same number of elements (trits) as the larger 
+  -- of the two operands. If one operand is BTERN_(U)LOGIC_VECTOR and the other
+  -- is INTEGER, the function returns a value with the same number of 
+  -- elements as the vector operand. Thus, these functions do not return 
+  -- an extra trit to represent a carry, borrow, or overflow value, nor
+  -- do they generate a warning if a carry, borrow, or overflow occurs. 
+  -- This is the same behavior as in IEEE.numeric_std.
   ------------------------------------------------------------------------
 
   function "+" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
@@ -43,7 +56,9 @@ package bal_numeric is
   function "+" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   ------------------------------------------------------------------------
-  -- Overloads of the "-" predefined operator
+  -- Overloads of the "-" predefined operator.
+
+  -- See note on the "+" operator for more info.
   ------------------------------------------------------------------------
 
   function "-" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
@@ -58,6 +73,12 @@ package bal_numeric is
   
   ------------------------------------------------------------------------
   -- Overloads of the "*" predefined operator
+
+  -- Multiplies vectors of possibly different lengths, returns a vector
+  -- of width L'length + R'length - 1. When using integers, the integers
+  -- are first converted to BTERN_(U)LOGIC_VECTORs of the same size as 
+  -- the vector argument, thus making overflow possible. This is the
+  -- same behavior as in IEEE.numeric_std.
   ------------------------------------------------------------------------
 
   function "*" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
@@ -76,9 +97,24 @@ package bal_numeric is
 
   function "/" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
+  ------------------------------------------------------------------------
+  -- find_ functions
 
-  
+  -- Finds the leftmost occurrence of the value of Y in ARG.
+  -- Returns the index of the occurrence if it exists, or -1 otherwise.
+  ------------------------------------------------------------------------
 
-  function "abs" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function find_leftmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC) return INTEGER;
+  function find_rightmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC) return INTEGER;
+
+  ------------------------------------------------------------------------
+  -- STD_MATCH functions
+
+  -- provides “don’t care” or “wild card” testing of values based on the
+  -- BTERN_ULOGIC type.
+  ------------------------------------------------------------------------
+
+  function STD_MATCH (L, R : BTERN_ULOGIC) return BOOLEAN;
+  function STD_MATCH (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
 
 end package bal_numeric;

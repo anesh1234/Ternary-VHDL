@@ -255,39 +255,39 @@ package bal_logic is
   -- conversion functions and strength strippers
   -- All functions related to the BIT type in the IEEE library
   -- have been skipped due to the absence of a completely defined
-  -- TRIT type. Functions for this type can be created later if
-  -- needed, but was skipped in this work.
+  -- TRIT type (logic/relational operators, arithmetic etc.).
   -------------------------------------------------------------------
   function RESIZE (ARG : BTERN_ULOGIC_VECTOR; NEW_SIZE : NATURAL)
   return BTERN_ULOGIC_VECTOR;
 
-  function To_BALTERN (ARG : INTEGER; SIZE : NATURAL) 
+  function TO_BALTERN (ARG : INTEGER; SIZE : NATURAL) 
   return BTERN_ULOGIC_VECTOR;
 
-  function To_INT (ARG : BTERN_ULOGIC_VECTOR) return INTEGER;
+  function TO_INTEGER (ARG : BTERN_ULOGIC_VECTOR) return INTEGER;
+  function TO_INTEGER (ARG : BTERN_ULOGIC) return INTEGER;
 
-  function To_TernLogicVector (S : BTERN_ULOGIC_VECTOR)
+  function TO_BternLogicVector (S : BTERN_ULOGIC_VECTOR)
   return BTERN_LOGIC_VECTOR;
-  function To_TernULogicVector (S : BTERN_LOGIC_VECTOR)
+  function TO_BternULogicVector (S : BTERN_LOGIC_VECTOR)
   return BTERN_ULOGIC_VECTOR;
 
-  alias To_TLV is
-    To_TernLogicVector[BTERN_ULOGIC_VECTOR return BTERN_LOGIC_VECTOR];
+  alias TO_BLV is
+    TO_BternLogicVector[BTERN_ULOGIC_VECTOR return BTERN_LOGIC_VECTOR];
 
-  alias To_TULV is
-    To_TernULogicVector[BTERN_LOGIC_VECTOR return BTERN_ULOGIC_VECTOR];
+  alias TO_BULV is
+    TO_BternULogicVector[BTERN_LOGIC_VECTOR return BTERN_ULOGIC_VECTOR];
 
-  function To_M2P (S : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
+  function TO_M2P (S : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
     return BTERN_ULOGIC_VECTOR;
-  function To_M2P (S : BTERN_ULOGIC; xmap : BTERN_ULOGIC := '0')
+  function TO_M2P (S : BTERN_ULOGIC; xmap : BTERN_ULOGIC := '0')
     return BTERN_ULOGIC;
 
-  function To_X2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function To_X2P (S : BTERN_ULOGIC) return X2P;
-  function To_X2Z (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function To_X2Z (S : BTERN_ULOGIC) return X2Z;
-  function To_U2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  function To_U2P (S : BTERN_ULOGIC) return U2P;
+  function TO_X2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function TO_X2P (S : BTERN_ULOGIC) return X2P;
+  function TO_X2Z (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function TO_X2Z (S : BTERN_ULOGIC) return X2Z;
+  function TO_U2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function TO_U2P (S : BTERN_ULOGIC) return U2P;
 
   -------------------------------------------------------------------
   -- Overload of the condition operator
