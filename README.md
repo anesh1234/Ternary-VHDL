@@ -8,6 +8,3 @@ VHDL library based on [IEEE-1076](https://gitlab.com/IEEE-P1076/packages) which 
 * The reccomended simulation waveform viewer is [GTKWave](https://sourceforge.net/projects/gtkwave/) >= v3.3.100.
     * To be able to see the new types in GTKWave, the output waveform files must be of type **.ghw**. 
 * VUnit can be installed with pip ```pip install vunit_hdl```, or from their [GitHub repository](https://github.com/vunit/vunit/).
-
-## VUnit verification
-```py run.py```
