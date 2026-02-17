@@ -1,7 +1,10 @@
 -- --------------------------------------------------------------------
--- Title   : Balanced Ternary Multiplication Tests
--- Purpose : Test "*" operator with static and random vectors
--- Notes   : Uses VUnit and OSVVM for comprehensive coverage
+-- Title   : BAL_NUMERIC Multiplication Overloads
+-- Notes   : Uses an OSVVM random variable to create randomized
+--           balanced ternary vectors where the most significant trit
+--           is set to 0 to prevent arithmetic overflow. Tests all 
+--           possible 6-trit integers for comprehensive coverage,
+--           and randomized 10-trit integers. 
 -- --------------------------------------------------------------------
 
 library vunit_lib;
@@ -88,7 +91,8 @@ begin
       constant valid_values : btern_values := ('-', '0', '+');
     begin
       -- loop only until the next-leftmost trit to prevent
-      -- overflow in the case of two maxed-out vectors
+      -- overflow in the case of addition after this function
+      -- with two maxed-out vectors
       result(width-1) := '0';
       for i in 0 to width-2 loop
         rand_val := RV.RandInt(0, 2);
@@ -201,7 +205,6 @@ begin
       for i in 0 to 9 loop
         last_val <= last_val + (3**i);
         wait for 1 ns;
-        report "last_val before multi: " & TO_STRING(last_val);
 
         -- Maximum positive
         test_multiplication(

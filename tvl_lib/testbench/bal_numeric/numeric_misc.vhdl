@@ -1,7 +1,6 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_NUMERIC Miscellaneous Functions
+-- Notes   : 
 -- --------------------------------------------------------------------
 
 library vunit_lib;
@@ -91,6 +90,14 @@ begin
       check_false(STD_MATCH(BTERN_LOGIC_VECTOR'("-0+LMH-0+LMH"), 
                             BTERN_LOGIC_VECTOR'("-0+LMH-0+LLL"))
                            );
+
+    elsif run("LEFTMOST_NZ") then
+      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("000+-++")) = '+');
+      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("000--++")) = '-');
+      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("0000000")) = '0');
+      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("00X0000")) = 'X');
+      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("00X000W")) = 'X');
+
 
     end if;
 

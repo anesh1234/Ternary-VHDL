@@ -1,7 +1,8 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_LOGIC Resolution Functions
+-- Notes   : Tests the resolution function tied to the resolved type, 
+--           and ensures that the unresolved type throws a compiler
+--           error when driven by more than one signal.
 -- --------------------------------------------------------------------
 
 library vunit_lib;

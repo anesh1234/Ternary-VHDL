@@ -5,8 +5,12 @@ standard = "2008"
 [libraries]
 
 TVL.files = [
-  'tvl_lib/lib/*.vhdl',
-  'tvl_lib/testbench/**/*.vhdl'
+  'tvl_lib/lib/*.vhdl'
+]
+
+defaultlib.files = [
+    "rtl_designs/**/*.vhdl",
+  "tvl_lib/testbench/**/*.vhdl"
 ]
 
 vunit_lib.files = [

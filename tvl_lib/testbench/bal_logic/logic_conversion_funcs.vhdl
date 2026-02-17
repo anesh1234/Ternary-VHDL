@@ -1,7 +1,7 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_LOGIC Conversion Functions Testbench
+-- Notes   : Focuses on testing all branches, not very extensive in 
+--           regards to test vector coverage.
 -- --------------------------------------------------------------------
 
 library vunit_lib;

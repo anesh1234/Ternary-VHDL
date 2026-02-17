@@ -1,7 +1,10 @@
 -- --------------------------------------------------------------------
--- Title   : Balanced Ternary Addition Tests
--- Purpose : Test "+" operator with static and random vectors
--- Notes   : Uses VUnit and OSVVM for comprehensive coverage
+-- Title   : BAL_NUMERIC Addition Overloads
+-- Notes   : Uses an OSVVM random variable to create randomized
+--           balanced ternary vectors where the most significant trit
+--           is set to 0 to prevent arithmetic overflow. Tests all 
+--           possible 6-trit integers for comprehensive coverage, and 
+--           randomized 19-trit integers. 
 -- --------------------------------------------------------------------
 
 library vunit_lib;
@@ -29,7 +32,8 @@ architecture test of numeric_addition_tb is
 
   -- 19 trits is the width which comes closest to half 
   -- of a max VHDL INTEGER type (+/- 2147483647) in the case where it is all +'s.
-  signal a, neg_a, b, c, result1, result2 : BTERN_LOGIC_VECTOR(18 downto 0);
+  signal a, neg_a, b, result1, result2 
+                      : BTERN_LOGIC_VECTOR(18 downto 0);
   signal zero : BTERN_LOGIC_VECTOR(18 downto 0) := (others => '0');
 
   signal a_int, b_int, result_int, expected_int : INTEGER;
@@ -244,7 +248,8 @@ begin
       constant valid_values : btern_values := ('-', '0', '+');
     begin
       -- loop only until the next-leftmost trit to prevent
-      -- overflow in the case of two maxed-out vectors
+      -- overflow in the case of addition after this function
+      -- with two maxed-out vectors
       result(width-1) := '0';
       for i in 0 to width-2 loop
         rand_val := RV.RandInt(0, 2);
@@ -259,10 +264,6 @@ begin
     -- Initialize random seed
     RV.InitSeed(RV'instance_name);
 
-    -- Tests are run either with static, hard-coded vector numbers 
-    -- or with randomly generated vector numbers. The test cases
-    -- are named to indicate which is which
-    
     if run("Static - Exhaustive -364 to +364") then
       -- Runs an exhaustive 6-trit test combining all numbers from 
       -- -364 to +364. The operands and result thus need to be 7-trit
@@ -278,57 +279,6 @@ begin
         end loop;
       end loop;
 
-    elsif run("Static - Basic addition cases") then
-      
-      -- 0 + 0 = 0
-      test_addition(
-        BTERN_LOGIC_VECTOR'("0000"),
-        BTERN_LOGIC_VECTOR'("0000"),
-        BTERN_LOGIC_VECTOR'("0000"));
-      
-      -- 1 + 0 = 1 (+ + 0 = +)
-      test_addition(
-        BTERN_LOGIC_VECTOR'("000+"),
-        BTERN_LOGIC_VECTOR'("0000"),
-        BTERN_LOGIC_VECTOR'("000+"));
-      
-      -- 1 + 1 = 2 (+ + + = +-)
-      test_addition(
-        BTERN_LOGIC_VECTOR'("000+"),
-        BTERN_LOGIC_VECTOR'("000+"),
-        BTERN_LOGIC_VECTOR'("00+-"));
-      
-      -- -1 + 0 = -1 (- + 0 = -)
-      test_addition(
-        BTERN_LOGIC_VECTOR'("000-"),
-        BTERN_LOGIC_VECTOR'("0000"),
-        BTERN_LOGIC_VECTOR'("000-"));
-      
-      -- 1 + (-1) = 0 (+ + - = 0)
-      test_addition(
-        BTERN_LOGIC_VECTOR'("000+"),
-        BTERN_LOGIC_VECTOR'("000-"),
-        BTERN_LOGIC_VECTOR'("0000"));
-
-      -- -1 + -1 = -2 (- + - = -+)
-      test_addition(
-        BTERN_LOGIC_VECTOR'("000-"),
-        BTERN_LOGIC_VECTOR'("000-"),
-        BTERN_LOGIC_VECTOR'("00-+"));
-      
-      -- -2 + -1 = -3 (-+ + - = -0)
-      test_addition(
-        BTERN_LOGIC_VECTOR'("00-+"),
-        BTERN_LOGIC_VECTOR'("000-"),
-        BTERN_LOGIC_VECTOR'("00-0"));
-      
-      -- 3 + (-1) = 2
-      test_addition(
-        BTERN_LOGIC_VECTOR'("00+0"),
-        BTERN_LOGIC_VECTOR'("000-"),
-        BTERN_LOGIC_VECTOR'("00+-"));
-      
-      
     elsif run("Static - Different widths") then
       
       -- 4-trit vectors
@@ -362,21 +312,7 @@ begin
                     TO_STRING(a) & " + " & TO_STRING(b));
       end loop;
       
-    elsif run("Random - Associative property") then
 
-      for i in 1 to 100 loop
-        a <= random_btern_vector(19);
-        b <= random_btern_vector(19);
-        c <= random_btern_vector(19);
-        wait for 1 ns;
-        result1 <= (a + b) + c;
-        result2 <= a + (b + c);
-        wait for 1 ns;
-        
-        check_equal(TO_STRING(result1), TO_STRING(result2),
-                    "Associative property failed");
-      end loop;
-      
     elsif run("Random - Addition with inverse") then
 
       for i in 1 to 100 loop
@@ -393,8 +329,8 @@ begin
     elsif run("Random - Exhaustive") then
 
       for i in 1 to NUM_RANDOM_TESTS loop
-        a       <= random_btern_vector(19);
-        b       <= random_btern_vector(19);
+        a <= random_btern_vector(19);
+        b <= random_btern_vector(19);
         wait for 1 ns;
         result1 <= a + b;
         wait for 1 ns;

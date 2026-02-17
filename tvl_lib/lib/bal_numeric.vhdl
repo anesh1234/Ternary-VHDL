@@ -41,18 +41,13 @@ package bal_numeric is
   -- is INTEGER, the function returns a value with the same number of 
   -- elements as the vector operand. Thus, these functions do not return 
   -- an extra trit to represent a carry, borrow, or overflow value, nor
-  -- do they generate a warning if a carry, borrow, or overflow occurs. 
-  -- This is the same behavior as in IEEE.numeric_std.
+  -- do they generate a warning if a carry, borrow, or overflow occurs.
   ------------------------------------------------------------------------
 
   function "+" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
   function "+" (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-
   function "+" (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
   function "+" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
-  
   function "+" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   ------------------------------------------------------------------------
@@ -62,13 +57,9 @@ package bal_numeric is
   ------------------------------------------------------------------------
 
   function "-" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
   function "-" (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
-  
   function "-" (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  
   function "-" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
-  
   function "-" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   
   ------------------------------------------------------------------------
@@ -82,20 +73,46 @@ package bal_numeric is
   ------------------------------------------------------------------------
 
   function "*" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
   function "*" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
-
   function "*" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   ------------------------------------------------------------------------
   -- Overloads of the "/" predefined operator
+
+  -- Returns the integer quotient of the same length as the dividend 
+  -- when both operands are baltern, or the largest of the two when 
+  -- converting the integer to baltern.
   ------------------------------------------------------------------------
 
   function "/" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
   function "/" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
-
   function "/" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
+  ------------------------------------------------------------------------
+  -- Overloads of "rem" operator.
+
+  -- Returns the remainder of division forced to the same sign as 
+  -- the dividend. When called with integer and vector, the result is
+  -- truncated to the vector's length. If the divisor is zero,
+  -- a severity level of ERROR is issued.
+  ------------------------------------------------------------------------
+
+  function "rem" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  -- function "rem" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  -- function "rem" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
+  ------------------------------------------------------------------------
+  -- Overloads of "mod" operator.
+
+  -- Returns the remainder of division forced to the same sign as 
+  -- the divisor. When called with integer and vector, the result is
+  -- truncated to the vector's length. If the divisor is zero,
+  -- a severity level of ERROR is issued.
+  ------------------------------------------------------------------------
+
+  function "mod" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  -- function "mod" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  -- function "mod" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   ------------------------------------------------------------------------
   -- find_ functions
@@ -106,6 +123,9 @@ package bal_numeric is
 
   function find_leftmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC) return INTEGER;
   function find_rightmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC) return INTEGER;
+
+  -- To be removed - should only be internal
+  function LEFTMOST_NZ (ARG : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
 
   ------------------------------------------------------------------------
   -- STD_MATCH functions

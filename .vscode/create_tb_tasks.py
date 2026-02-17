@@ -2,7 +2,7 @@ import os
 import json
 
 def createTasks():
-    testbench_root = "tvl_lib/old_testbench"
+    testbench_root = "rtl_designs/old_testbench"
     tasks = []
 
     # Traverse subdirectories of testbench/

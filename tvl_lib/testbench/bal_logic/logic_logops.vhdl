@@ -1,7 +1,9 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_LOGIC Logical Operators/Functions
+-- Notes   : All 1-and-2-arity operators are tested for every 
+--           combination of single trits. Test vectors ensure also the
+--           weak values are tested. The testbench's structure is based on 
+--           "numeric_std_tb5.vhd" by IEEE.
 -- --------------------------------------------------------------------
 
 library vunit_lib;

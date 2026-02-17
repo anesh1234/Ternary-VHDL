@@ -1,7 +1,6 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_LOGIC Shift Functions
+-- Notes   : Uses helper procedures to clearify the test case view.
 -- --------------------------------------------------------------------
 
 library vunit_lib;

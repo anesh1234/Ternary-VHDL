@@ -1,10 +1,3 @@
-
--- =====================================================================
--- Testbench for: t_d_flip_flop (balanced ternary D flip-flop)
--- Author: Anders Mørk Minde (TB crafted by Copilot)
--- Purpose: Verify synchronous reset and D->Q behavior with BTERN_LOGIC
--- =====================================================================
-
 library ieee;
 use ieee.std_logic_1164.all;
 
@@ -26,7 +19,7 @@ architecture tb of flip_flop_tb is
 
 begin
   ----------------------------------------------------------------------
-  -- 1) Clock generation: 100 MHz (10 ns period)
+  -- Clock generation: 100 MHz (10 ns period)
   ----------------------------------------------------------------------
   p_clk : process
   begin
@@ -38,7 +31,7 @@ begin
   end process;
 
   ----------------------------------------------------------------------
-  -- 3) DUT instantiation (direct entity instantiation)
+  -- DUT instantiation (direct entity instantiation)
   ----------------------------------------------------------------------
   dut: entity work.flip_flop
     port map (

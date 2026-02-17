@@ -1,7 +1,9 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_LOGIC Ordinary and Matching Relational Operators
+-- Notes   : The IEEE numeric package does not provide any overloads
+--           for scalar relational operators intended to behave 
+--           numerically. Therefore, such operators for pairs of 
+--           BTERN_ULOGIC have not been implemented.
 -- --------------------------------------------------------------------
 
 library vunit_lib;
@@ -188,28 +190,24 @@ begin
     -- Test matching relational operators on BTERN_LOGIC_VECTOR
     --=================================================================
 
-    elsif run("BTERN_LOGIC_VECTOR ?> 1") then
+    elsif run("BTERN_LOGIC_VECTOR ?>") then
       check((v_max ?> v_mid)   = '+');
       check((v_min ?> v_max)   = '-');
       check((v_mid ?> v_mid)   = '-');
-    elsif run("BTERN_LOGIC_VECTOR ?> 2") then
-      check((v_Z   ?> v_mid)   = 'X', "VUNIT MESSAGE", failure);
-      check((v_mid ?> v_empty) = 'X', "VUNIT MESSAGE", failure);
-      check((v_D   ?> v_D2)    = 'X', "VUNIT MESSAGE", failure);
-    elsif run("BTERN_LOGIC_VECTOR ?> 3") then
+      check((v_Z   ?> v_mid)   = 'X');
+      check((v_mid ?> v_empty) = 'X');
+      check((v_D   ?> v_D2)    = 'X');
       check((i_max ?> v_mid)   = '+');
       check((v_max ?> i_mid)   = '+');
       check((i_min ?> v_max)   = '-');
 
-    elsif run("BTERN_LOGIC_VECTOR ?< 1") then
+    elsif run("BTERN_LOGIC_VECTOR ?<") then
       check((v_mid ?< v_max)   = '+');
       check((v_max ?< v_min)   = '-');
       check((v_mid ?< v_mid)   = '-');
-    elsif run("BTERN_LOGIC_VECTOR ?< 2") then
       check((v_mid ?< v_Z)     = 'X');
       check((v_D   ?< v_D2)    = 'X');
       check((v_mid ?< v_empty) = 'X');
-    elsif run("BTERN_LOGIC_VECTOR ?< 3") then
       check((v_mid ?< i_max)   = '+');
       check((i_mid ?< v_max)   = '+');
       check((v_max ?< i_max)   = '-');

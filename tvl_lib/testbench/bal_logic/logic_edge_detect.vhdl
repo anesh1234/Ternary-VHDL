@@ -1,7 +1,9 @@
 -- --------------------------------------------------------------------
--- Title   : 
--- Purpose :
--- Notes   :
+-- Title   : BAL_LOGIC Edge Detection Functions Testbench
+-- Notes   : Uses the test_transition procedure to simplify the 
+--           expression of individual test cases. The "edge_monitor"
+--           process sets the "...detected" signals 
+--           based on values passed to that procedure.
 -- --------------------------------------------------------------------
 
 library vunit_lib;
@@ -24,6 +26,7 @@ architecture test of logic_edge_detect_tb is
   signal mz_rising_detected   : BOOLEAN := false;
   signal zp_rising_detected   : BOOLEAN := false;
   signal mp_rising_detected   : BOOLEAN := false;
+
   signal any_falling_detected : BOOLEAN := false;
   signal pz_falling_detected  : BOOLEAN := false;
   signal zm_falling_detected  : BOOLEAN := false;
