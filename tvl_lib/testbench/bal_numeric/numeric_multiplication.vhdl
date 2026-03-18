@@ -36,20 +36,18 @@ architecture test of numeric_multiplication_tb is
    
     -- Test signals for "RANDOM - 10-trit combinations"
     signal a_10rand, b_10rand : BTERN_LOGIC_VECTOR (10 downto 0);
-    signal a_int, b_int, result_int, expected_int, last_val : INTEGER;
+    signal a_int, b_int, result_int, expected_int : INTEGER;
 
 begin
 
   main : process
     variable RV : RandomPType;  -- OSVVM random variable
     
-    -- Helper procedure to test multiplication
     procedure test_multiplication(
       constant a_vec : BTERN_LOGIC_VECTOR;
-      constant b_vec : BTERN_LOGIC_VECTOR;
-      constant expected_vec : BTERN_LOGIC_VECTOR
+      constant b_vec : BTERN_LOGIC_VECTOR
     ) is
-      variable result : BTERN_LOGIC_VECTOR(a_vec'length+b_vec'length-1 downto 0);
+      variable result : BTERN_LOGIC_VECTOR((a_vec'length+b_vec'length)-1 downto 0);
       variable a_i, b_i, result_i, expected_i : INTEGER;
     begin
       result := a_vec * b_vec;
@@ -58,30 +56,48 @@ begin
       a_i := TO_INTEGER(a_vec);
       b_i := TO_INTEGER(b_vec);
       result_i := TO_INTEGER(result);
-      expected_i := TO_INTEGER(expected_vec);
+      expected_i := a_i * b_i;
       
-      -- Check BTERN_LOGIC_VECTOR equivalence
-      check_equal(TO_STRING(result), TO_STRING(expected_vec),
-                  ": Vector mismatch. " &
-                  TO_STRING(a_vec) & " * " & TO_STRING(b_vec) &
-                  " = " & TO_STRING(result) &
-                  " (expected " & TO_STRING(expected_vec) & ")");
-      
-      -- Check integer equivalence
-      check_equal(result_i, expected_i,
-                  ": Integer mismatch. " &
-                  INTEGER'image(a_i) & " * " & INTEGER'image(b_i) &
-                  " = " & INTEGER'image(result_i) &
-                  " (expected " & INTEGER'image(expected_i) & ")");
-      
-      -- Verify arithmetic correctness
-      check_equal(result_i, a_i * b_i,
-                  ": Arithmetic error. " &
-                  INTEGER'image(a_i) & " * " & INTEGER'image(b_i) &
-                  " = " & INTEGER'image(result_i) &
-                  " (should be " & INTEGER'image(a_i * b_i) & ")");
+      check_equal(result_i, expected_i);
+
     end procedure;
     
+    procedure test_multiplication(
+      constant a_vec : BTERN_LOGIC_VECTOR;
+      constant b_i : INTEGER
+    ) is
+      variable result : BTERN_LOGIC_VECTOR((a_vec'length*2)-1 downto 0);
+      variable a_i, result_i, expected_i : INTEGER;
+    begin
+      result := a_vec * b_i;
+      
+      -- Convert to integers for verification
+      a_i := TO_INTEGER(a_vec);
+      result_i := TO_INTEGER(result);
+      expected_i := a_i * b_i;
+      
+      check_equal(result_i, expected_i);
+
+    end procedure;
+
+    procedure test_multiplication(
+      constant a_i : INTEGER;
+      constant b_vec : BTERN_LOGIC_VECTOR
+    ) is
+      variable result : BTERN_LOGIC_VECTOR((b_vec'length*2)-1 downto 0);
+      variable b_i, result_i, expected_i : INTEGER;
+    begin
+      result := a_i * b_vec;
+      
+      -- Convert to integers for verification
+      b_i := TO_INTEGER(b_vec);
+      result_i := TO_INTEGER(result);
+      expected_i := a_i * b_i;
+      
+      check_equal(result_i, expected_i);
+      
+    end procedure;
+
     -- Helper to generate random balanced ternary vector
     impure function random_btern_vector(width : INTEGER) 
     return BTERN_LOGIC_VECTOR is
@@ -121,20 +137,42 @@ begin
     -- Initialize random seed
     RV.InitSeed(RV'instance_name);
 
-    if run("Static - Exhaustive -364 to +364") then
-      -- Runs an exhaustive 6-trit test combining all numbers from 
+    if run("Static Exhaustive VectorVector") then
+      -- Multiplies all numbers from 
       -- -364 to +364.
 
       for x in -364 to 364 loop
         for y in -364 to 364 loop
           test_multiplication(
           TO_BALTERN(x, 6),
-          TO_BALTERN(y, 6),
-          TO_BALTERN(x * y, 12)
-          );
+          TO_BALTERN(y, 6));
         end loop;
       end loop;
-    
+
+    elsif run("Static Exhaustive VectorInteger") then
+      -- Multiplies all numbers from 
+      -- -364 to +364.
+
+      for x in -364 to 364 loop
+        for y in -364 to 364 loop
+          test_multiplication(
+          TO_BALTERN(x, 6),
+                     y);
+        end loop;
+      end loop;
+
+    elsif run("Static Exhaustive IntegerVector") then
+      -- Multiplies all numbers from 
+      -- -364 to +364.
+
+      for x in -364 to 364 loop
+        for y in -364 to 364 loop
+          test_multiplication(
+                     x,
+          TO_BALTERN(y, 6));
+        end loop;
+      end loop;
+
     elsif run("Commutative property") then
     
         for i in 1 to 100 loop
@@ -199,26 +237,16 @@ begin
 
     elsif run("Max/Min 10-trit vectors") then
 
-      last_val <= 0;
-      wait for 1 ns;
-
       for i in 0 to 9 loop
-        last_val <= last_val + (3**i);
-        wait for 1 ns;
-
         -- Maximum positive
         test_multiplication(
             max_min_vector(i+1, false), 
-            max_min_vector(i+1, false),
-            TO_BALTERN(last_val*last_val, (i+1)*2)
-        );
+            max_min_vector(i+1, false));
 
         -- Maximum negative
         test_multiplication(
             max_min_vector(i+1, true), 
-            max_min_vector(i+1, true),
-            TO_BALTERN(last_val*last_val, (i+1)*2)
-        );
+            max_min_vector(i+1, true));
       end loop;
 
     end if;

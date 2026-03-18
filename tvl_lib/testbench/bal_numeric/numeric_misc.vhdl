@@ -92,12 +92,18 @@ begin
                            );
 
     elsif run("LEFTMOST_NZ") then
-      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("000+-++")) = '+');
+      check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("000+-+-")) = '+');
       check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("000--++")) = '-');
       check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("0000000")) = '0');
       check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("00X0000")) = 'X');
       check(LEFTMOST_NZ(BTERN_LOGIC_VECTOR'("00X000W")) = 'X');
 
+    elsif run("NUM_BTRITS") then
+      check(NUM_BTRITS(0) = 1, "Expected: " & TO_STRING(1) & " Got: " & TO_STRING(NUM_BTRITS(0)));
+      check(NUM_BTRITS(1) = 1, "Expected: " & TO_STRING(1) & " Got: " & TO_STRING(NUM_BTRITS(1)));
+      check(NUM_BTRITS(-1) = 1, "Expected: " & TO_STRING(1) & " Got: " & TO_STRING(NUM_BTRITS(-1)));
+      check(NUM_BTRITS(364) = 6, "Expected: " & TO_STRING(6) & " Got: " & TO_STRING(NUM_BTRITS(364)));
+      check(NUM_BTRITS(-364) = 6, "Expected: " & TO_STRING(6) & " Got: " & TO_STRING(NUM_BTRITS(-364)));
 
     end if;
 

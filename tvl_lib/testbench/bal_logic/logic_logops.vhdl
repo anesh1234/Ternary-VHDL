@@ -397,35 +397,35 @@ begin
             "-0+-0+00+00+++++++-0+-0+00+00+++++++");
       check_equal(TO_STRING(MAX(meta_vec1, meta_vec2)), verif_str);
 
-    elsif run("Test 2-arity NMI") then
-      D_NMI("-", "-", "+");
-      D_NMI("-", "0", "0");
-      D_NMI("-", "+", "-");
-      D_NMI("0", "-", "0");
-      D_NMI("0", "0", "0");
-      D_NMI("0", "+", "-");
-      D_NMI("+", "-", "-");
-      D_NMI("+", "0", "-");
-      D_NMI("+", "+", "-");
-      D_NMI("------000000++++++LLLLLLMMMMMMHHHHHH", 
-            "-0+LMH-0+LMH-0+LMH-0+LMH-0+LMH-0+LMH", 
-            "+0-+0-00-00-------+0-+0-00-00-------");
-      check_equal(TO_STRING(NMI(meta_vec1, meta_vec2)), verif_str);
-
     elsif run("Test 2-arity NMA") then
       D_NMA("-", "-", "+");
-      D_NMA("-", "0", "+");
-      D_NMA("-", "+", "+");
-      D_NMA("0", "-", "+");
+      D_NMA("-", "0", "0");
+      D_NMA("-", "+", "-");
+      D_NMA("0", "-", "0");
       D_NMA("0", "0", "0");
-      D_NMA("0", "+", "0");
-      D_NMA("+", "-", "+");
-      D_NMA("+", "0", "0");
+      D_NMA("0", "+", "-");
+      D_NMA("+", "-", "-");
+      D_NMA("+", "0", "-");
       D_NMA("+", "+", "-");
       D_NMA("------000000++++++LLLLLLMMMMMMHHHHHH", 
             "-0+LMH-0+LMH-0+LMH-0+LMH-0+LMH-0+LMH", 
-            "+++++++00+00+0-+0-+++++++00+00+0-+0-");
+            "+0-+0-00-00-------+0-+0-00-00-------");
       check_equal(TO_STRING(NMA(meta_vec1, meta_vec2)), verif_str);
+
+    elsif run("Test 2-arity NMI") then
+      D_NMI("-", "-", "+");
+      D_NMI("-", "0", "+");
+      D_NMI("-", "+", "+");
+      D_NMI("0", "-", "+");
+      D_NMI("0", "0", "0");
+      D_NMI("0", "+", "0");
+      D_NMI("+", "-", "+");
+      D_NMI("+", "0", "0");
+      D_NMI("+", "+", "-");
+      D_NMI("------000000++++++LLLLLLMMMMMMHHHHHH", 
+            "-0+LMH-0+LMH-0+LMH-0+LMH-0+LMH-0+LMH", 
+            "+++++++00+00+0-+0-+++++++00+00+0-+0-");
+      check_equal(TO_STRING(NMI(meta_vec1, meta_vec2)), verif_str);
 
     elsif run("Test 2-arity XOR") then
       D_XOR("-", "-", "-");

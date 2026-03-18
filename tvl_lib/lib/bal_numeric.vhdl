@@ -67,7 +67,7 @@ package bal_numeric is
 
   -- Multiplies vectors of possibly different lengths, returns a vector
   -- of width L'length + R'length - 1. When using integers, the integers
-  -- are first converted to BTERN_(U)LOGIC_VECTORs of the same size as 
+  -- are first converted to BTERN_ULOGIC_VECTORs of the same size as 
   -- the vector argument, thus making overflow possible. This is the
   -- same behavior as in IEEE.numeric_std.
   ------------------------------------------------------------------------
@@ -88,37 +88,49 @@ package bal_numeric is
   function "/" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
   function "/" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
+  -- procedure JONES1 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+  --                   XQUO, XREM : out BTERN_ULOGIC_VECTOR);
+
+  procedure JONES2 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                    XQUO, XREM : out BTERN_ULOGIC_VECTOR);
+
+  procedure TDIV_BTERN (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                    XQUO, XREM : out BTERN_ULOGIC_VECTOR);
+
   ------------------------------------------------------------------------
   -- Overloads of "rem" operator.
 
   -- Returns the remainder of division forced to the same sign as 
-  -- the dividend. When called with integer and vector, the result is
+  -- the dividend, equivalent to remainder of Truncating division.
+  -- When called with integer and vector, the result is
   -- truncated to the vector's length. If the divisor is zero,
   -- a severity level of ERROR is issued.
   ------------------------------------------------------------------------
 
   function "rem" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  -- function "rem" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
-  -- function "rem" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function "rem" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  function "rem" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   ------------------------------------------------------------------------
   -- Overloads of "mod" operator.
 
   -- Returns the remainder of division forced to the same sign as 
-  -- the divisor. When called with integer and vector, the result is
+  -- the divisor, equivalent to remainder of Flooring division. 
+  -- When called with integer and vector, the result is
   -- truncated to the vector's length. If the divisor is zero,
   -- a severity level of ERROR is issued.
   ------------------------------------------------------------------------
 
   function "mod" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-  -- function "mod" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
-  -- function "mod" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+  function "mod" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
+  function "mod" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   ------------------------------------------------------------------------
   -- find_ functions
 
   -- Finds the leftmost occurrence of the value of Y in ARG.
-  -- Returns the index of the occurrence if it exists, or -1 otherwise.
+  -- Returns the index of the occurrence if it exists,
+  -- returns -1 otherwise.
   ------------------------------------------------------------------------
 
   function find_leftmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC) return INTEGER;
@@ -126,6 +138,7 @@ package bal_numeric is
 
   -- To be removed - should only be internal
   function LEFTMOST_NZ (ARG : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
+  function NUM_BTRITS (ARG : INTEGER) return NATURAL;
 
   ------------------------------------------------------------------------
   -- STD_MATCH functions
@@ -136,5 +149,19 @@ package bal_numeric is
 
   function STD_MATCH (L, R : BTERN_ULOGIC) return BOOLEAN;
   function STD_MATCH (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
+
+  ------------------------------------------------------------------------
+  -- Utility functions for use like the "/" predefined 
+  -- operator. Returns the quotient of Euclidean division.
+  ------------------------------------------------------------------------
+
+  function BTEDIV (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
+  ------------------------------------------------------------------------
+  -- Utility functions for use like the "rem" or "mod" predefined 
+  -- operators. Returns the remainder of Euclidean division.
+  ------------------------------------------------------------------------
+
+  function BTEMOD (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
 end package bal_numeric;

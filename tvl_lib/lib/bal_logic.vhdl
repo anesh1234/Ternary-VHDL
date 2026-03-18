@@ -72,8 +72,8 @@ package bal_logic is
   -- Common subtypes
   -- Named e.g, "X2P" meaning "X to Plus"
   -------------------------------------------------------------------
-  subtype TRIT is BTERN_ULOGIC range '-' to '+';
-  type TRIT_VECTOR is array (NATURAL range <>) of TRIT;
+  subtype BTRIT is BTERN_ULOGIC range '-' to '+';
+  type BTRIT_VECTOR is array (NATURAL range <>) of BTRIT;
   subtype X2P is resolved BTERN_ULOGIC range 'X' to '+';  -- ('X','-','0','+')
   subtype X2Z is resolved BTERN_ULOGIC range 'X' to 'Z';  -- ('X','-','0','+','Z')
   subtype U2P is resolved BTERN_ULOGIC range 'U' to '+';  -- ('U','X','-','0','+')
@@ -148,8 +148,8 @@ package bal_logic is
   -- [4DE] NCONS (NCO)
   -- [PC0] Minimum (MINI), Ternary AND
   -- [ZRP] Maximum (MAX), Ternary OR
-  -- [045] NMIN (NMI) 
-  -- [5EZ] NMAX (NMA)
+  -- [045] NMAX (NMA)
+  -- [5EZ] NMIN (NMI) 
   -- [5DP] XOR, overload of predefined logical operator
   -- [PD5] MULTIPLY (MUL), DIVIDE (div/0 is 0)
   -- [PRZ] IMPLICATION (IMP), Kleene Logic version

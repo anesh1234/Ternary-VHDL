@@ -277,8 +277,8 @@ package body bal_logic is
         ('X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X')   -- | D |
         ); 
 
-  -- [045] NMIN (NMI)
-  constant nmi_table : bternlogic_table := (
+  -- [045] NMAX (NMA)
+  constant nma_table : bternlogic_table := (
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- ---------------------------------------------------------      
@@ -295,8 +295,8 @@ package body bal_logic is
         ('X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X')   -- | D |
         ); 
 
-  -- [5EZ] NMAX (NMA)
-  constant nma_table : bternlogic_table := (
+  -- [5EZ] NMIN (NMI)
+  constant nmi_table : bternlogic_table := (
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- ---------------------------------------------------------    
@@ -1069,7 +1069,7 @@ package body bal_logic is
   end function MAX;
 
   -------------------------------------------------------------------
-  -- [045] NMIN (NMI)
+  -- [5EZ] NMIN (NMI)
   -------------------------------------------------------------------
 
   function NMI (L, R : BTERN_ULOGIC) return U2P is
@@ -1123,7 +1123,7 @@ package body bal_logic is
   end function NMI;
 
   -------------------------------------------------------------------
-  -- [5EZ] NMAX (NMA)
+  -- [045] NMAX (NMA)
   -------------------------------------------------------------------
 
   function NMA (L, R : BTERN_ULOGIC) return U2P is
@@ -2088,14 +2088,14 @@ package body bal_logic is
 
   function EQUAL (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
   begin
-    return TRIT_VECTOR(L) = TRIT_VECTOR(R);
+    return BTRIT_VECTOR(L) = BTRIT_VECTOR(R);
   end function EQUAL;
 
   --------------------------------------------------------------------
 
   function LESS (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
   begin
-    return TRIT_VECTOR(L) < TRIT_VECTOR(R);
+    return BTRIT_VECTOR(L) < BTRIT_VECTOR(R);
   end function LESS;
 
   --------------------------------------------------------------------
@@ -2103,7 +2103,7 @@ package body bal_logic is
   function LESS_OR_EQUAL (L, R : BTERN_ULOGIC_VECTOR)
     return BOOLEAN is
   begin
-    return TRIT_VECTOR(L) <= TRIT_VECTOR(R);
+    return BTRIT_VECTOR(L) <= BTRIT_VECTOR(R);
   end function LESS_OR_EQUAL;
 
   --=================================================================
