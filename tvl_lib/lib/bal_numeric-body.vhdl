@@ -115,49 +115,146 @@ package body bal_numeric is
     XQUO := REMQUO(SINGLE-1 downto 0);
   end procedure DIVMOD;
 
+
+
   ------------------------------------------------------------------------
 
-  -- The second of the two balanced ternary division algorithms
-  -- proposed by Jones.
+  -- VHDL-version of the 1st of the two pseudocoded balanced ternary 
+  -- division algorithms proposed by Jones.
+  -- All arguments must be of the same length
+  procedure JONES1 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                        XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
+    variable SINGLE    : INTEGER := DIVIDEND'length;
+    variable DOUBLE    : INTEGER := DIVIDEND'length*2;
+    variable HIGH      : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
+    variable LOW       : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
+    variable CLOSEST_Z : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
+    variable HIGHQUO   : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
+    variable LOWQUO    : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
+    -- REMQUO's length should not be more than 2x argument's length.
+    -- All others need to account for overflow in calculation of
+    -- partial remainder.
+    variable REMQUO    : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
+                          := (others => '0');
+  begin
+    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
+      severity error;
+
+    -- quo = dividend;
+    -- rem = 0;
+    -- HERE: rem is set to 0 in declarative part, quo is set below. 
+
+    REMQUO(SINGLE-1 downto 0) := DIVIDEND;
+
+    -- for (i = 0; i < trits_per_word; i++) {
+    -- HERE: SINGLE represents trits_per_word
+
+    for I in 0 to SINGLE-1 loop
+
+    -- /* first shift rem-quo double register 1 trit left */
+    -- (rem,quo) = (rem,quo) <<3 1;
+
+      REMQUO := REMQUO sll 1;
+
+      -- /* second, compute candidates for next remainder */
+	    -- balanced int high = rem + divisor;
+	    -- balanced int mid = rem;
+	    -- balanced int low = rem - divisor;
+      -- HERE: these contenders these may overflow, so appending 0,
+      -- meaning their sizes are double-register + 1.
+      HIGH := REMQUO(DOUBLE-1 downto SINGLE) + ("0" & DIVISOR);
+      LOW  := REMQUO(DOUBLE-1 downto SINGLE) - ("0" & DIVISOR);
+      -- HERE: Then, concatenating with quo-part of REMQUO to help in
+      -- the comparison.
+      HIGHQUO   := HIGH & REMQUO(SINGLE-1 downto 0);
+      LOWQUO    := LOW  & REMQUO(SINGLE-1 downto 0);
+
+      -- /* pick a candidate, using long comparison */
+      -- (rem,) = closest_to_zero( (high,quo), (mid,quo), (low,quo) );
+      -- HERE: CLOSEST_Z is set to the absolute value of the smallest 
+      -- magnitude contender. 
+      CLOSEST_Z := MINIMUM(abs(LOWQUO), MINIMUM(abs(REMQUO), abs(HIGHQUO)));
+
+      -- /* set the quotiet digit */
+      -- if (rem == high) 
+      --   quo = quo - 1;
+      -- else if (rem == low) 
+      --   quo = quo + 1;
+      -- HERE: Using CLOSEST_Z variable instead of setting rem-part of 
+      -- REMQUO first to avoid two if-tests. Matches the CLOSEST_Z 
+      -- variable with the absolute value of the contenders, and then 
+      -- sets rem -and quotient parts of REMQUO. 
+
+      if CLOSEST_Z = abs(HIGHQUO) then
+        REMQUO := HIGHQUO(DOUBLE-1 downto 0);
+        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) - 1;
+      elsif CLOSEST_Z = abs(LOWQUO) then 
+        REMQUO := LOWQUO(DOUBLE-1 downto 0);
+        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) + 1;
+      end if;
+    end loop;
+
+    -- HERE: The respective parts of REMQUO are written 
+    -- to the input variables.
+    XREM := REMQUO(DOUBLE-1 downto SINGLE);
+    XQUO := REMQUO(SINGLE-1 downto 0);
+  end procedure JONES1;
+
+  ------------------------------------------------------------------------
+
+  -- VHDL-version of the 2nd "optimized" version of the two pseudocoded 
+  -- balanced ternary division algorithms proposed by Jones.
   -- All arguments must be of the same length
   procedure JONES2 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
                     XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
-    variable DOUBLE   : INTEGER := DIVIDEND'length*2;
-    variable SINGLE   : INTEGER := DIVIDEND'length;
-    variable ONE   : BTERN_ULOGIC := '+';
-    variable XDIVISOR : BTERN_ULOGIC_VECTOR (SINGLE-1 downto 0) := DIVISOR;
-    variable REMAINDER      : BTERN_ULOGIC_VECTOR(SINGLE-1 downto 0) := (others => '0');
-    variable QUO      : BTERN_ULOGIC_VECTOR(SINGLE-1 downto 0);
-    variable REMQUO   : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0) := (others => '0');
-    variable LOW : BTERN_ULOGIC_VECTOR (SINGLE-1 downto 0);
-    variable HIGH : BTERN_ULOGIC_VECTOR (SINGLE-1 downto 0);
+    variable DOUBLE    : INTEGER := DIVIDEND'length*2;
+    variable SINGLE    : INTEGER := DIVIDEND'length;
+    variable ONE       : BTERN_ULOGIC := '+';
+    variable XDIVISOR  : BTERN_ULOGIC_VECTOR (SINGLE-1 downto 0) := DIVISOR;
+    variable REMAINDER : BTERN_ULOGIC_VECTOR(SINGLE-1 downto 0) := (others => '0');
+    variable QUO       : BTERN_ULOGIC_VECTOR(SINGLE-1 downto 0);
+    variable REMQUO    : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0) := (others => '0');
+    variable LOW       : BTERN_ULOGIC_VECTOR (SINGLE-1 downto 0);
+    variable HIGH      : BTERN_ULOGIC_VECTOR (SINGLE-1 downto 0);
   begin
-    -- balanced int one = 1; /* determines whether to negate bits of quotient */ Done in declarative part here
+    -- balanced int one = 1; /* determines whether to negate bits of quotient */
+    -- HERE: Done in declarative part.
+
     -- if (divisor < 0) { /* take absolute value of divisor */
     --     divisor = -divisor;
     --     one = -one;
-    -- }
+    -- HERE: Using a replacement variable XDIVISOR to avoid changing DIVISOR.
+    -- Then using the STI logical function to invert.
     if DIVISOR < 0 then
       XDIVISOR := STI(XDIVISOR);
       ONE := STI(ONE);
     end if;
+
     -- quo = dividend;
     -- rem = 0;
-    -- Lower part of REMQUO set = DIVIDEND, and upper part is already 0's (see declarative part)
+    -- HERE: Lower part of REMQUO set = DIVIDEND, and upper part are already 
+    -- 0's (set in declarative part).
     REMQUO(SINGLE-1 downto 0) := DIVIDEND;
+
+    -- for (i = 0; i < trits_per_word; i++) {
+    -- HERE: SINGLE represents trits_per_word
     for I in 0 to SINGLE-1 loop
+
+      -- /* first shift rem-quo double register 1 trit left */
       -- (rem,quo) = (rem,quo) <<3 1;
-      -- Then, pull the values from the double register for more readable code.
+      -- HERE: Additionally, pull the values from the double register
+      -- for more readable code.
       REMQUO    := REMQUO sll 1;
       REMAINDER := REMQUO(DOUBLE-1 downto SINGLE);
       QUO       := REMQUO(SINGLE-1 downto 0);
 
+      /* second, compute one trit of quotient */
       -- if (rem > 0) {
-	    --    balanced int low = rem - divisor;
-      --    if ( (-low < rem) || ((-low == rem) && (quo > 0)) ) {
-      --      quo = quo + one;
-      --      rem = low;
-      --    }
+	    --   balanced int low = rem - divisor;
+      --     if ( (-low < rem) || ((-low == rem) && (quo > 0)) ) {
+      --       quo = quo + one;
+      --       rem = low;
+      --     }
       -- }
       if REMAINDER > 0 then
         LOW := REMAINDER - XDIVISOR;
@@ -181,10 +278,14 @@ package body bal_numeric is
         end if;
       end if;
 
+      -- HERE: Put the calculated helper-variables back into the 
+      -- double-register for shifting in the next cycle.
       REMQUO(DOUBLE-1 downto SINGLE) := REMAINDER;
       REMQUO(SINGLE-1 downto 0)      := QUO;
     end loop;
 
+    -- HERE: The respective parts of REMQUO are written 
+    -- to the input variables.
     XREM := REMQUO(DOUBLE-1 downto SINGLE);
     XQUO := REMQUO(SINGLE-1 downto 0);
   end procedure JONES2;
@@ -302,6 +403,61 @@ package body bal_numeric is
 
   ------------------------------------------------------------------------
 
+  procedure JONES1_PROG (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                        XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
+    variable SINGLE    : INTEGER := DIVIDEND'length;
+    variable DOUBLE    : INTEGER := DIVIDEND'length*2;
+    -- REMQUO should not be more than 2x argument's length.
+    -- Others need to account for overflow in calculation
+    -- of partial remainder contenders.
+    variable REMQUO    : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
+                          := (others => '0');
+    variable HIGH      : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
+    variable LOW       : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
+  begin
+    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
+      severity error;
+
+    REMQUO(SINGLE-1 downto 0) := DIVIDEND;
+
+    for I in SINGLE-1 downto 0 loop
+      
+      REMQUO := REMQUO sll 1;
+
+      HIGH := REMQUO(DOUBLE-1 downto SINGLE) + ("0" & DIVISOR);
+      LOW  := REMQUO(DOUBLE-1 downto SINGLE) - ("0" & DIVISOR);
+
+      if abs(HIGH(SINGLE-1 downto 0)) < abs(REMQUO(DOUBLE-1 downto SINGLE)) then
+        if abs(HIGH(SINGLE-1 downto 0)) <= abs(LOW(SINGLE-1 downto 0)) then
+          REMQUO(DOUBLE-1 downto SINGLE) := HIGH(SINGLE-1 downto 0);
+          REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) - 1;
+        else
+          REMQUO(DOUBLE-1 downto SINGLE) := LOW(SINGLE-1 downto 0);
+          REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) + 1;
+        end if;
+      elsif abs(LOW(SINGLE-1 downto 0)) < abs(REMQUO(DOUBLE-1 downto SINGLE)) then
+        REMQUO(DOUBLE-1 downto SINGLE) := LOW(SINGLE-1 downto 0);
+        REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) + 1;
+      end if;
+
+    end loop;
+
+    if REMQUO(DOUBLE-1 downto SINGLE) < 0 then
+      if LEFTMOST_NZ(REMQUO(DOUBLE-1 downto SINGLE)) /= LEFTMOST_NZ(DIVISOR) then
+        REMQUO(DOUBLE-1 downto SINGLE) := REMQUO(DOUBLE-1 downto SINGLE) + DIVISOR;
+        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) - 1;
+      else
+        REMQUO(DOUBLE-1 downto SINGLE) := REMQUO(DOUBLE-1 downto SINGLE) - DIVISOR;
+        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) + 1;
+      end if;
+    end if;
+
+    XREM := REMQUO(DOUBLE-1 downto SINGLE);
+    XQUO := REMQUO(SINGLE-1 downto 0);
+  end procedure JONES1_PROG;
+
+  ------------------------------------------------------------------------
+
   -- Returns the number of trits necessary to express any integer
   function NUM_BTRITS (ARG : INTEGER) return NATURAL is
     variable NTRITS : NATURAL := 0;
@@ -344,7 +500,6 @@ package body bal_numeric is
   function "abs" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     constant L_LEFT : INTEGER := L'length-1;
     alias XL        : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) is L;
-    variable ZERO   : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) := (others => '0');
     variable RESULT : BTERN_ULOGIC_VECTOR(L_LEFT downto 0);
   begin
     if L'length < 1 then return NAC;
@@ -352,7 +507,7 @@ package body bal_numeric is
     RESULT := TO_M2P(XL, 'X');
     if (RESULT(RESULT'left) = 'X') then return RESULT;
     end if;
-    if RESULT < ZERO then
+    if RESULT < 0 then
       RESULT := -RESULT;
     end if;
     return RESULT;

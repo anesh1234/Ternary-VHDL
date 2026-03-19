@@ -88,13 +88,35 @@ package bal_numeric is
   function "/" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
   function "/" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
-  -- procedure JONES1 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
-  --                   XQUO, XREM : out BTERN_ULOGIC_VECTOR);
+    ------------------------------------------------------------------------
+  -- Utility functions for use like the "/" predefined 
+  -- operator. Returns the quotient of Euclidean division.
+  ------------------------------------------------------------------------
+
+  function BTEDIV (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
+  ------------------------------------------------------------------------
+  -- Utility functions for use like the "rem" or "mod" predefined 
+  -- operators. Returns the remainder of Euclidean division.
+  ------------------------------------------------------------------------
+
+  function BTEMOD (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
+
+  ------------------------------------------------------------------------
+  -- Other attempts of division, and VHDL-versions of the ones proposed 
+  -- by Jones.
+  ------------------------------------------------------------------------
+
+  procedure JONES1 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                     XQUO, XREM : out BTERN_ULOGIC_VECTOR);
 
   procedure JONES2 (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
                     XQUO, XREM : out BTERN_ULOGIC_VECTOR);
 
   procedure TDIV_BTERN (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                    XQUO, XREM : out BTERN_ULOGIC_VECTOR);
+
+  procedure JONES1_PROG (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
                     XQUO, XREM : out BTERN_ULOGIC_VECTOR);
 
   ------------------------------------------------------------------------
@@ -150,18 +172,5 @@ package bal_numeric is
   function STD_MATCH (L, R : BTERN_ULOGIC) return BOOLEAN;
   function STD_MATCH (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
 
-  ------------------------------------------------------------------------
-  -- Utility functions for use like the "/" predefined 
-  -- operator. Returns the quotient of Euclidean division.
-  ------------------------------------------------------------------------
-
-  function BTEDIV (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
-
-  ------------------------------------------------------------------------
-  -- Utility functions for use like the "rem" or "mod" predefined 
-  -- operators. Returns the remainder of Euclidean division.
-  ------------------------------------------------------------------------
-
-  function BTEMOD (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
 end package bal_numeric;

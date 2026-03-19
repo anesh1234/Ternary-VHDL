@@ -142,14 +142,14 @@ begin
       constant a_vec : BTERN_LOGIC_VECTOR;
       constant b_vec : BTERN_LOGIC_VECTOR
     ) is
-      variable quotient_vec : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
-                                                    := (others => '0');
-      variable rem_vec : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
+      variable quot_vec : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
                                                 := (others => '0');
-      variable a_i, b_i, quotient_i, rem_i, int_quot, int_rem  : INTEGER;
+      variable rem_vec  : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
+                                                := (others => '0');
+      variable a_i, b_i, quot_i, rem_i, int_quot, int_rem  : INTEGER;
 
       -- DEBUG
-      variable trunc_checker : BOOLEAN := false;
+      variable trunc_checker  : BOOLEAN := false;
       variable euclid_checker : BOOLEAN := false;
     begin
         a_i := TO_INTEGER(a_vec);
@@ -158,20 +158,92 @@ begin
         int_quot := a_i / b_i;
         int_rem  := a_i rem b_i;
 
-        JONES2(a_vec, b_vec, quotient_vec, rem_vec);
+        JONES2(a_vec, b_vec, quot_vec, rem_vec);
 
-        quotient_i := TO_INTEGER(quotient_vec);
-        rem_i      := TO_INTEGER(rem_vec);
+        quot_i := TO_INTEGER(quot_vec);
+        rem_i  := TO_INTEGER(rem_vec);
 
-        if (quotient_i = int_quot) and (rem_i = int_rem) then
+        if (quot_i = int_quot) and (rem_i = int_rem) then
             trunc_checker := true;
         end if;
 
-        check_euclidean(a_i, b_i, quotient_i, rem_i, euclid_checker);
+        check_euclidean(a_i, b_i, quot_i, rem_i, euclid_checker);
 
         -- DEBUG
         print("e"&TO_STRING(euclid_checker) & " | " & "t"&TO_STRING(trunc_checker) & " | " & TO_STRING(a_i) & " / " & TO_STRING(b_i) & " | " & 
-              TO_STRING(quotient_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_jones_2.txt");
+              TO_STRING(quot_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_jones_2.txt");
+    end procedure;
+
+    procedure test_jones_1(
+      constant a_vec : BTERN_LOGIC_VECTOR;
+      constant b_vec : BTERN_LOGIC_VECTOR
+    ) is
+      variable quot_vec : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
+                                                := (others => '0');
+      variable rem_vec  : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
+                                                := (others => '0');
+      variable a_i, b_i, quot_i, rem_i, int_quot, int_rem  : INTEGER;
+
+      -- DEBUG
+      variable trunc_checker  : BOOLEAN := false;
+      variable euclid_checker : BOOLEAN := false;
+    begin
+        a_i := TO_INTEGER(a_vec);
+        b_i := TO_INTEGER(b_vec);
+
+        int_quot := a_i / b_i;
+        int_rem  := a_i rem b_i;
+
+        JONES1(a_vec, b_vec, quot_vec, rem_vec);
+
+        quot_i := TO_INTEGER(quot_vec);
+        rem_i  := TO_INTEGER(rem_vec);
+
+        if (quot_i = int_quot) and (rem_i = int_rem) then
+            trunc_checker := true;
+        end if;
+
+        check_euclidean(a_i, b_i, quot_i, rem_i, euclid_checker);
+
+        -- DEBUG
+        print("e"&TO_STRING(euclid_checker) & " | " & "t"&TO_STRING(trunc_checker) & " | " & TO_STRING(a_i) & " / " & TO_STRING(b_i) & " | " & 
+              TO_STRING(quot_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_jones_1.txt");
+    end procedure;
+
+    procedure test_jones1_prog(
+      constant a_vec : BTERN_LOGIC_VECTOR;
+      constant b_vec : BTERN_LOGIC_VECTOR
+    ) is
+      variable quot_vec : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
+                                                := (others => '0');
+      variable rem_vec  : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
+                                                := (others => '0');
+      variable a_i, b_i, quot_i, rem_i, int_quot, int_rem  : INTEGER;
+
+      -- DEBUG
+      variable trunc_checker  : BOOLEAN := false;
+      variable euclid_checker : BOOLEAN := false;
+    begin
+        a_i := TO_INTEGER(a_vec);
+        b_i := TO_INTEGER(b_vec);
+
+        int_quot := a_i / b_i;
+        int_rem  := a_i rem b_i;
+
+        JONES1_PROG(a_vec, b_vec, quot_vec, rem_vec);
+
+        quot_i := TO_INTEGER(quot_vec);
+        rem_i  := TO_INTEGER(rem_vec);
+
+        if (quot_i = int_quot) and (rem_i = int_rem) then
+            trunc_checker := true;
+        end if;
+
+        check_euclidean(a_i, b_i, quot_i, rem_i, euclid_checker);
+
+        -- DEBUG
+        print("e"&TO_STRING(euclid_checker) & " | " & "t"&TO_STRING(trunc_checker) & " | " & TO_STRING(a_i) & " / " & TO_STRING(b_i) & " | " & 
+              TO_STRING(quot_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_jones1_prog.txt");
     end procedure;
 
     procedure test_div_op(
@@ -226,61 +298,22 @@ begin
         -- DEBUG
         print("Euclidean" & " | " & "Truncating" & " | " & "Calculation" & " | " & "BTERN Quot" & " | "  & "BTERN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_jones_1.txt");
         
-        -- -- ==========================================
-        -- -- All 6-trit numbers
-        -- -- ==========================================
-
-        -- for x in -364 to 364 loop
-        --     for y in -364 to -1 loop
-        --         test_jones_1(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
-
-        -- for x in -364 to 364 loop
-        --     for y in 1 to 364 loop
-        --         test_jones_1(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
-
         -- ==========================================
-        -- All 6-trit POSITIVE numbers (works in 13.03)
+        -- Tests for the specific inputs used by 
+        -- Jones.
         -- ==========================================
 
-        -- for x in 0 to 364 loop
-        --     for y in 1 to 364 loop
-        --         test_jones_1(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
+        for i in -10 to 10 loop
+            test_jones_1(
+            TO_BALTERN(i, 3),
+            TO_BALTERN(2, 3));
+        end loop;
 
-        -- ==========================================
-        -- All 6-trit NEGATIVE / POSITIVE numbers
-        -- ==========================================
-
-        -- for x in 0 downto -364 loop
-        --     for y in 1 to 364 loop
-        --         test_jones_1(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
-
-        -- ==========================================
-        -- All 6-trit POSITIVE / NEGATIVE numbers
-        -- ==========================================
-
-        -- for x in 0 to 364 loop
-        --     for y in -1 downto -364 loop
-        --         test_jones_1(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
+        for i in -10 to 10 loop
+            test_jones_1(
+            TO_BALTERN(i, 3),
+            TO_BALTERN(4, 3));
+        end loop;
 
     elsif run("Jones 2") then
 
@@ -288,27 +321,72 @@ begin
         print("Euclidean" & " | " & "Truncating" & " | " & "Calculation" & " | " & "BTERN Quot" & " | "  & "BTERN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_jones_2.txt");
         
         -- ==========================================
-        -- All 6-trit numbers
+        -- Tests for the specific inputs used by 
+        -- Jones.
         -- ==========================================
 
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_jones_2(
+        for i in -10 to 10 loop
+            test_jones_2(
+            TO_BALTERN(i, 3),
+            TO_BALTERN(2, 3));
+        end loop;
+
+        for i in -10 to 10 loop
+            test_jones_2(
+            TO_BALTERN(i, 3),
+            TO_BALTERN(4, 3));
+        end loop;
+
+    elsif run("Jones1 Progressive") then
+
+        -- DEBUG
+        print("Euclidean" & " | " & "Truncating" & " | " & "Calculation" & " | " & "BTERN Quot" & " | "  & "BTERN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_jones1_prog.txt");
+        
+        -- ==========================================
+        -- Tests for the specific inputs used by 
+        -- Jones.
+        -- ==========================================
+
+        -- for i in -10 to 10 loop
+        --     test_jones1_prog(
+        --     TO_BALTERN(i, 3),
+        --     TO_BALTERN(2, 3));
+        -- end loop;
+
+        -- for i in -10 to 10 loop
+        --     test_jones1_prog(
+        --     TO_BALTERN(i, 3),
+        --     TO_BALTERN(4, 3));
+        -- end loop;
+
+        -- ==========================================
+        -- All numbers -10 to 10
+        -- ==========================================
+
+        for x in -10 to 10 loop
+            for y in -10 to -1 loop
+                test_jones1_prog(
                 TO_BALTERN(x, 6),
                 TO_BALTERN(y, 6));
             end loop;
         end loop;
 
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_jones_2(
+        for x in -10 to 10 loop
+            for y in 1 to 10 loop
+                test_jones1_prog(
                 TO_BALTERN(x, 6),
                 TO_BALTERN(y, 6));
             end loop;
         end loop;
-       
-       
 
+
+        -- ==========================================
+        -- Specific numbers
+        -- ==========================================
+
+        -- test_jones1_prog(
+        --             TO_BALTERN(5, 3),
+        --             TO_BALTERN( 2, 3));
 
     elsif run("TDIV_BTERN") then
 

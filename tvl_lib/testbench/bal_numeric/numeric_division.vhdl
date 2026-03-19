@@ -180,91 +180,95 @@ begin
   begin
     test_runner_setup(runner, runner_cfg);
 
-    if run("Exhaustive Static VectorVector") then
+    if run("Truncating Static VectorVector") then
 
-        -- ===============================================
-        -- Test all 6-trit numbers for equality of 
-        -- quotient, rem and mod against the integer type
-        -- ===============================================
+      -- ===============================================
+      -- Test all 6-trit numbers for equality of 
+      -- quotient, rem and mod against the integer type
+      -- i.e., truncating division.
+      -- ===============================================
 
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_div_op(
-                TO_BALTERN(x, 6),
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
+      for x in -364 to 364 loop
+          for y in -364 to -1 loop
+              test_div_op(
+              TO_BALTERN(x, 6),
+              TO_BALTERN(y, 6));
+          end loop;
+      end loop;
 
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_div_op(
-                TO_BALTERN(x, 6),
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
+      for x in -364 to 364 loop
+          for y in 1 to 364 loop
+              test_div_op(
+              TO_BALTERN(x, 6),
+              TO_BALTERN(y, 6));
+          end loop;
+      end loop;
 
-    elsif run("Exhaustive Static VectorInteger") then
+    elsif run("Truncating Static VectorInteger") then
 
-        -- ===============================================
-        -- Test all 6-trit numbers for equality of 
-        -- quotient, rem and mod against the integer type
-        -- ===============================================
+      -- ===============================================
+      -- Test all 6-trit numbers for equality of 
+      -- quotient, rem and mod against the integer type
+      -- i.e., truncating division.
+      -- ===============================================
 
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_div_op(
-                TO_BALTERN(x, 6),
-                           y);
-            end loop;
-        end loop;
+      for x in -364 to 364 loop
+          for y in -364 to -1 loop
+              test_div_op(
+              TO_BALTERN(x, 6),
+                          y);
+          end loop;
+      end loop;
 
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_div_op(
-                TO_BALTERN(x, 6),
-                           y);
-            end loop;
-        end loop;
+      for x in -364 to 364 loop
+          for y in 1 to 364 loop
+              test_div_op(
+              TO_BALTERN(x, 6),
+                          y);
+          end loop;
+      end loop;
 
-    elsif run("Exhaustive Static IntegerVector") then
+    elsif run("Truncating Static IntegerVector") then
         
-        -- ===============================================
-        -- Test all 6-trit numbers for equality of 
-        -- quotient, rem and mod against the integer type
-        -- ===============================================
-
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_div_op(
-                           x,
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
-
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_div_op(
-                           x,
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
-
-    elsif run("BTE Exhaustive Static VectorVector") then
-
       -- ===============================================
-      -- 
+      -- Test all 6-trit numbers for equality of 
+      -- quotient, rem and mod against the integer type
+      -- i.e., truncating division.
       -- ===============================================
 
-      for x in -2147483647 to 2147483647 loop
-          for y in -2147483647 to -1 loop
+      for x in -364 to 364 loop
+          for y in -364 to -1 loop
+              test_div_op(
+                          x,
+              TO_BALTERN(y, 6));
+          end loop;
+      end loop;
+
+      for x in -364 to 364 loop
+          for y in 1 to 364 loop
+              test_div_op(
+                          x,
+              TO_BALTERN(y, 6));
+          end loop;
+      end loop;
+
+    elsif run("Euclidean Static VectorVector") then
+
+      -- ===============================================
+      -- Test all 6-trit numbers against the
+      -- requirements for Euclidean division.
+      -- ===============================================
+
+      for x in -364 to 364 loop
+          for y in -364 to -1 loop
               test_BTEDIV(
               TO_BALTERN(x, 21),
               TO_BALTERN(y, 21));
           end loop;
       end loop;
 
-      for x in -2147483647 to 2147483647 loop
-          for y in 1 to 2147483647 loop
+      for x in -364 to 364 loop
+          for y in 1 to 364 loop
               test_BTEDIV(
               TO_BALTERN(x, 21),
               TO_BALTERN(y, 21));
