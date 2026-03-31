@@ -17,10 +17,17 @@
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
+
 package body kleene_pkg is
+
+  -- null range array constant and implementation controls
+  constant NAC : KLEENE_VECTOR (0 downto 1) := (others => UNK);
+  constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
+
   -------------------------------------------------------------------
   -- local types
   -------------------------------------------------------------------
+
   type kleene_1d is array (KLEENE) of KLEENE;
   type kleene_table is array(KLEENE, KLEENE) of KLEENE;
 
@@ -297,11 +304,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [0], CONST_LOW
   -------------------------------------------------------------------
+  
   function COL (L : KLEENE) return KLEENE is
   begin
     return (col_table(l));
   end function COL;
+
   ------------------------------------------------------------------- 
+
   function COL (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -315,11 +325,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [2], Negative Ternary Inverter, DETECT_LOW
   -------------------------------------------------------------------
+
   function NTI (L : KLEENE) return KLEENE is
   begin
     return (nti_table(l));
   end function NTI;
+
   -------------------------------------------------------------------
+
   function NTI (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -333,11 +346,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [5], Standard Ternary Inverter
   -------------------------------------------------------------------
+
   function STI (L : KLEENE) return KLEENE is
   begin
     return (sti_table(l));
   end function STI;
+
   -------------------------------------------------------------------
+
   function STI (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -351,11 +367,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [6], Middle Toggling Inverter, DETECT_MIDDLE
   -------------------------------------------------------------------
+
   function MTI (L : KLEENE) return KLEENE is
   begin
     return (mti_table(l));
   end function MTI;
+
   -------------------------------------------------------------------
+
   function MTI (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -369,11 +388,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [7], Increment, NEXT, SUCCESSOR
   -------------------------------------------------------------------
+
   function INC (L : KLEENE) return KLEENE is
   begin
     return (inc_table(l));
   end function INC;
+
   -------------------------------------------------------------------
+
   function INC (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -387,11 +409,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [8], Positive Ternary Inverter
   -------------------------------------------------------------------
+
   function PTI (L : KLEENE) return KLEENE is
   begin
     return (pti_table(l));
   end function PTI;
+
   -------------------------------------------------------------------
+
   function PTI (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -405,11 +430,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [B], DECREMENT, PREV, PREDECESSOR
   -------------------------------------------------------------------
+
   function DEC (L : KLEENE) return KLEENE is
   begin
     return (dec_table(l));
   end function DEC;
+
   -------------------------------------------------------------------
+
   function DEC (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -423,11 +451,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [C], CLAMP_DOWN
   -------------------------------------------------------------------
+
   function CLD (L : KLEENE) return KLEENE is
   begin
     return (cld_table(l));
   end function CLD;
+
   -------------------------------------------------------------------
+
   function CLD (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -441,11 +472,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [D], CONST_MIDDLE
   -------------------------------------------------------------------
+
   function COM (L : KLEENE) return KLEENE is
   begin
     return (com_table(l));
   end function COM;
+
   -------------------------------------------------------------------
+
   function COM (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -459,11 +493,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [K], Inverted PTI, DETECT_HIGH
   -------------------------------------------------------------------
+
   function IPT (L : KLEENE) return KLEENE is
   begin
     return (ipt_table(l));
   end function IPT;
+
   -------------------------------------------------------------------
+
   function IPT (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -477,11 +514,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [N], Inverted MTI, inverted DETECT_MIDDLE
   -------------------------------------------------------------------
+
   function IMT (L : KLEENE) return KLEENE is
   begin
     return (imt_table(l));
   end function IMT;
+
   -------------------------------------------------------------------
+
   function IMT (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -495,11 +535,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [P], BUFFER
   -------------------------------------------------------------------
+
   function BUF (L : KLEENE) return KLEENE is
   begin
     return (buf_table(l));
   end function BUF;
+
   -------------------------------------------------------------------
+
   function BUF (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -513,11 +556,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [R], CLAMP_UP
   -------------------------------------------------------------------
+
   function CLU (L : KLEENE) return KLEENE is
   begin
     return (clu_table(l));
   end function CLU;
+
   -------------------------------------------------------------------
+
   function CLU (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -531,11 +577,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [V], Inverted NTI
   -------------------------------------------------------------------
+
   function INT (L : KLEENE) return KLEENE is
   begin
     return (int_table(l));
   end function INT;
+
   -------------------------------------------------------------------
+
   function INT (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -549,11 +598,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [Z], CONST_HIGH
   -------------------------------------------------------------------
+
   function COH (L : KLEENE) return KLEENE is
   begin
     return (coh_table(l));
   end function COH;
+
   -------------------------------------------------------------------
+
   function COH (L : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     variable result : KLEENE_VECTOR (1 to l'length);
@@ -577,6 +629,7 @@ package body kleene_pkg is
   begin
     return (sum_table(l, r));
   end function SUM;
+
   -------------------------------------------------------------------
 
   function SUM (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -596,6 +649,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function SUM;
+
   -------------------------------------------------------------------
 
   function SUM (L : KLEENE_VECTOR; R : KLEENE)
@@ -609,6 +663,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function SUM;
+
   -------------------------------------------------------------------
 
   function SUM (L : KLEENE; R : KLEENE_VECTOR)
@@ -631,6 +686,7 @@ package body kleene_pkg is
   begin
     return (con_table(l, r));
   end function CON;
+
   -------------------------------------------------------------------
 
   function CON (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -650,6 +706,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function CON;
+
   -------------------------------------------------------------------
 
   function CON (L : KLEENE_VECTOR; R : KLEENE)
@@ -663,6 +720,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function CON;
+
   -------------------------------------------------------------------
 
   function CON (L : KLEENE; R : KLEENE_VECTOR)
@@ -685,6 +743,7 @@ package body kleene_pkg is
   begin
     return (nco_table(l, r));
   end function NCO;
+
   -------------------------------------------------------------------
 
   function NCO (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -704,6 +763,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function NCO;
+
   -------------------------------------------------------------------
 
   function NCO (L : KLEENE_VECTOR; R : KLEENE)
@@ -717,6 +777,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function NCO;
+
   -------------------------------------------------------------------
 
   function NCO (L : KLEENE; R : KLEENE_VECTOR)
@@ -739,6 +800,7 @@ package body kleene_pkg is
   begin
     return (min_table(l, r));
   end function MINI;
+
   -------------------------------------------------------------------
 
   function MINI (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -758,6 +820,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function MINI;
+
   -------------------------------------------------------------------
 
   function MINI (L : KLEENE_VECTOR; R : KLEENE)
@@ -771,6 +834,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function MINI;
+
   -------------------------------------------------------------------
 
   function MINI (L : KLEENE; R : KLEENE_VECTOR)
@@ -793,6 +857,7 @@ package body kleene_pkg is
   begin
     return (max_table(l, r));
   end function MAX;
+
   -------------------------------------------------------------------
 
   function MAX (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -812,6 +877,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function MAX;
+
   -------------------------------------------------------------------
 
   function MAX (L : KLEENE_VECTOR; R : KLEENE)
@@ -825,6 +891,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function MAX;
+
   -------------------------------------------------------------------
 
   function MAX (L : KLEENE; R : KLEENE_VECTOR)
@@ -847,6 +914,7 @@ package body kleene_pkg is
   begin
     return (nmi_table(l, r));
   end function NMI;
+
   -------------------------------------------------------------------
 
   function NMI (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -866,6 +934,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function NMI;
+
   -------------------------------------------------------------------
 
   function NMI (L : KLEENE_VECTOR; R : KLEENE)
@@ -879,6 +948,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function NMI;
+
   -------------------------------------------------------------------
 
   function NMI (L : KLEENE; R : KLEENE_VECTOR)
@@ -901,6 +971,7 @@ package body kleene_pkg is
   begin
     return (nma_table(l, r));
   end function NMA;
+
   -------------------------------------------------------------------
 
   function NMA (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
@@ -920,6 +991,7 @@ package body kleene_pkg is
     end if;
     return result;
   end function NMA;
+
   -------------------------------------------------------------------
 
   function NMA (L : KLEENE_VECTOR; R : KLEENE)
@@ -933,6 +1005,7 @@ package body kleene_pkg is
     end loop;
     return result;
   end function NMA;
+
   -------------------------------------------------------------------
 
   function NMA (L : KLEENE; R : KLEENE_VECTOR)
@@ -950,11 +1023,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [5DP] XOR
   -------------------------------------------------------------------
+
   function "XOR" (L, R : KLEENE) return KLEENE is
   begin
     return (tern_xor_table(l, r));
   end function "XOR";
+
   -------------------------------------------------------------------
+
   function "XOR" (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -972,7 +1048,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function "XOR";
+
   -------------------------------------------------------------------
+
   function "XOR" (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -984,7 +1062,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function "XOR";
+
   -------------------------------------------------------------------
+
   function "XOR" (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1000,11 +1080,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [PD5] MULTIPLY (MUL)
   -------------------------------------------------------------------
+
   function MUL (L, R : KLEENE) return KLEENE is
   begin
     return (mul_table(l, r));
   end function MUL;
+
   -------------------------------------------------------------------
+
   function MUL (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1022,7 +1105,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function MUL;
+
   -------------------------------------------------------------------
+
   function MUL (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1034,7 +1119,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function MUL;
+
   -------------------------------------------------------------------
+
   function MUL (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1050,11 +1137,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [PRZ] IMPLICATION (IMP)
   -------------------------------------------------------------------
+
   function IMP (L, R : KLEENE) return KLEENE is
   begin
     return (imp_table(l, r));
   end function IMP;
+
   -------------------------------------------------------------------
+
   function IMP (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1072,7 +1162,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function IMP;
+
   -------------------------------------------------------------------
+
   function IMP (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1084,7 +1176,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function IMP;
+
   -------------------------------------------------------------------
+
   function IMP (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1100,11 +1194,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [XP9] ANY
   -------------------------------------------------------------------
+
   function ANY (L, R : KLEENE) return KLEENE is
   begin
     return (any_table(l, r));
   end function ANY;
+
   -------------------------------------------------------------------
+
   function ANY (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1122,7 +1219,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function ANY;
+
   -------------------------------------------------------------------
+
   function ANY (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1134,7 +1233,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function ANY;
+
   -------------------------------------------------------------------
+
   function ANY (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1150,11 +1251,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [15H] NANY (NAN)
   -------------------------------------------------------------------
+
   function NAN (L, R : KLEENE) return KLEENE is
   begin
     return (nan_table(l, r));
   end function NAN;
+
   -------------------------------------------------------------------
+
   function NAN (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1172,7 +1276,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function NAN;
+
   -------------------------------------------------------------------
+
   function NAN (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1184,7 +1290,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function NAN;
+
   -------------------------------------------------------------------
+
   function NAN (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1200,11 +1308,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [H51] COMPARE, MORE,LESS,EQUAL (MLE)
   -------------------------------------------------------------------
+
   function MLE (L, R : KLEENE) return KLEENE is
   begin
     return (mle_table(l, r));
   end function MLE;
+
   -------------------------------------------------------------------
+
   function MLE (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1222,7 +1333,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function MLE;
+
   -------------------------------------------------------------------
+
   function MLE (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1234,7 +1347,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function MLE;
+
   -------------------------------------------------------------------
+
   function MLE (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1250,11 +1365,14 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- [RD4] ENABLE (ENA)
   -------------------------------------------------------------------
+
   function ENA (L, R : KLEENE) return KLEENE is
   begin
     return (ena_table(l, r));
   end function ENA;
+
   -------------------------------------------------------------------
+
   function ENA (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1272,7 +1390,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function ENA;
+
   -------------------------------------------------------------------
+
   function ENA (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1284,7 +1404,9 @@ package body kleene_pkg is
     end loop;
     return result;
   end function ENA;
+
   -------------------------------------------------------------------
+
   function ENA (L : KLEENE; R : KLEENE_VECTOR)
     return KLEENE_VECTOR
   is
@@ -1305,7 +1427,9 @@ package body kleene_pkg is
   begin
     return (des_table(l, r));
   end function DES;
+
   -------------------------------------------------------------------
+
   function DES (L, R : KLEENE_VECTOR) return KLEENE_VECTOR is
     alias lv        : KLEENE_VECTOR (1 to l'length) is l;
     alias rv        : KLEENE_VECTOR (1 to r'length) is r;
@@ -1323,7 +1447,9 @@ package body kleene_pkg is
     end if;
     return result;
   end function DES;
+
   -------------------------------------------------------------------
+
   function DES (L : KLEENE_VECTOR; R : KLEENE)
     return KLEENE_VECTOR
   is
@@ -1349,11 +1475,83 @@ package body kleene_pkg is
   end function DES;
 
   --=================================================================
+  -- The ternary "spaceship" operator (<=>)
+  --=================================================================
+
+  function SPACE (L, R : KLEENE) return KLEENE is
+  begin
+    if L < R then
+      return FALSE;
+    elsif L = R then
+      return UNK;
+    elsif L > R then
+      return TRUE;
+    end if;
+  end function SPACE;
+
+  -------------------------------------------------------------------
+
+  function SPACE (L, R : KLEENE_VECTOR) return KLEENE is
+  begin
+    if ((L'length < 1) or (R'length < 1)) then
+      assert NO_WARNING
+        report "TVL.KLEENE_PKG.SPACE: null argument detected, returning FALSE"
+        severity warning;
+      return false;
+    end if;
+    if L < R then
+      return FALSE;
+    elsif L = R then
+      return UNK;
+    elsif L > R then
+      return TRUE;
+    end if;
+  end function SPACE;
+
+  --=================================================================
+  -- Overloads of matching relational operators
+  --=================================================================
+
+  function "?=" (L, R  : KLEENE_VECTOR) return KLEENE is
+    begin
+      if ((L'length < 1) or (R'length < 1)) then
+        assert NO_WARNING
+          report "TVL.KLEENE_PKG.""?="": null argument detected, returning UNK"
+          severity warning;
+        return unk;
+      end if;
+      if L = R then
+        return true;
+      else
+        return false;
+      end if;
+  end function "?=";
+
+  -----------------------------------------------------------------
+
+  function "?/=" (L, R  : KLEENE_VECTOR) return KLEENE is
+    begin
+      if ((L'length < 1) or (R'length < 1)) then
+        assert NO_WARNING
+          report "TVL.KLEENE_PKG.""?/="": null argument detected, returning UNK"
+          severity warning;
+        return unk;
+      end if;
+      if L /= R then
+        return true;
+      else
+        return false;
+      end if;
+  end function "?/=";
+
+  --=================================================================
   -- Shift operator overloads
   --=================================================================
+
   -------------------------------------------------------------------
   -- sll
   -------------------------------------------------------------------
+
   function "sll" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
@@ -1371,6 +1569,7 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- srl
   -------------------------------------------------------------------
+
   function "srl" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
@@ -1388,6 +1587,7 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- rol
   -------------------------------------------------------------------
+
   function "rol" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
@@ -1407,6 +1607,7 @@ package body kleene_pkg is
   -------------------------------------------------------------------
   -- ror
   -------------------------------------------------------------------
+
   function "ror" (L : KLEENE_VECTOR; R : INTEGER)
     return KLEENE_VECTOR
   is
@@ -1423,13 +1624,93 @@ package body kleene_pkg is
     return RESULT;
   end function "ror";
 
+ --=================================================================
+  -- edge detection functions
+  --=================================================================
+
+  -------------------------------------------------------------------
+  -- rising edge
+  -------------------------------------------------------------------
+
+  function any_rising_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return ((S'event and (S = true) and
+            (S'last_value = unk)) or
+            (S'event and (S = unk) and
+            (S'last_value = false)) or
+            (S'event and (S = true) and
+            (S'last_value = false)));
+  end function any_rising_edge;
+
+  ------------------------------------------------------------------- 
+
+  function mz_rising_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return (S'event and (S = unk) and
+            (S'last_value = false));
+  end function mz_rising_edge;
+  
+ -------------------------------------------------------------------
+
+  function zp_rising_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return (S'event and (S = true) and
+            (S'last_value = unk));
+  end function zp_rising_edge;
+
+ -------------------------------------------------------------------
+
+  function mp_rising_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return (S'event and (S = true) and
+            (S'last_value = false));
+  end function mp_rising_edge;
+
+  -------------------------------------------------------------------
+  -- falling edge
+  ------------------------------------------------------------------- 
+
+  function any_falling_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return ((S'event and (S = unk) and
+            (S'last_value = true)) or
+            (S'event and (S = false) and
+            (S'last_value = unk)) or
+            (S'event and (S = false) and
+            (S'last_value = true)));
+  end function any_falling_edge;
+
+  ------------------------------------------------------------------- 
+
+  function pz_falling_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return (S'event and (S = unk) and
+            (S'last_value = true));
+  end function pz_falling_edge;
+
+ -------------------------------------------------------------------
+
+  function zm_falling_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return (S'event and (S = false) and
+            (S'last_value = unk));
+  end function zm_falling_edge;
+
+ -------------------------------------------------------------------
+
+  function pm_falling_edge (signal S : KLEENE) return BOOLEAN is
+  begin
+    return (S'event and (S = false) and
+            (S'last_value = true));
+  end function pm_falling_edge;
+
   -------------------------------------------------------------------
   -- conversion functions
   -------------------------------------------------------------------
 
-  function TO_KLEENE (EXPR : BOOLEAN) return KLEENE is
+  function TO_KLEENE (ARG : BOOLEAN) return KLEENE is
   begin
-    case EXPR is
+    case ARG is
       when true   => return true;
       when others => return false;
     end case;
@@ -1437,11 +1718,11 @@ package body kleene_pkg is
 
   -------------------------------------------------------------------
 
-  function TO_KLEENE (EXPR : BOOLEAN_VECTOR) return KLEENE_VECTOR is
-    variable RESULT : KLEENE_VECTOR(EXPR'length-1 downto 0);
+  function TO_KLEENE (ARG : BOOLEAN_VECTOR) return KLEENE_VECTOR is
+    variable RESULT : KLEENE_VECTOR(ARG'length-1 downto 0);
   begin
-    for i in EXPR'length-1 downto 0 loop
-      case EXPR(i) is
+    for i in ARG'length-1 downto 0 loop
+      case ARG(i) is
         when true   => RESULT(i) := true;
         when others => RESULT(i) := false;
       end case;
@@ -1451,9 +1732,9 @@ package body kleene_pkg is
 
   -------------------------------------------------------------------
 
-  function TO_BOOLEAN (EXPR : KLEENE) return BOOLEAN is
+  function TO_BOOLEAN (ARG : KLEENE) return BOOLEAN is
   begin
-    case EXPR is
+    case ARG is
       when true   => return true;
       when others => return false;
     end case;
@@ -1461,11 +1742,11 @@ package body kleene_pkg is
 
   -------------------------------------------------------------------
 
-  function TO_BOOLEAN (EXPR : KLEENE_VECTOR) return BOOLEAN_VECTOR is
-    variable RESULT : BOOLEAN_VECTOR(EXPR'length-1 downto 0);
+  function TO_BOOLEAN (ARG : KLEENE_VECTOR) return BOOLEAN_VECTOR is
+    variable RESULT : BOOLEAN_VECTOR(ARG'length-1 downto 0);
   begin
-    for i in EXPR'length-1 downto 0 loop
-      case EXPR(i) is
+    for i in ARG'length-1 downto 0 loop
+      case ARG(i) is
         when true   => RESULT(i) := true;
         when others => RESULT(i) := false;
       end case;

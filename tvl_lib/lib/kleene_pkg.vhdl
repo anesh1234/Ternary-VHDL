@@ -17,10 +17,10 @@
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
+
 package kleene_pkg is
 
   type KLEENE is (FALSE, UNK, TRUE);
-
   type KLEENE_VECTOR is array (NATURAL range <>) of KLEENE;
 
   --------------------------------------------------------------------------------
@@ -183,6 +183,25 @@ package kleene_pkg is
   function DES (L : KLEENE; R : KLEENE_VECTOR) return KLEENE_VECTOR;
 
   -------------------------------------------------------------------
+  -- The "spaceship" operator
+  -- Must be called as SPACE(A, B) as of now, but should ideally
+  -- be callable as A <=> B in future implementations.
+  -- For this to be possible, the symbols "<=>" must first be
+  -- defined in a compiler as an operator, then that operator 
+  -- can be overloaded here.
+  -------------------------------------------------------------------
+
+  function SPACE (L, R : KLEENE) return KLEENE;
+  function SPACE (L, R : KLEENE_VECTOR) return KLEENE;
+
+  --=================================================================
+  -- Overloads of matching relational operators
+  --=================================================================
+
+  function "?=" (L, R  : KLEENE_VECTOR) return KLEENE;
+  function "?/=" (L, R  : KLEENE_VECTOR) return KLEENE;
+
+  -------------------------------------------------------------------
   -- shift operators
   -- sll - shift left logical, shifts the vector left by amount R
   -- srl - shift right logical, shifts the vector right by amount R
@@ -197,17 +216,34 @@ package kleene_pkg is
   function "ror" (L : KLEENE_VECTOR; R : INTEGER) return KLEENE_VECTOR;
 
   -------------------------------------------------------------------
-  -- conversion functions made to work around VHDL binary 
-  -- restrictions to allow e.g., the relational operators and 
-  -- edge detection functions in TVL.BAL_LOGIC to 
-  -- return KLEENE types
+  -- edge detection
+  -- mz - minus to zero
+  -- pm - plus to minus
+  -- Only interested in true/false, therefore returning BOOLEAN.
+  -- This decision also makes the functions compatible 
+  -- with if-tests and assertions
   -------------------------------------------------------------------
 
-  function TO_KLEENE (EXPR : BOOLEAN) return KLEENE;
-  function TO_KLEENE (EXPR : BOOLEAN_VECTOR) return KLEENE_VECTOR;
+  function any_rising_edge (signal S : KLEENE) return BOOLEAN;
+  function mz_rising_edge  (signal S : KLEENE) return BOOLEAN;
+  function zp_rising_edge  (signal S : KLEENE) return BOOLEAN;
+  function mp_rising_edge  (signal S : KLEENE) return BOOLEAN;
 
-  -- Lossy conversion; converts UNK to FALSE 
-  function TO_BOOLEAN (EXPR : KLEENE) return BOOLEAN;
-  function TO_BOOLEAN (EXPR : KLEENE_VECTOR) return BOOLEAN_VECTOR;
+  function any_falling_edge (signal S : KLEENE) return BOOLEAN;
+  function pz_falling_edge  (signal S : KLEENE) return BOOLEAN;
+  function zm_falling_edge  (signal S : KLEENE) return BOOLEAN;
+  function pm_falling_edge  (signal S : KLEENE) return BOOLEAN;
+
+  -------------------------------------------------------------------
+  -- conversion functions
+  -------------------------------------------------------------------
+
+  function TO_KLEENE (ARG : BOOLEAN) return KLEENE;
+  function TO_KLEENE (ARG : BOOLEAN_VECTOR) return KLEENE_VECTOR;
+
+  -- Lossy conversion warning; if encountered, 
+  -- these convert UNK to FALSE 
+  function TO_BOOLEAN (ARG : KLEENE) return BOOLEAN;
+  function TO_BOOLEAN (ARG : KLEENE_VECTOR) return BOOLEAN_VECTOR;
 
 end package kleene_pkg;

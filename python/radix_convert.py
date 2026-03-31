@@ -58,11 +58,16 @@ def addBalTern(num1: list[str], num2: list[str]):
 def subBalTern(num1: list[str], num2: list[str]):
     return toDec(num1) - toDec(num2)
 
+def verifyToBaltern ():
+    for i in range(-364, 365):
+        bnum = toBaltern(i)
+        dnum = toDec(bnum)
+        if dnum != i:
+            raise ValueError(f"Calculated Btern num: {bnum} was not equal to decimal: {i}")
+        else:
+            print(bnum, f"Length: {len(bnum)}")
 
 
 if __name__ == "__main__":
-    num1 = ['0', '-', '+', '-', '-', '0']
-    num2 = ['+', '+', '-', '0', '0', '0']
-    print(toBaltern(addBalTern(num1, num2)))
-    #print(toBaltern(subBalTern(num1, num2)))
+    verifyToBaltern()
 

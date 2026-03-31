@@ -22,10 +22,11 @@
 --             :
 --   Note      :  
 --             :
--- --------------------------------------------------------------------
+-- ------------------------------------------------------------------
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
--- --------------------------------------------------------------------
+-- ------------------------------------------------------------------
+
 library TVL;
 use TVL.kleene_pkg.all;
 
@@ -34,6 +35,7 @@ package bal_logic is
   -------------------------------------------------------------------
   -- logic state system  (unresolved)
   ------------------------------------------------------------------- 
+
   type BTERN_ULOGIC is ('U',       -- Uninitialized
                         'X',       -- Forcing Unknown
                         '-',       -- Forcing -
@@ -46,42 +48,49 @@ package bal_logic is
                         'H',       -- Weak +
                         'D'        -- Don't care
                        );
+
   -------------------------------------------------------------------
-  -- unconstrained array of btern_ulogic for use with the resolution function
-  -- and for use in declaring signal arrays of unresolved elements
+  -- unconstrained array of btern_ulogic for use with the resolution 
+  -- function and for use in declaring signal arrays of 
+  -- unresolved elements
   -------------------------------------------------------------------
+
   type BTERN_ULOGIC_VECTOR is array (NATURAL range <>) of BTERN_ULOGIC;
 
   -------------------------------------------------------------------
   -- resolution function
   -------------------------------------------------------------------
+
   function resolved (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
 
   -------------------------------------------------------------------
   -- logic state system  (resolved)
   -------------------------------------------------------------------
+
   subtype BTERN_LOGIC is resolved BTERN_ULOGIC;
 
   -------------------------------------------------------------------
-  -- unconstrained array of resolved btern_ulogic for use in declaring
-  -- signal arrays of resolved elements
+  -- unconstrained array of resolved btern_ulogic for use in 
+  -- declaring signal arrays of resolved elements
   -------------------------------------------------------------------
+
   subtype BTERN_LOGIC_VECTOR is (resolved) BTERN_ULOGIC_VECTOR;
 
   -------------------------------------------------------------------
   -- Common subtypes
-  -- Named e.g, "X2P" meaning "X to Plus"
   -------------------------------------------------------------------
-  subtype BTRIT is BTERN_ULOGIC range '-' to '+';
+  -- Named e.g, "X2P" meaning "X to Plus"
+  
+  type BTRIT is ('-', '0', '+');
   type BTRIT_VECTOR is array (NATURAL range <>) of BTRIT;
   subtype X2P is resolved BTERN_ULOGIC range 'X' to '+';  -- ('X','-','0','+')
   subtype X2Z is resolved BTERN_ULOGIC range 'X' to 'Z';  -- ('X','-','0','+','Z')
   subtype U2P is resolved BTERN_ULOGIC range 'U' to '+';  -- ('U','X','-','0','+')
   subtype U2Z is resolved BTERN_ULOGIC range 'U' to 'Z';  -- ('U','X','-','0','+','Z')
 
-  --------------------------------------------------------------------------------
-  -- Scalar 1-arity logical functions. 
-  --------------------------------------------------------------------------------
+  -------------------------------------------------------------------
+  -- scalar 1-arity logical functions. 
+  -------------------------------------------------------------------
   -- Listed below with their respective heptavintimal index in brackets [],
   -- their function names in parenthesis (), then any aliases:
 
@@ -100,7 +109,7 @@ package bal_logic is
   -- [R], CLAMP_UP (CLU)
   -- [V], Inverted NTI (INT)
   -- [Z], CONST_HIGH (COH)
-  --------------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function COL (L : BTERN_ULOGIC) return U2P;
   function NTI (L : BTERN_ULOGIC) return U2P;
@@ -118,9 +127,10 @@ package bal_logic is
   function INT (L : BTERN_ULOGIC) return U2P;
   function COH (L : BTERN_ULOGIC) return U2P;
 
-  --------------------------------------------------------------------------------
-  -- Overloaded vectorized 1-arity logical functions
-  --------------------------------------------------------------------------------
+  -------------------------------------------------------------------
+  -- vectorized 1-arity logical functions
+  -------------------------------------------------------------------
+
   function COL (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   function NTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   function STI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
@@ -137,9 +147,9 @@ package bal_logic is
   function INT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   function COH (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
-  --------------------------------------------------------------------------------
-  -- Scalar 2-arity logical functions. 
-  --------------------------------------------------------------------------------
+  -------------------------------------------------------------------
+  -- scalar 2-arity logical functions. 
+  -------------------------------------------------------------------
   -- Listed below with their respective heptavintimal index in brackets [],
   -- their function names in parenthesis (), then any aliases:
 
@@ -158,7 +168,8 @@ package bal_logic is
   -- [H51] COMPARE, MORE,LESS,EQUAL (MLE)
   -- [RD4] ENABLE (ENA), ENABLE w/ binary
   -- [VP0] DESELECT (DES), A or B, with one being !ENABLE
-  --------------------------------------------------------------------------------
+  -------------------------------------------------------------------
+
   function SUM   (L, R : BTERN_ULOGIC) return U2P;
   function CON   (L, R : BTERN_ULOGIC) return U2P;
   function NCO   (L, R : BTERN_ULOGIC) return U2P;
@@ -178,6 +189,7 @@ package bal_logic is
   -------------------------------------------------------------------
   -- Vectorized 2-arity logical functions
   -------------------------------------------------------------------
+
   function SUM   (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   function SUM   (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC) return BTERN_ULOGIC_VECTOR;
   function SUM   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
@@ -238,12 +250,7 @@ package bal_logic is
   function DES   (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
 
   -------------------------------------------------------------------
-  -- shift operators
-  -- sll - shift left logical, shifts the vector left by amount r
-  -- srl - shift right logical, shifts the vector right by amount r
-  -- sla/sra is skipped, they are not needed in balanced ternary
-  -- rol - rotate left
-  -- ror - rotate right
+  -- Shift operator overloads
   -------------------------------------------------------------------
 
   function "sll" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
@@ -252,19 +259,24 @@ package bal_logic is
   function "ror" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC_VECTOR;
 
   -------------------------------------------------------------------
-  -- conversion functions and strength strippers
-  -- All functions related to the BIT type in the IEEE library
-  -- have been skipped due to the absence of a completely defined
-  -- TRIT type (logic/relational operators, arithmetic etc.).
+  -- Resize functions.
   -------------------------------------------------------------------
+  -- These are not part of std_logic_1164, but are needed here
+  -- for the relational operator overloads.
+
   function RESIZE (ARG : BTERN_ULOGIC_VECTOR; NEW_SIZE : NATURAL)
   return BTERN_ULOGIC_VECTOR;
+  function RESIZE (ARG, NEW_SIZE : BTERN_ULOGIC_VECTOR) return
+  BTERN_ULOGIC_VECTOR;
 
-  function TO_BALTERN (ARG : INTEGER; SIZE : NATURAL) 
-  return BTERN_ULOGIC_VECTOR;
+  -------------------------------------------------------------------
+  -- Conversion functions and strength strippers
+  -------------------------------------------------------------------
 
-  function TO_INTEGER (ARG : BTERN_ULOGIC_VECTOR) return INTEGER;
-  function TO_INTEGER (ARG : BTERN_ULOGIC) return INTEGER;
+  function To_btrit       (ARG : BTERN_ULOGIC; xmap : BTRIT := '0')
+  return BTRIT;
+  function To_btritvector (ARG : BTERN_ULOGIC_VECTOR; xmap : BTRIT := '0')
+  return BTRIT_VECTOR;
 
   function TO_BternLogicVector (S : BTERN_ULOGIC_VECTOR)
   return BTERN_LOGIC_VECTOR;
@@ -289,22 +301,41 @@ package bal_logic is
   function TO_U2P (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   function TO_U2P (S : BTERN_ULOGIC) return U2P;
 
-  -------------------------------------------------------------------
-  -- Overload of the condition operator
-  -------------------------------------------------------------------
+  -- This kind of function is not part of std_logic_1164, 
+  -- but is needed here for the matching relational operators.
+  -- Converts an integer to a balanced ternary vector of the given size.
+  -- Does not guard against overflow.
+  function TO_BALTERN (ARG : INTEGER; SIZE : NATURAL) 
+  return BTERN_ULOGIC_VECTOR;
+
+  -- This kind of function is not part of std_logic_1164, 
+  -- but has been kept here for convenience because the TO_BALTERN 
+  -- function was forced here.
+  -- Converts a BTERN_(U)LOGIC_VECTOR to an integer.
+  -- The predefined 32-bit INTEGER type in VHDL is guaranteed by the 
+  -- VHDL LRM to include the range –/+ 2'147'483'647.
+  -- The closest trit-count with all +'s or -'s is 20 with 
+  -- values +/- 1'743'392'200. As it is the norm to not 
+  -- protect against overflows in the IEEE library, 
+  -- the same applies here
+  function TO_INTEGER (ARG : BTERN_ULOGIC_VECTOR) return INTEGER;
+  function TO_INTEGER (ARG : BTERN_ULOGIC) return INTEGER;
+
+  -- overload of the condition operator
   function "??" (L : BTERN_ULOGIC) return KLEENE;
   -- '-' or 'L' returns FALSE
   -- '+' or 'H' returns TRUE
   -- All others returns UNKNOWN
   
   -------------------------------------------------------------------
-  -- edge detection
+  -- Edge detection functions
+  -------------------------------------------------------------------
   -- mz - minus to zero
   -- pm - plus to minus
   -- Only interested in true/false, therefore returning BOOLEAN.
   -- This decision also makes the functions compatible 
-  -- with if-tests and assertions
-  -------------------------------------------------------------------
+  -- with if-tests and assertions.
+
   function any_rising_edge (signal S : BTERN_ULOGIC) return BOOLEAN;
   function mz_rising_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
   function zp_rising_edge  (signal S : BTERN_ULOGIC) return BOOLEAN;
@@ -317,19 +348,20 @@ package bal_logic is
 
   -------------------------------------------------------------------
   -- object contains an unknown
+  -------------------------------------------------------------------
   -- Only interested in true/false, therefore returning BOOLEAN.
   -- This decision also makes the functions compatible 
   -- with if-tests and assertions
-  -------------------------------------------------------------------
+
   function Is_X (S : BTERN_ULOGIC_VECTOR) return BOOLEAN;
   function Is_X (S : BTERN_ULOGIC) return BOOLEAN;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
   -- ordinary relational operators
+  -------------------------------------------------------------------
   -- Only interested in true/false, therefore returning BOOLEAN.
   -- This decision also makes the functions compatible 
   -- with if-tests and assertions
-  ------------------------------------------------------------------------
 
   function ">" (L, R  : BTERN_ULOGIC_VECTOR) return BOOLEAN;
   function ">" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
@@ -351,6 +383,10 @@ package bal_logic is
   function "=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
   function "=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BOOLEAN;
 
+  -- Unlike the other relational operators, the "not equal" function 
+  -- should return TRUE if: 
+  -- * either operand contains a metalogical or high-impedance value
+  -- * either operand has length < 1
   function "/=" (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
   function "/=" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BOOLEAN;
   function "/=" (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BOOLEAN;
@@ -359,16 +395,21 @@ package bal_logic is
   -- Must be called as SPACE(A, B) as of now, but should ideally
   -- be callable as A <=> B in future implementations.
   -- For this to be possible, the symbols "<=>" must first be
-  -- defined in the compiler as an operator, then that operator 
+  -- defined in a compiler as an operator, then that operator 
   -- can be overloaded here.
+
   function SPACE (L, R : BTERN_ULOGIC) return KLEENE;
   function SPACE (L, R : BTERN_ULOGIC_VECTOR) return KLEENE;
   function SPACE (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return KLEENE;
   function SPACE (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return KLEENE;
 
   -------------------------------------------------------------------
-  -- matching relational operator overloads
+  -- Matching relational operator overloads
   -------------------------------------------------------------------
+  -- Just like in the IEEE library, these do not 
+  -- guard against overflow.
+  -- Errors when "Don't care" values are present has been
+  -- inherited from the IEEE library.
 
   function "?>" (L, R  : BTERN_ULOGIC) return BTERN_ULOGIC;
   function "?>" (L, R  : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
@@ -407,63 +448,14 @@ package bal_logic is
   function M_SPACE (L : BTERN_ULOGIC_VECTOR; R : INTEGER) return BTERN_ULOGIC;
 
   -------------------------------------------------------------------
-  -- MINIMUM and MAXIMUM overloads for vector type
-  -------------------------------------------------------------------
-  
-  function MINIMUM (L, R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR;
-
-  function MINIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR;
-
-  function MINIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
-  return BTERN_ULOGIC_VECTOR;
-
-  function MAXIMUM (L, R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR;
-
-  function MAXIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR;
-
-  function MAXIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
-  return BTERN_ULOGIC_VECTOR;
-
-
-  -------------------------------------------------------------------
   -- string conversion and read/write functions
   -------------------------------------------------------------------
-  -- the following operations are predefined
+  -- the following operations are predefined, and are verified to 
+  -- work with the new balanced ternary types:
 
-  -- function TO_STRING (value : STD_ULOGIC) return STRING;
-  -- function TO_STRING (value : STD_ULOGIC_VECTOR) return STRING;
-
-  -- IEEE.std_logic_1164 uses 
-  -- TO_OSTRING (VALUE : STD_ULOGIC_VECTOR) (to octal string) and
-  -- TO_HSTRING (VALUE : STD_ULOGIC_VECTOR) (to hexadecimal string)
-  -- then respective OREAD and HREAD procedures
-
-  -- -- I think, for ternary, it is needed:
   -- function TO_STRING (value : BTERN_ULOGIC) return STRING;
   -- function TO_STRING (value : BTERN_ULOGIC_VECTOR) return STRING;
 
-  -- function TO_HEPSTRING (value : BTERN_ULOGIC_VECTOR) return STRING;
-
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC; GOOD : out BOOLEAN);
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC);
-
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR; GOOD : out BOOLEAN);
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR);
-
-  -- procedure WRITE (L : inout LINE; VALUE : in BTERN_ULOGIC;
-  -- --                 JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
-
-  -- procedure WRITE (L : inout LINE; VALUE : in BTERN_ULOGIC_VECTOR;
-  -- --                 JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
-
-  -- procedure HEPREAD (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR; GOOD : out BOOLEAN);
-  -- procedure HEPREAD (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR);
-  -- procedure HEPWRITE (L : inout LINE; VALUE : in BTERN_ULOGIC_VECTOR;
-  --                  JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
-
+  -- Read/write functions were skipped in this initial work
 
 end bal_logic;

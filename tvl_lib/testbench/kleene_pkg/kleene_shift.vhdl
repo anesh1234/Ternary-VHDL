@@ -17,6 +17,7 @@ end entity;
 architecture tb of kleene_shift_tb is
 begin
   main : process
+
     --=================================================================
     -- test procedures to call shift functions and make assertions
     --=================================================================
@@ -56,7 +57,7 @@ begin
     -- with zero, then -1, lastly with 5.
     -- This ensures coverage of all branches in the functions
 
-    if run("KLEENE_VECTOR SLL") then
+    if run("Vector SLL") then
       T_SLL((unk, unk, unk, unk, unk, true, false, unk, unk, unk, unk, unk),
               1,
             (unk, unk, unk, unk, true, false, unk,  unk, unk, unk, unk, unk));
@@ -73,7 +74,7 @@ begin
               5,
             (true, false, unk, unk, unk, unk, unk, unk, unk, unk, unk, unk));
 
-    elsif run("KLEENE_VECTOR SRL") then
+    elsif run("Vector SRL") then
       T_SRL((unk, unk, unk, unk, unk, true, false, unk, unk, unk, unk, unk),
               1,
             (unk, unk, unk, unk, unk, unk, true, false, unk, unk, unk, unk));
@@ -90,7 +91,7 @@ begin
               5,
             (unk, unk, unk, unk, unk, unk, unk, unk, unk, unk, true, false));
 
-    elsif run("KLEENE_VECTOR ROL") then
+    elsif run("Vector ROL") then
       T_ROL((false, false, unk, unk, unk, true, false, unk, unk, unk, true, true),
               1,
             (false, unk, unk, unk, true, false, unk, unk, unk, true, true, false));
@@ -107,7 +108,7 @@ begin
               5,
             (true, false, unk, unk, unk, true, true, false, false, unk, unk, unk));
 
-    elsif run("KLEENE_VECTOR ROR") then
+    elsif run("Vector ROR") then
       T_ROR((false, false, unk, unk, unk, true, false, unk, unk, unk, true, true),
               1,
             (true, false, false, unk, unk, unk, true, false, unk, unk, unk, true));
@@ -124,8 +125,9 @@ begin
               5,
             (unk, unk, unk, true, true, false, false, unk, unk, unk, true, false));
     
-
     end if;
+
     test_runner_cleanup(runner);
+
   end process;
 end architecture;

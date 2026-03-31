@@ -189,63 +189,63 @@ begin
     -- Test vectors for 1-arity logops
     --=================================================================
 
-    if run("Test 1-arity COL") then
+    if run("1-arity COL") then
       U_COL((false, unk,   true),
             (false, false, false));
 
-    elsif run("Test 1-arity NTI") then
+    elsif run("1-arity NTI") then
       U_NTI((false, unk,   true),
             (true,  false, false));
 
-    elsif run("Test 1-arity STI") then
+    elsif run("1-arity STI") then
       U_STI((false, unk, true),
             (true,  unk, false));
 
-    elsif run("Test 1-arity MTI") then
+    elsif run("1-arity MTI") then
       U_MTI((false, unk,  true),
             (false, true, false));
 
-    elsif run("Test 1-arity INC") then
+    elsif run("1-arity INC") then
       U_INC((false, unk,  true),
             (unk,   true, false));
 
-    elsif run("Test 1-arity PTI") then
+    elsif run("1-arity PTI") then
       U_PTI((false, unk,  true),
             (true,  true, false));
 
-    elsif run("Test 1-arity DEC") then
+    elsif run("1-arity DEC") then
       U_DEC((false, unk,   true),
             (true,  false, unk));
 
-    elsif run("Test 1-arity CLD") then
+    elsif run("1-arity CLD") then
       U_CLD((false, unk, true),
             (false, unk, unk));
 
-    elsif run("Test 1-arity COM") then
+    elsif run("1-arity COM") then
       U_COM((false, unk, true),
             (unk,   unk, unk));
 
-    elsif run("Test 1-arity IPT") then
+    elsif run("1-arity IPT") then
       U_IPT((false, unk,   true),
             (false, false, true));
 
-    elsif run("Test 1-arity IMT") then
+    elsif run("1-arity IMT") then
       U_IMT((false, unk, true),
             (true, false, true));
 
-    elsif run("Test 1-arity BUF") then
+    elsif run("1-arity BUF") then
       U_BUF((false, unk, true),
             (false, unk, true));
 
-    elsif run("Test 1-arity CLU") then
+    elsif run("1-arity CLU") then
       U_CLU((false, unk, true),
             (unk, unk, true));
 
-    elsif run("Test 1-arity INT") then
+    elsif run("1-arity INT") then
       U_INT((false, unk,  true),
             (false, true, true));
 
-    elsif run("Test 1-arity COH") then
+    elsif run("1-arity COH") then
       U_COH((false, unk,  true),
             (true,  true, true));
 
@@ -253,77 +253,77 @@ begin
     -- Test vectors for 2-arity logops
     --=================================================================
 
-    elsif run("Test 2-arity SUM") then
+    elsif run("2-arity SUM") then
       D_SUM((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true), 
             (true,  false, unk,   false, unk, true, unk,   true, false));
 
-    elsif run("Test 2-arity CON") then
+    elsif run("2-arity CON") then
       D_CON((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true), 
             (false, unk,   unk,   unk,   unk, unk,  unk,   unk,  true));
 
-    elsif run("Test 2-arity NCO") then
+    elsif run("2-arity NCO") then
       D_NCO((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true), 
             (true,  unk,   unk,   unk,   unk, unk,  unk,   unk,  false));
 
-    elsif run("Test 2-arity MINI") then
+    elsif run("2-arity MINI") then
       D_MINI((false, false, false, unk,   unk, unk,  true,  true, true), 
              (false, unk,   true,  false, unk, true, false, unk,  true),  
              (false, false, false, false, unk, unk,  false, unk,  true));
 
-    elsif run("Test 2-arity MAX") then
+    elsif run("2-arity MAX") then
       D_MAX((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true), 
             (false, unk,   true,  unk,   unk, true, true,  true, true));
 
-    elsif run("Test 2-arity NMI") then
+    elsif run("2-arity NMI") then
       D_NMI((false, false, false, unk,   unk, unk,   true,  true,  true), 
             (false, unk,   true,  false, unk, true,  false, unk,   true), 
             (true,  unk,   false, unk,   unk, false, false, false, false));
 
-    elsif run("Test 2-arity NMA") then
+    elsif run("2-arity NMA") then
       D_NMA((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (true,  true,  true,  true,  unk, unk,  true,  unk,  false));
 
-    elsif run("Test 2-arity XOR") then
+    elsif run("2-arity XOR") then
       D_XOR((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (false, unk,   true,  unk,   unk, unk,  true,  unk,  false));
 
-    elsif run("Test 2-arity MUL") then
+    elsif run("2-arity MUL") then
       D_MUL((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (true,  unk,   false, unk,   unk, unk,  false, unk,  true));
 
-    elsif run("Test 2-arity IMP") then
+    elsif run("2-arity IMP") then
       D_IMP((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (true,  true,  true,  unk,   unk, true, false, unk,  true));
 
-    elsif run("Test 2-arity ANY") then
+    elsif run("2-arity ANY") then
       D_ANY((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (false, false, unk,   false, unk, true, unk,   true, true));
 
-    elsif run("Test 2-arity NAN") then
+    elsif run("2-arity NAN") then
       D_NAN((false, false, false, unk,   unk, unk,   true,  true,  true), 
             (false, unk,   true,  false, unk, true,  false, unk,   true),  
             (true,  true,  unk,   true,  unk, false, unk,   false, false));
 
-    elsif run("Test 2-arity MLE") then
+    elsif run("2-arity MLE") then
       D_MLE((false, false, false, unk,   unk, unk,   true,  true, true), 
             (false, unk,   true,  false, unk, true,  false, unk,  true),  
             (unk,   false, false, true,  unk, false, true,  true, unk));
 
-    elsif run("Test 2-arity ENA") then
+    elsif run("2-arity ENA") then
       D_ENA((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (unk,   unk,   false, unk,   unk, unk,  unk,   unk,  true));
 
-    elsif run("Test 2-arity DES") then
+    elsif run("2-arity DES") then
       D_DES((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (false, false, false, false, unk, true, false, true, true));

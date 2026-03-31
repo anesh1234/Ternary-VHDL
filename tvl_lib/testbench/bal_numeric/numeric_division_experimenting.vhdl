@@ -64,40 +64,6 @@ begin
         print(TO_STRING(checker), "z_type_test.txt");
     end procedure;
 
-    procedure test_tdiv_btern(
-      constant a_vec : BTERN_LOGIC_VECTOR;
-      constant b_vec : BTERN_LOGIC_VECTOR
-    ) is
-      variable quotient_vec, rem_vec : BTERN_LOGIC_VECTOR(a_vec'length-1 downto 0) 
-                                                    := (others => '0');
-      variable a_i, b_i, quotient_i, rem_i, int_quot, int_rem  : INTEGER;
-
-      -- DEBUG
-      variable trunc_checker : BOOLEAN := false;
-      variable euclid_checker : BOOLEAN := false;
-    begin
-        a_i := TO_INTEGER(a_vec);
-        b_i := TO_INTEGER(b_vec);
-
-        int_quot := a_i / b_i;
-        int_rem  := a_i rem b_i;
-
-        TDIV_BTERN(a_vec, b_vec, quotient_vec, rem_vec);
-
-        quotient_i := TO_INTEGER(quotient_vec);
-        rem_i      := TO_INTEGER(rem_vec);
-
-        if (quotient_i = int_quot) and (rem_i = int_rem) then
-            trunc_checker := true;
-        end if;
-
-        check_euclidean(a_i, b_i, quotient_i, rem_i, euclid_checker);
-
-        -- DEBUG
-        print("e"&TO_STRING(euclid_checker) & " | " & "t"&TO_STRING(trunc_checker) & " | " & TO_STRING(a_i) & " / " & TO_STRING(b_i) & " | " & 
-              TO_STRING(quotient_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_tdiv_btern.txt");
-    end procedure;
-
     procedure test_binarydiv(
       constant a_vec : SIGNED;
       constant b_vec : SIGNED;
@@ -210,7 +176,7 @@ begin
               TO_STRING(quot_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_jones_1.txt");
     end procedure;
 
-    procedure test_jones1_prog(
+    procedure test_div_testing(
       constant a_vec : BTERN_LOGIC_VECTOR;
       constant b_vec : BTERN_LOGIC_VECTOR
     ) is
@@ -230,7 +196,7 @@ begin
         int_quot := a_i / b_i;
         int_rem  := a_i rem b_i;
 
-        JONES1_PROG(a_vec, b_vec, quot_vec, rem_vec);
+        DIV_TESTING(a_vec, b_vec, quot_vec, rem_vec);
 
         quot_i := TO_INTEGER(quot_vec);
         rem_i  := TO_INTEGER(rem_vec);
@@ -243,7 +209,7 @@ begin
 
         -- DEBUG
         print("e"&TO_STRING(euclid_checker) & " | " & "t"&TO_STRING(trunc_checker) & " | " & TO_STRING(a_i) & " / " & TO_STRING(b_i) & " | " & 
-              TO_STRING(quot_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_jones1_prog.txt");
+              TO_STRING(quot_i) & " | " & TO_STRING(rem_i) & " | " & TO_STRING(int_quot) & " | " & TO_STRING(int_rem), "z_div_testing.txt");
     end procedure;
 
     procedure test_div_op(
@@ -337,10 +303,10 @@ begin
             TO_BALTERN(4, 3));
         end loop;
 
-    elsif run("Jones1 Progressive") then
+    elsif run("DIV_TESTING") then
 
         -- DEBUG
-        print("Euclidean" & " | " & "Truncating" & " | " & "Calculation" & " | " & "BTERN Quot" & " | "  & "BTERN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_jones1_prog.txt");
+        print("Euclidean" & " | " & "Truncating" & " | " & "Calculation" & " | " & "BTERN Quot" & " | "  & "BTERN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_div_testing.txt");
         
         -- ==========================================
         -- Tests for the specific inputs used by 
@@ -348,13 +314,13 @@ begin
         -- ==========================================
 
         -- for i in -10 to 10 loop
-        --     test_jones1_prog(
+        --     test_div_testing(
         --     TO_BALTERN(i, 3),
         --     TO_BALTERN(2, 3));
         -- end loop;
 
         -- for i in -10 to 10 loop
-        --     test_jones1_prog(
+        --     test_div_testing(
         --     TO_BALTERN(i, 3),
         --     TO_BALTERN(4, 3));
         -- end loop;
@@ -365,7 +331,7 @@ begin
 
         for x in -10 to 10 loop
             for y in -10 to -1 loop
-                test_jones1_prog(
+                test_div_testing(
                 TO_BALTERN(x, 6),
                 TO_BALTERN(y, 6));
             end loop;
@@ -373,7 +339,7 @@ begin
 
         for x in -10 to 10 loop
             for y in 1 to 10 loop
-                test_jones1_prog(
+                test_div_testing(
                 TO_BALTERN(x, 6),
                 TO_BALTERN(y, 6));
             end loop;
@@ -384,84 +350,9 @@ begin
         -- Specific numbers
         -- ==========================================
 
-        -- test_jones1_prog(
+        -- test_div_testing(
         --             TO_BALTERN(5, 3),
         --             TO_BALTERN( 2, 3));
-
-    elsif run("TDIV_BTERN") then
-
-        -- DEBUG
-        print("Euclidean" & " | " & "Truncating" & " | " & "Calculation" & " | " & "BTERN Quot" & " | "  & "BTERN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_tdiv_btern.txt");
-        
-        -- ==========================================
-        -- All 6-trit numbers
-        -- ==========================================
-
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_tdiv_btern(
-                TO_BALTERN(x, 6),
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
-
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_tdiv_btern(
-                TO_BALTERN(x, 6),
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
-
-        -- ==========================================
-        -- All numbers -10 to 10
-        -- ==========================================
-
-        -- for x in -10 to 10 loop
-        --     for y in -10 to -1 loop
-        --         test_tdiv_btern(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
-
-        -- for x in -10 to 10 loop
-        --     for y in 1 to 10 loop
-        --         test_tdiv_btern(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
-
-
-        -- ==========================================
-        -- All POSITIVE numbers 1-364
-        -- ==========================================
-
-        -- for x in 0 to 364 loop
-        --     for y in 1 to 364 loop
-        --         test_tdiv_btern(
-        --         TO_BALTERN(x, 6),
-        --         TO_BALTERN(y, 6));
-        --     end loop;
-        -- end loop;
-
-        -- ==========================================
-        -- Specific numbers
-        -- ==========================================
-
-        -- test_tdiv_btern(
-        --             TO_BALTERN(10, 6),
-        --             TO_BALTERN( 6, 6));
-        -- test_tdiv_btern(
-        --             TO_BALTERN(-10, 6),
-        --             TO_BALTERN( -6, 6));
-        -- test_tdiv_btern(
-        --             TO_BALTERN(10, 6),
-        --             TO_BALTERN(-6, 6));
-        -- test_tdiv_btern(
-        --             TO_BALTERN(-10, 6),
-        --             TO_BALTERN(  6, 6));
 
     elsif run("Binary div") then
 
@@ -469,27 +360,27 @@ begin
         -- All numbers 1-10
         -- ==========================================
 
-        -- DEBUG
-        print("Success" & " | " & "Calculation" & " | " & "BIN Quot" & " | "  & "BIN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_binarydiv.txt");
+        -- -- DEBUG
+        -- print("Success" & " | " & "Calculation" & " | " & "BIN Quot" & " | "  & "BIN rem" & " | " & "INTEGER Quot" & " | " & "INTEGER rem", "z_binarydiv.txt");
 
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_binarydiv(
-                TO_SIGNED(x, 10),
-                TO_SIGNED(y, 10),
-                          x / y);
-            end loop;
-        end loop;
+        -- for x in -364 to 364 loop
+        --     for y in -364 to -1 loop
+        --         test_binarydiv(
+        --         TO_SIGNED(x, 10),
+        --         TO_SIGNED(y, 10),
+        --                   x / y);
+        --     end loop;
+        -- end loop;
 
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_binarydiv(
-                TO_SIGNED(x, 10),
-                TO_SIGNED(y, 10),
-                          x / y);
-            end loop;
-        end loop;
-    
+        -- for x in -364 to 364 loop
+        --     for y in 1 to 364 loop
+        --         test_binarydiv(
+        --         TO_SIGNED(x, 10),
+        --         TO_SIGNED(y, 10),
+        --                   x / y);
+        --     end loop;
+        -- end loop;
+
     elsif run("Check division definition") then
 
         -- ==========================================
@@ -516,21 +407,21 @@ begin
         -- -- All 6-trit numbers
         -- -- ==========================================
 
-        for x in -364 to 364 loop
-            for y in -364 to -1 loop
-                test_div_op(
-                TO_BALTERN(x, 6),
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
+        -- for x in -364 to 364 loop
+        --     for y in -364 to -1 loop
+        --         test_div_op(
+        --         TO_BALTERN(x, 6),
+        --         TO_BALTERN(y, 6));
+        --     end loop;
+        -- end loop;
 
-        for x in -364 to 364 loop
-            for y in 1 to 364 loop
-                test_div_op(
-                TO_BALTERN(x, 6),
-                TO_BALTERN(y, 6));
-            end loop;
-        end loop;
+        -- for x in -364 to 364 loop
+        --     for y in 1 to 364 loop
+        --         test_div_op(
+        --         TO_BALTERN(x, 6),
+        --         TO_BALTERN(y, 6));
+        --     end loop;
+        -- end loop;
 
         -- ==========================================
         -- All 6-trit POSITIVE numbers (works in 13.03)
@@ -567,6 +458,15 @@ begin
         --         TO_BALTERN(y, 6));
         --     end loop;
         -- end loop;
+
+        -- ==========================================
+        -- Single number
+        -- ==========================================
+
+        test_div_op(
+        TO_BALTERN(3, 4),
+        TO_BALTERN(3, 4));
+
     end if;
     
     test_runner_cleanup(runner);

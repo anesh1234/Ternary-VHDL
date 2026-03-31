@@ -27,17 +27,19 @@ package body bal_logic is
   constant NAC : BTERN_ULOGIC_VECTOR (0 downto 1) := (others => '0');
   constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
   
-  -------------------------------------------------------------------
+  --=================================================================
   -- local types
-  -------------------------------------------------------------------
+  --=================================================================
+
   type bternlogic_1d is array (BTERN_ULOGIC) of BTERN_ULOGIC;
   type bternlogic_table is array(BTERN_ULOGIC, BTERN_ULOGIC) of BTERN_ULOGIC;
 
-  -------------------------------------------------------------------
-  -- resolution function
+  --=================================================================
+  -- local resolution function
+  --=================================================================
   -- -, 0 and + are resolved the same way as in binary,
-  -- resolving to X when different values are presented
-  -------------------------------------------------------------------
+  -- resolving to X when different values are presented.
+
   constant btern_resolution_table : bternlogic_table := (
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
@@ -58,10 +60,10 @@ package body bal_logic is
   function resolved (S : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC is
     variable result : BTERN_ULOGIC := 'Z';  -- weakest state default
   begin
-    -- the test for a single driver is essential otherwise the
+    -- "the test for a single driver is essential otherwise the
     -- loop would return 'X' for a single driver of 'D' and that
     -- would conflict with the value of a single driver unresolved
-    -- signal.
+    -- signal." - IEEE.std_logic_1164
     if (s'length = 1) then return s(s'low);
     else
       for i in s'range loop
@@ -76,105 +78,105 @@ package body bal_logic is
   -- their respective heptavintimal index in brackets []
   --=================================================================
 
-  -- truth table for [0], CONST_LOW
+  -- [0], CONST_LOW
   constant col_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '-', '-', '-', 'X', 'X', '-', '-', '-', 'X');
   
-  -- truth table for [2], Negative Ternary Inverter
+  -- [2], Negative Ternary Inverter
   constant nti_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '+', '-', '-', 'X', 'X', '+', '-', '-', 'X');
 
-  -- truth table for [5], Standard Ternary Inverter
+  -- [5], Standard Ternary Inverter
   constant sti_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '+', '0', '-', 'X', 'X', '+', '0', '-', 'X');
 
-  -- truth table for [6], Middle Toggling Inverter, DETECT_MIDDLE
+  -- [6], Middle Toggling Inverter, DETECT_MIDDLE
   constant mti_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '-', '+', '-', 'X', 'X', '-', '+', '-', 'X');
 
-  -- truth table for [7], Increment, NEXT, SUCCESSOR
+  -- [7], Increment, NEXT, SUCCESSOR
   constant inc_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '0', '+', '-', 'X', 'X', '0', '+', '-', 'X');
 
-  -- truth table for [8], Positive Ternary Inverter
+  -- [8], Positive Ternary Inverter
   constant pti_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '+', '+', '-', 'X', 'X', '+', '+', '-', 'X');
 
-  -- truth table for [B], DECREMENT, PREV, PREDECESSOR
+  -- [B], DECREMENT, PREV, PREDECESSOR
   constant dec_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '+', '-', '0', 'X', 'X', '+', '-', '0', 'X');
 
-  -- truth table for [C], CLAMP_DOWN
+  -- [C], CLAMP_DOWN
   constant cld_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '-', '0', '0', 'X', 'X', '-', '0', '0', 'X');
 
-  -- truth table for [D], CONST_MIDDLE
+  -- [D], CONST_MIDDLE
   constant com_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '0', '0', '0', 'X', 'X', '0', '0', '0', 'X');
 
-  -- truth table for [K], Inverted PTI, DETECT_HIGH
+  -- [K], Inverted PTI, DETECT_HIGH
   constant ipt_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '-', '-', '+', 'X', 'X', '-', '-', '+', 'X');
 
-  -- truth table for [N], Inverted MTI, inverted DETECT_MIDDLE
+  -- [N], Inverted MTI, inverted DETECT_MIDDLE
   constant imt_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '+', '-', '+', 'X', 'X', '+', '-', '+', 'X');
 
-  -- truth table for [P], BUFFER
+  -- [P], BUFFER
   constant buf_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '-', '0', '+', 'X', 'X', '-', '0', '+', 'X');
 
-  -- truth table for [R], CLAMP_UP
+  -- [R], CLAMP_UP
   constant clu_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '0', '0', '+', 'X', 'X', '0', '0', '+', 'X');
 
-  -- truth table for [V], Inverted NTI
+  -- [V], Inverted NTI
   constant int_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
     -- --------------------------------------------------------- 
         ('X', 'X', '-', '+', '+', 'X', 'X', '-', '+', '+', 'X');
 
-  -- truth table for [Z], CONST_HIGH
+  -- [Z], CONST_HIGH
   constant coh_table : bternlogic_1d :=
     -- ---------------------------------------------------------
     -- |  U    X    -    0    +    Z    W    L    M    H    D   |
@@ -183,7 +185,7 @@ package body bal_logic is
 
 
   --=================================================================
-  -- Tables for binary logical functions, preceded by 
+  -- Tables for 2-arity logical functions, preceded by 
   -- their respective heptavintimal index in brackets []
   --=================================================================
  
@@ -526,11 +528,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [0], CONST_LOW
   -------------------------------------------------------------------
+
   function COL (L : BTERN_ULOGIC) return U2P is
   begin
     return (col_table(l));
   end function COL;
+
   ------------------------------------------------------------------- 
+
   function COL (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -544,11 +549,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [2], Negative Ternary Inverter, DETECT_LOW
   -------------------------------------------------------------------
+
   function NTI (L : BTERN_ULOGIC) return U2P is
   begin
     return (nti_table(l));
   end function NTI;
+
   -------------------------------------------------------------------
+
   function NTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -562,11 +570,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [5], Standard Ternary Inverter
   -------------------------------------------------------------------
+
   function STI (L : BTERN_ULOGIC) return U2P is
   begin
     return (sti_table(l));
   end function STI;
+
   -------------------------------------------------------------------
+
   function STI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -580,11 +591,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [6], Middle Toggling Inverter, DETECT_MIDDLE
   -------------------------------------------------------------------
+
   function MTI (L : BTERN_ULOGIC) return U2P is
   begin
     return (mti_table(l));
   end function MTI;
+
   -------------------------------------------------------------------
+
   function MTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -598,11 +612,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [7], Increment, NEXT, SUCCESSOR
   -------------------------------------------------------------------
+
   function INC (L : BTERN_ULOGIC) return U2P is
   begin
     return (inc_table(l));
   end function INC;
+
   -------------------------------------------------------------------
+
   function INC (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -616,11 +633,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [8], Positive Ternary Inverter
   -------------------------------------------------------------------
+  
   function PTI (L : BTERN_ULOGIC) return U2P is
   begin
     return (pti_table(l));
   end function PTI;
+
   -------------------------------------------------------------------
+
   function PTI (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -634,11 +654,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [B], DECREMENT, PREV, PREDECESSOR
   -------------------------------------------------------------------
+
   function DEC (L : BTERN_ULOGIC) return U2P is
   begin
     return (dec_table(l));
   end function DEC;
+
   -------------------------------------------------------------------
+
   function DEC (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -652,11 +675,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [C], CLAMP_DOWN
   -------------------------------------------------------------------
+
   function CLD (L : BTERN_ULOGIC) return U2P is
   begin
     return (cld_table(l));
   end function CLD;
+
   -------------------------------------------------------------------
+
   function CLD (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -670,11 +696,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [D], CONST_MIDDLE
   -------------------------------------------------------------------
+
   function COM (L : BTERN_ULOGIC) return U2P is
   begin
     return (com_table(l));
   end function COM;
+
   -------------------------------------------------------------------
+
   function COM (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -688,11 +717,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [K], Inverted PTI, DETECT_HIGH
   -------------------------------------------------------------------
+
   function IPT (L : BTERN_ULOGIC) return U2P is
   begin
     return (ipt_table(l));
   end function IPT;
+
   -------------------------------------------------------------------
+
   function IPT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -706,11 +738,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [N], Inverted MTI, inverted DETECT_MIDDLE
   -------------------------------------------------------------------
+
   function IMT (L : BTERN_ULOGIC) return U2P is
   begin
     return (imt_table(l));
   end function IMT;
+
   -------------------------------------------------------------------
+
   function IMT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -724,11 +759,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [P], BUFFER
   -------------------------------------------------------------------
+
   function BUF (L : BTERN_ULOGIC) return U2P is
   begin
     return (buf_table(l));
   end function BUF;
+
   -------------------------------------------------------------------
+
   function BUF (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -742,11 +780,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [R], CLAMP_UP
   -------------------------------------------------------------------
+  
   function CLU (L : BTERN_ULOGIC) return U2P is
   begin
     return (clu_table(l));
   end function CLU;
+
   -------------------------------------------------------------------
+
   function CLU (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -760,11 +801,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [V], Inverted NTI
   -------------------------------------------------------------------
+
   function INT (L : BTERN_ULOGIC) return U2P is
   begin
     return (int_table(l));
   end function INT;
+
   -------------------------------------------------------------------
+
   function INT (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -778,11 +822,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [Z], CONST_HIGH
   -------------------------------------------------------------------
+
   function COH (L : BTERN_ULOGIC) return U2P is
   begin
     return (coh_table(l));
   end function COH;
+
   -------------------------------------------------------------------
+
   function COH (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     variable result : BTERN_ULOGIC_VECTOR (1 to l'length) := (others => 'X');
@@ -806,6 +853,7 @@ package body bal_logic is
   begin
     return (sum_table(L, r));
   end function SUM;
+
   -------------------------------------------------------------------
 
   function SUM (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -825,6 +873,7 @@ package body bal_logic is
     end if;
     return result;
   end function SUM;
+
   -------------------------------------------------------------------
 
   function SUM (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -838,6 +887,7 @@ package body bal_logic is
     end loop;
     return result;
   end function SUM;
+
   -------------------------------------------------------------------
 
   function SUM (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -860,6 +910,7 @@ package body bal_logic is
   begin
     return (con_table(L, r));
   end function CON;
+
   -------------------------------------------------------------------
 
   function CON (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -879,6 +930,7 @@ package body bal_logic is
     end if;
     return result;
   end function CON;
+
   -------------------------------------------------------------------
 
   function CON (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -892,6 +944,7 @@ package body bal_logic is
     end loop;
     return result;
   end function CON;
+
   -------------------------------------------------------------------
 
   function CON (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -914,6 +967,7 @@ package body bal_logic is
   begin
     return (nco_table(L, r));
   end function NCO;
+
   -------------------------------------------------------------------
 
   function NCO (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -933,6 +987,7 @@ package body bal_logic is
     end if;
     return result;
   end function NCO;
+
   -------------------------------------------------------------------
 
   function NCO (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -946,6 +1001,7 @@ package body bal_logic is
     end loop;
     return result;
   end function NCO;
+
   -------------------------------------------------------------------
 
   function NCO (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -968,6 +1024,7 @@ package body bal_logic is
   begin
     return (min_table(L, r));
   end function MINI;
+
   -------------------------------------------------------------------
 
   function MINI (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -987,6 +1044,7 @@ package body bal_logic is
     end if;
     return result;
   end function MINI;
+
   -------------------------------------------------------------------
 
   function MINI (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -1000,6 +1058,7 @@ package body bal_logic is
     end loop;
     return result;
   end function MINI;
+
   -------------------------------------------------------------------
 
   function MINI (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -1022,6 +1081,7 @@ package body bal_logic is
   begin
     return (max_table(L, r));
   end function MAX;
+
   -------------------------------------------------------------------
 
   function MAX (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -1041,6 +1101,7 @@ package body bal_logic is
     end if;
     return result;
   end function MAX;
+
   -------------------------------------------------------------------
 
   function MAX (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -1054,6 +1115,7 @@ package body bal_logic is
     end loop;
     return result;
   end function MAX;
+
   -------------------------------------------------------------------
 
   function MAX (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -1076,6 +1138,7 @@ package body bal_logic is
   begin
     return (nmi_table(L, r));
   end function NMI;
+
   -------------------------------------------------------------------
 
   function NMI (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -1095,6 +1158,7 @@ package body bal_logic is
     end if;
     return result;
   end function NMI;
+
   -------------------------------------------------------------------
 
   function NMI (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -1108,6 +1172,7 @@ package body bal_logic is
     end loop;
     return result;
   end function NMI;
+
   -------------------------------------------------------------------
 
   function NMI (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -1130,6 +1195,7 @@ package body bal_logic is
   begin
     return (nma_table(L, r));
   end function NMA;
+
   -------------------------------------------------------------------
 
   function NMA (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
@@ -1149,6 +1215,7 @@ package body bal_logic is
     end if;
     return result;
   end function NMA;
+
   -------------------------------------------------------------------
 
   function NMA (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
@@ -1162,6 +1229,7 @@ package body bal_logic is
     end loop;
     return result;
   end function NMA;
+
   -------------------------------------------------------------------
 
   function NMA (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
@@ -1179,11 +1247,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [5DP] XOR
   -------------------------------------------------------------------
+
   function "XOR" (L, R : BTERN_ULOGIC) return U2P is
   begin
     return (btern_xor_table(L, r));
   end function "XOR";
+
   -------------------------------------------------------------------
+
   function "XOR" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1201,7 +1272,9 @@ package body bal_logic is
     end if;
     return result;
   end function "XOR";
+
   -------------------------------------------------------------------
+
   function "XOR" (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1213,7 +1286,9 @@ package body bal_logic is
     end loop;
     return result;
   end function "XOR";
+
   -------------------------------------------------------------------
+
   function "XOR" (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1233,7 +1308,9 @@ package body bal_logic is
   begin
     return (mul_table(L, r));
   end function MUL;
+
   -------------------------------------------------------------------
+
   function MUL (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1251,7 +1328,9 @@ package body bal_logic is
     end if;
     return result;
   end function MUL;
+
   -------------------------------------------------------------------
+
   function MUL (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1263,7 +1342,9 @@ package body bal_logic is
     end loop;
     return result;
   end function MUL;
+
   -------------------------------------------------------------------
+
   function MUL (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1279,11 +1360,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [PRZ] IMPLICATION (IMP)
   -------------------------------------------------------------------
+
   function IMP (L, R : BTERN_ULOGIC) return U2P is
   begin
     return (imp_table(L, r));
   end function IMP;
+
   -------------------------------------------------------------------
+
   function IMP (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1301,7 +1385,9 @@ package body bal_logic is
     end if;
     return result;
   end function IMP;
+
   -------------------------------------------------------------------
+
   function IMP (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1313,7 +1399,9 @@ package body bal_logic is
     end loop;
     return result;
   end function IMP;
+
   -------------------------------------------------------------------
+
   function IMP (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1329,11 +1417,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [XP9] ANY
   -------------------------------------------------------------------
+
   function ANY (L, R : BTERN_ULOGIC) return U2P is
   begin
     return (any_table(L, r));
   end function ANY;
+
   -------------------------------------------------------------------
+
   function ANY (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1351,7 +1442,9 @@ package body bal_logic is
     end if;
     return result;
   end function ANY;
+
   -------------------------------------------------------------------
+
   function ANY (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1363,7 +1456,9 @@ package body bal_logic is
     end loop;
     return result;
   end function ANY;
+
   -------------------------------------------------------------------
+
   function ANY (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1379,11 +1474,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [15H] NANY (NAN)
   -------------------------------------------------------------------
+
   function NAN (L, R : BTERN_ULOGIC) return U2P is
   begin
     return (nan_table(L, r));
   end function NAN;
+
   -------------------------------------------------------------------
+
   function NAN (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1401,7 +1499,9 @@ package body bal_logic is
     end if;
     return result;
   end function NAN;
+
   -------------------------------------------------------------------
+
   function NAN (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1413,7 +1513,9 @@ package body bal_logic is
     end loop;
     return result;
   end function NAN;
+
   -------------------------------------------------------------------
+
   function NAN (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1429,11 +1531,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [H51] COMPARE, MORE,LESS,EQUAL (MLE)
   -------------------------------------------------------------------
+
   function MLE (L, R : BTERN_ULOGIC) return U2P is
   begin
     return (mle_table(L, r));
   end function MLE;
+
   -------------------------------------------------------------------
+
   function MLE (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1451,7 +1556,9 @@ package body bal_logic is
     end if;
     return result;
   end function MLE;
+
   -------------------------------------------------------------------
+
   function MLE (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1463,7 +1570,9 @@ package body bal_logic is
     end loop;
     return result;
   end function MLE;
+
   -------------------------------------------------------------------
+
   function MLE (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1479,11 +1588,14 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- [RD4] ENABLE (ENA)
   -------------------------------------------------------------------
+
   function ENA (L, R : BTERN_ULOGIC) return U2P is
   begin
     return (ena_table(L, r));
   end function ENA;
+
   -------------------------------------------------------------------
+
   function ENA (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1501,7 +1613,9 @@ package body bal_logic is
     end if;
     return result;
   end function ENA;
+
   -------------------------------------------------------------------
+
   function ENA (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1513,7 +1627,9 @@ package body bal_logic is
     end loop;
     return result;
   end function ENA;
+
   -------------------------------------------------------------------
+
   function ENA (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1534,7 +1650,9 @@ package body bal_logic is
   begin
     return (des_table(L, r));
   end function DES;
+
   -------------------------------------------------------------------
+
   function DES (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias lv        : BTERN_ULOGIC_VECTOR (1 to l'length) is l;
     alias rv        : BTERN_ULOGIC_VECTOR (1 to r'length) is r;
@@ -1552,7 +1670,9 @@ package body bal_logic is
     end if;
     return result;
   end function DES;
+
   -------------------------------------------------------------------
+
   function DES (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1564,7 +1684,9 @@ package body bal_logic is
     end loop;
     return result;
   end function DES;
+
   -------------------------------------------------------------------
+
   function DES (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1577,11 +1699,14 @@ package body bal_logic is
     return result;
   end function DES;
 
-  -------------------------------------------------------------------
+  --=================================================================
   -- shift operators
+  --=================================================================
+
   -------------------------------------------------------------------
   -- sll
   -------------------------------------------------------------------
+
   function "sll" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1599,6 +1724,7 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- srl
   -------------------------------------------------------------------
+
   function "srl" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1616,6 +1742,7 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- rol
   -------------------------------------------------------------------
+
   function "rol" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1635,6 +1762,7 @@ package body bal_logic is
   -------------------------------------------------------------------
   -- ror
   -------------------------------------------------------------------
+
   function "ror" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
   is
@@ -1651,13 +1779,15 @@ package body bal_logic is
     return result;
   end function "ror";
 
-  -------------------------------------------------------------------
+  --=================================================================
   -- conversion tables
-  -------------------------------------------------------------------
+  --=================================================================
+
   type logic_x2p_table is array (BTERN_ULOGIC'low to BTERN_ULOGIC'high) of X2P;
   type logic_x2z_table is array (BTERN_ULOGIC'low to BTERN_ULOGIC'high) of X2Z;
   type logic_u2p_table is array (BTERN_ULOGIC'low to BTERN_ULOGIC'high) of U2P;
-  ----------------------------------------------------------
+
+  -------------------------------------------------------------------
   -- table name : cvt_to_x2p
   --
   -- parameters :
@@ -1667,7 +1797,8 @@ package body bal_logic is
   --
   -- example    : if (cvt_to_x2p (input_signal) = '+' ) then ...
   --
-  ----------------------------------------------------------
+  -------------------------------------------------------------------
+
   constant cvt_to_x2p : logic_x2p_table := (
     'X',                                -- 'U'
     'X',                                -- 'X'
@@ -1682,7 +1813,7 @@ package body bal_logic is
     'X'                                 -- 'D'
     );
 
-  ----------------------------------------------------------
+  -------------------------------------------------------------------
   -- table name : cvt_to_x2z
   --
   -- parameters :
@@ -1692,7 +1823,8 @@ package body bal_logic is
   --
   -- example    : if (cvt_to_x2z (input_signal) = '+' ) then ...
   --
-  ----------------------------------------------------------
+  -------------------------------------------------------------------
+
   constant cvt_to_x2z : logic_x2z_table := (
     'X',                                -- 'U'
     'X',                                -- 'X'
@@ -1707,7 +1839,7 @@ package body bal_logic is
     'X'                                 -- 'D'
     );
 
-  ----------------------------------------------------------
+  -------------------------------------------------------------------
   -- table name : cvt_to_u2p
   --
   -- parameters :
@@ -1717,7 +1849,8 @@ package body bal_logic is
   --
   -- example    : if (cvt_to_u2p (input_signal) = '+' ) then ...
   --
-  ----------------------------------------------------------
+  -------------------------------------------------------------------
+
   constant cvt_to_u2p : logic_u2p_table := (
     'U',                                -- 'U'
     'X',                                -- 'X'
@@ -1732,8 +1865,38 @@ package body bal_logic is
     'X'                                 -- 'D'
     );
 
+  --=================================================================
+  -- Conversion functions and strength strippers
+  --=================================================================
+
+  function To_btrit (ARG : BTERN_ULOGIC; xmap : BTRIT := '0') return BTRIT is
+  begin
+    case ARG is
+      when '-' | 'L' => return ('-');
+      when '0' | 'M' => return ('0');
+      when '+' | 'H' => return ('+');
+      when others    => return xmap;
+    end case;
+  end function To_btrit;
+
   -------------------------------------------------------------------
-  -- Strength strippers and type conversion functions
+
+  function To_btritvector (ARG : BTERN_ULOGIC_VECTOR; xmap : BTRIT := '0')
+    return BTRIT_VECTOR
+  is
+    variable RESULT : BTRIT_VECTOR (ARG'length-1 downto 0);
+  begin
+    for i in RESULT'range loop
+      case ARG(i) is
+        when '-' | 'L' => RESULT(i) := '-';
+        when '0' | 'M' => RESULT(i) := '0';
+        when '+' | 'H' => RESULT(i) := '+';
+        when others    => RESULT(i) := xmap;
+      end case;
+    end loop;
+    return RESULT;
+  end function To_btritvector;
+
   -------------------------------------------------------------------
 
   function RESIZE (ARG : BTERN_ULOGIC_VECTOR; NEW_SIZE : NATURAL)
@@ -1757,10 +1920,17 @@ package body bal_logic is
     return RESULT;
   end function RESIZE;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
-  -- Converts an integer to a balanced ternary vector of the given size.
-  -- Does not guard against overflow.
+  function RESIZE (ARG, NEW_SIZE : BTERN_ULOGIC_VECTOR)
+    return BTERN_ULOGIC_VECTOR is
+  begin
+    return RESIZE (ARG      => ARG,
+                   NEW_SIZE => NEW_SIZE'length);
+  end function RESIZE;
+
+  -------------------------------------------------------------------
+
   function TO_BALTERN (ARG : INTEGER; SIZE : NATURAL) return BTERN_ULOGIC_VECTOR is
     variable RESULT    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
     variable I_VAL     : INTEGER := ARG;
@@ -1789,14 +1959,8 @@ package body bal_logic is
     return RESULT;
   end function TO_BALTERN;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
-  -- Converts a BTERN_(U)LOGIC_VECTOR to an integer.
-  -- The predefined 32-bit INTEGER type in VHDL is guaranteed by the VHDL LRM to 
-  -- include the range –2'147'483'647 to +2'147'483'647
-  -- The closest all-plus trit-count is 20 with values +/- 1'743'392'200
-  -- However, as it is the norm to not protect against overflows, the 
-  -- decision was made to stick to that.
   function TO_INTEGER (ARG : BTERN_ULOGIC_VECTOR) return INTEGER is
     variable RESULT : INTEGER := 0;
     variable BASE   : INTEGER;
@@ -1830,7 +1994,7 @@ package body bal_logic is
     return RESULT;
   end function TO_INTEGER;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_INTEGER (ARG : BTERN_ULOGIC) return INTEGER is
     variable RESULT : BTERN_ULOGIC_VECTOR(0 downto 0);
@@ -1839,9 +2003,7 @@ package body bal_logic is
     return TO_INTEGER(RESULT);
   end function TO_INTEGER;
 
-  ------------------------------------------------------------------------
-  -- conversions between logic/ulogic vectors
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_BternLogicVector (s : BTERN_ULOGIC_VECTOR)
     return BTERN_LOGIC_VECTOR
@@ -1855,7 +2017,7 @@ package body bal_logic is
     return result;
   end function TO_BternLogicVector;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_BternULogicVector (s : BTERN_LOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
@@ -1869,9 +2031,7 @@ package body bal_logic is
     return result;
   end function TO_BternULogicVector;
 
-  ------------------------------------------------------------------------
-  -- removing metalogical values and strength
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_M2P (s : BTERN_ULOGIC_VECTOR; xmap : BTERN_ULOGIC := '0')
     return BTERN_ULOGIC_VECTOR
@@ -1920,14 +2080,14 @@ package body bal_logic is
     return result;
   end function TO_X2P;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_X2P (s : BTERN_ULOGIC) return X2P is
   begin
     return (cvt_to_x2p(s));
   end function TO_X2P;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
   
   function TO_X2Z (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias sv        : BTERN_ULOGIC_VECTOR (1 to s'length) is s;
@@ -1939,14 +2099,14 @@ package body bal_logic is
     return result;
   end function TO_X2Z;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_X2Z (s : BTERN_ULOGIC) return X2Z is
   begin
     return (cvt_to_x2z(s));
   end function TO_X2Z;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
   
   function TO_U2P (s : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     alias sv        : BTERN_ULOGIC_VECTOR (1 to s'length) is s;
@@ -1958,14 +2118,14 @@ package body bal_logic is
     return result;
   end function TO_U2P;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function TO_U2P (s : BTERN_ULOGIC) return U2P is
   begin
     return (cvt_to_u2p(s));
   end function TO_U2P;
   
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
   -- Overload of the condition operator
   -------------------------------------------------------------------
 
@@ -1978,8 +2138,10 @@ package body bal_logic is
     end case;
   end function "??";
 
-  -------------------------------------------------------------------
-  -- edge detection
+  --=================================================================
+  -- edge detection functions
+  --=================================================================
+
   -------------------------------------------------------------------
   -- rising edge
   -------------------------------------------------------------------
@@ -2071,7 +2233,7 @@ package body bal_logic is
     return false;
   end function Is_X;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function Is_X (s : BTERN_ULOGIC) return BOOLEAN is
   begin
@@ -2082,28 +2244,28 @@ package body bal_logic is
     return false;
   end function Is_X;
 
-  --------------------------------------------------------------------
-  --Local subprograms supporting relational operators
-  --------------------------------------------------------------------
+  --=================================================================
+  -- local subprograms supporting relational operators
+  --=================================================================
 
   function EQUAL (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
   begin
-    return BTRIT_VECTOR(L) = BTRIT_VECTOR(R);
+    return To_btritvector(L) = To_btritvector(R);
   end function EQUAL;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function LESS (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
   begin
-    return BTRIT_VECTOR(L) < BTRIT_VECTOR(R);
+    return To_btritvector(L) < To_btritvector(R);
   end function LESS;
 
-  --------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function LESS_OR_EQUAL (L, R : BTERN_ULOGIC_VECTOR)
     return BOOLEAN is
   begin
-    return BTRIT_VECTOR(L) <= BTRIT_VECTOR(R);
+    return To_btritvector(L) <= To_btritvector(R);
   end function LESS_OR_EQUAL;
 
   --=================================================================
@@ -2491,10 +2653,6 @@ package body bal_logic is
   
   -------------------------------------------------------------------
   -- /=
-  -- Unlike the other relational operators, the "not equal" function 
-  -- should return TRUE if: 
-  -- * either operand contains a metalogical or high-impedance value
-  -- * either operand has length < 1
   -------------------------------------------------------------------
 
   function "/=" (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
@@ -2647,11 +2805,6 @@ package body bal_logic is
       
   --=================================================================
   -- Matching relational operator overloads
-
-  -- Just like in the IEEE library, these do not 
-  -- guard against overflow.
-  -- Errors when "Don't care" values are present has been
-  -- inherited from the IEEE library.
   --=================================================================
   
   -------------------------------------------------------------------
@@ -3047,151 +3200,5 @@ package body bal_logic is
   begin
     return M_SPACE(L, TO_BALTERN(R, L'length));
   end function M_SPACE;
-
-  -------------------------------------------------------------------
-  -- MINIMUM overloads for array type
-  -------------------------------------------------------------------
-
-  function MINIMUM (L, R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR is
-    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
-    variable LM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
-    variable RM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
-    alias XL      : BTERN_ULOGIC_VECTOR(L'length-1 downto 0) is L;
-    alias XR      : BTERN_ULOGIC_VECTOR(R'length-1 downto 0) is R;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAC;
-    end if;
-    LM2P := TO_M2P(RESIZE(XL, SIZE), 'X');
-    if (LM2P(LM2P'left) = 'X') then return LM2P;
-    end if;
-    RM2P := TO_M2P(RESIZE(XR, SIZE), 'X');
-    if (RM2P(RM2P'left) = 'X') then return RM2P;
-    end if;
-    if LESS(LM2P, RM2P) then
-      return LM2P;
-    else
-      return RM2P;
-    end if;
-  end function MINIMUM;
-
-  -------------------------------------------------------------------
-
-  function MINIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR is
-  begin
-    return MINIMUM(TO_BALTERN(L, R'length), R);
-  end function MINIMUM;
-
-  -------------------------------------------------------------------
-
-  function MINIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
-  return BTERN_ULOGIC_VECTOR is
-  begin
-    return MINIMUM(L, TO_BALTERN(R, L'length));
-  end function MINIMUM;
-
-  -------------------------------------------------------------------
-  -- MAXIMUM overloads for array type
-  -------------------------------------------------------------------
-
-  function MAXIMUM (L, R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR is
-    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
-    variable LM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
-    variable RM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
-    alias XL      : BTERN_ULOGIC_VECTOR(L'length-1 downto 0) is L;
-    alias XR      : BTERN_ULOGIC_VECTOR(R'length-1 downto 0) is R;
-  begin
-    if ((L'length < 1) or (R'length < 1)) then return NAC;
-    end if;
-    LM2P := TO_M2P(RESIZE(XL, SIZE), 'X');
-    if (LM2P(LM2P'left) = 'X') then return LM2P;
-    end if;
-    RM2P := TO_M2P(RESIZE(XR, SIZE), 'X');
-    if (RM2P(RM2P'left) = 'X') then return RM2P;
-    end if;
-    if LESS(LM2P, RM2P) then
-      return RM2P;
-    else
-      return LM2P;
-    end if;
-  end function MAXIMUM;
-
-  -------------------------------------------------------------------
-
-  function MAXIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
-  return BTERN_ULOGIC_VECTOR is
-  begin
-    return MAXIMUM(TO_BALTERN(L, R'length), R);
-  end function MAXIMUM;
-
-  -------------------------------------------------------------------
-
-  function MAXIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
-  return BTERN_ULOGIC_VECTOR is
-  begin
-    return MAXIMUM(L, TO_BALTERN(R, L'length));
-  end function MAXIMUM;
-
-  -------------------------------------------------------------------
-
--- KNOWN TO BE MISSING:
--- Explicit (matching) relational operator overloads for BTERN_ULOGIC
--- MINIMUM and MAXIMUM overloads for BTERN_ULOGIC
--- One could argue that the ordinary/matching spaceship operator is the solution for both of these
-
-
-
-  -------------------------------------------------------------------
-  -- string conversion and read/write operations
-  -------------------------------------------------------------------
-
-  -- function TO_STRING (value : BTERN_ULOGIC) return STRING is
-  --   variable RESULT : STRING(1 to 1);
-  --   begin
-  --     RESULT(1) := BTERN_ULOGIC'image(value)(2);
-  --     return RESULT;
-  --   end function TO_STRING;
-
-
-  -- function TO_STRING (value : BTERN_ULOGIC_VECTOR) return STRING is
-  --   variable RESULT : STRING(value'range);
-  --   begin
-  --     for I in value'range loop
-  --       RESULT(I) := BTERN_ULOGIC'image(value(I))(2);
-  --     end loop;
-  --     return RESULT;
-  --   end function TO_STRING;
-
-  -- function TO_HEPSTRING (value : BTERN_ULOGIC_VECTOR) return STRING is
-  --   variable TEMP : BTERN_ULOGIC;
-  --   variable RESULT : BTERN_ULOGIC_VECTOR(value'length - 1 downto 0);
-  --   begin
-  --     for I in value'range loop
-  --       case s is
-  --         when '0' | 'M' => return ('0');
-  --         when '1' | 'H' => return ('1');
-  --         when others    => return xmap;
-  --       end case;
-  --     end loop;
-  --   end function TO_HEPSTRING;
-
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC; GOOD : out BOOLEAN);
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC);
-
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR; GOOD : out BOOLEAN);
-  -- procedure READ (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR);
-
-  -- procedure WRITE (L : inout LINE; VALUE : in BTERN_ULOGIC;
-  --                 JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
-
-  -- procedure WRITE (L : inout LINE; VALUE : in BTERN_ULOGIC_VECTOR;
-  --                 JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
-
-  -- procedure HEPREAD (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR; GOOD : out BOOLEAN);
-  -- procedure HEPREAD (L : inout LINE; VALUE : out BTERN_ULOGIC_VECTOR);
-  -- procedure HEPWRITE (L : inout LINE; VALUE : in BTERN_ULOGIC_VECTOR;
-  --                  JUSTIFIED : in    SIDE := right; FIELD : in WIDTH := 0);
 
 end package body bal_logic;

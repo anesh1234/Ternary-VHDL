@@ -28,12 +28,19 @@ begin
   begin
     test_runner_setup(runner, runner_cfg);
 
-    if run("RESIZE with single BTERN_LOGIC_VECTOR") then
+    if run("RESIZE single Vector") then
 
-        check(TO_STRING(RESIZE("--00++", 0)) = TO_STRING(T_NAC));
-        check(TO_STRING(RESIZE(v_empty, 5)) = "00000");
-        check(TO_STRING(RESIZE("--00++", 4)) = "00++");
+        check(TO_STRING(RESIZE("--00++", 0))  = TO_STRING(T_NAC));
+        check(TO_STRING(RESIZE(v_empty, 5))   = "00000");
+        check(TO_STRING(RESIZE("--00++", 4))  = "00++");
         check(TO_STRING(RESIZE("--00++", 10)) = "0000--00++");
+
+    elsif run("RESIZE double Vector") then
+
+        check(TO_STRING(RESIZE("--00++", v_empty))        = TO_STRING(T_NAC));
+        check(TO_STRING(RESIZE(v_empty, "--00++"))        = "000000");
+        check(TO_STRING(RESIZE("--00++", "--00"))         = "00++");
+        check(TO_STRING(RESIZE("--00++", "--00++--00++")) = "000000--00++");
 
     elsif run("TO_BALTERN") then
 
@@ -52,9 +59,9 @@ begin
     elsif run("TO_INTEGER") then
 
         check(TO_INTEGER(v_empty) = 0);
-        check(TO_INTEGER("-") = -1);
-        check(TO_INTEGER("0") = 0);
-        check(TO_INTEGER("+") = 1);
+        check(TO_INTEGER("-")     = -1);
+        check(TO_INTEGER("0")     = 0);
+        check(TO_INTEGER("+")     = 1);
 
         check(TO_INTEGER("+-0--0-000--+++-+-+0+") = 2147483647);
         check(TO_INTEGER("-+0++0+000++---+-+-0-") = -2147483647);
@@ -75,7 +82,7 @@ begin
         check(TO_BULV("--00++00000++00--")
                     = "--00++00000++00--");
 
-    elsif run("TO_M2P - BTERN_LOGIC(_VECTOR)") then
+    elsif run("TO_M2P - Scalar/Vector") then
 
         check(TO_STRING(TO_M2P("--00++LLMMHH")) = "--00++--00++");
         check(TO_STRING(TO_M2P("--XX++LLMMHH")) = "000000000000");
@@ -85,26 +92,26 @@ begin
         check(TO_STRING(TO_M2P(BTERN_LOGIC'('Z'))) = "0");
         check(TO_STRING(TO_M2P(BTERN_LOGIC'('X'), BTERN_LOGIC'('D'))) = "D");
 
-    elsif run("TO_X2P, X2Z, U2P - BTERN_LOGIC_VECTOR") then
+    elsif run("TO_X2P, X2Z, U2P - Vector") then
 
         -- simple checks here to confirm that the tables are working
         check(TO_STRING(TO_X2P("UX-0+ZWLMHD")) = "XX-0+XX-0+X");
         check(TO_STRING(TO_X2Z("UX-0+ZWLMHD")) = "XX-0+ZX-0+X");
         check(TO_STRING(TO_U2P("UX-0+ZWLMHD")) = "UX-0+XX-0+X");
 
-    elsif run("?? - BTERN_LOGIC)") then
+    elsif run("?? - Scalar") then
 
         check(TO_STRING(KLEENE'(??s_L)) = TO_STRING(KLEENE'(false)));
         check(TO_STRING(KLEENE'(??s_p)) = TO_STRING(KLEENE'(true)));
         check(TO_STRING(KLEENE'(??s_D)) = TO_STRING(KLEENE'(unk)));
 
-    elsif run("TO_STRING - BTERN_LOGIC(_VECTOR), KLEENE") then
+    elsif run("TO_STRING - Scalar/Vector/Kleene") then
 
         check("00--++DDZZ" = TO_STRING(BTERN_LOGIC_VECTOR'("00--++DDZZ")));
         check("D" = TO_STRING(BTERN_LOGIC'('D')));
         check("unk" = TO_STRING(KLEENE'(unk)));
 
-    elsif run("IS_X - BTERN_LOGIC(_VECTOR)") then
+    elsif run("IS_X - Scalar/Vector") then
 
         check(IS_X("UX-0+ZWLMHD") = true);
         check(IS_X("--00++") = false);

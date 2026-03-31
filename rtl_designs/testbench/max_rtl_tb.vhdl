@@ -48,7 +48,7 @@ begin
         wait;
     end process;
 
-  uut1: entity work.example(dataflow)
+  uut1: entity work.top(dataflow)
     port map (
       input_1 => input_data_1,
       input_2 => input_data_2,
@@ -57,9 +57,9 @@ begin
 
   uut2: entity work.top(structural)
     port map (
-      a => input_struct_1,
-      b => input_struct_2,
-      c  => res_struct
+      input_1 => input_struct_1,
+      input_2 => input_struct_2,
+      result  => res_struct
     );
 
 

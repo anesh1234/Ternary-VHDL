@@ -35,11 +35,11 @@ package body bal_numeric is
   constant NAC : BTERN_ULOGIC_VECTOR (0 downto 1) := (others => '0');
   constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
 
-  ------------------------------------------------------------------------
+  --=================================================================
   -- Local subprograms
-  ------------------------------------------------------------------------
+  --=================================================================
 
-  -- Computes the addition of two BTERN_ULOGIC_VECTOR with input carry trit
+  -- Computes the addition of two BTERN_ULOGIC_VECTOR with input carry.
   -- Both arguments must be of the same length
   function ADD_BTERN_VEC (L, R : BTERN_ULOGIC_VECTOR; C : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
@@ -57,7 +57,7 @@ package body bal_numeric is
     return RESULT;
   end function ADD_BTERN_VEC;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   -- Based on the first of the two balanced ternary division algorithms
   -- proposed by Jones.
@@ -77,7 +77,7 @@ package body bal_numeric is
     variable REMQUO    : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
                           := (others => '0');
   begin
-    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
+    assert DIVISOR /= 0 report "TVL.BAL_NUMERIC.DIVMOD: DIV, MOD, or REM by zero"
       severity error;
 
     REMQUO(SINGLE-1 downto 0) := DIVIDEND;
@@ -115,9 +115,7 @@ package body bal_numeric is
     XQUO := REMQUO(SINGLE-1 downto 0);
   end procedure DIVMOD;
 
-
-
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   -- VHDL-version of the 1st of the two pseudocoded balanced ternary 
   -- division algorithms proposed by Jones.
@@ -137,7 +135,7 @@ package body bal_numeric is
     variable REMQUO    : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
                           := (others => '0');
   begin
-    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
+    assert DIVISOR /= 0 report "TVL.BAL_NUMERIC.DIVMOD: DIV, MOD, or REM by zero"
       severity error;
 
     -- quo = dividend;
@@ -200,7 +198,7 @@ package body bal_numeric is
     XQUO := REMQUO(SINGLE-1 downto 0);
   end procedure JONES1;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   -- VHDL-version of the 2nd "optimized" version of the two pseudocoded 
   -- balanced ternary division algorithms proposed by Jones.
@@ -290,59 +288,7 @@ package body bal_numeric is
     XQUO := REMQUO(SINGLE-1 downto 0);
   end procedure JONES2;
 
-  ------------------------------------------------------------------------
-
-  procedure TDIV_BTERN (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
-                        XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
-    variable SINGLE  : INTEGER := DIVIDEND'length;
-    variable DOUBLE  : INTEGER := DIVIDEND'length*2;
-    variable REMQUO  : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
-                                          := (others => '0');
-    variable PARTREM : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
-                                          := (others => '0');
-  begin
-    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
-      severity error;
-
-    REMQUO(SINGLE-1 downto 0) := DIVIDEND;
-    print("REMQUO START: " & " | " & TO_STRING(REMQUO), "z_tdiv_btern.txt");
-
-    for I in SINGLE-1 downto 0 loop
-
-      REMQUO := REMQUO sll 1;
-
-      print("I: " & " | " & TO_STRING(I), "z_tdiv_btern.txt");
-      print("REMQUO SHIFTED: " & " | " & TO_STRING(REMQUO), "z_tdiv_btern.txt");
-      print("REMQUO(DOUBLE-1 downto (SINGLE-I)): " & " | " & TO_STRING(REMQUO(DOUBLE-1 downto (SINGLE-I))), "z_tdiv_btern.txt");
-
-
-      if LEFTMOST_NZ(REMQUO(DOUBLE-1 downto (SINGLE-I))) = '0' then
-        null;
-
-      elsif LEFTMOST_NZ(REMQUO(DOUBLE-1 downto (SINGLE-I))) /= LEFTMOST_NZ(DIVISOR) then
-        PARTREM := REMQUO(DOUBLE-1 downto (SINGLE-I)) + DIVISOR*(3**I);
-        REMQUO(DOUBLE-1 downto (SINGLE-I)) := PARTREM(SINGLE-1+I downto 0);
-        REMQUO((SINGLE-1-I) downto 0)      := REMQUO((SINGLE-1-I) downto 0) - 1;
-
-      else
-        PARTREM := REMQUO(DOUBLE-1 downto (SINGLE-I)) - DIVISOR*(3**I);
-        REMQUO(DOUBLE-1 downto (SINGLE-I)) := PARTREM(SINGLE-1+I downto 0);
-        REMQUO((SINGLE-1-I) downto 0)      := REMQUO((SINGLE-1-I) downto 0) + 1;
-      end if;
-
-      print("REMQUO i: " & " | " & TO_STRING(REMQUO), "z_tdiv_btern.txt");
-    end loop;
-
-    if REMQUO(DOUBLE-1 downto SINGLE) < 0 then
-        REMQUO(DOUBLE-1 downto SINGLE) := REMQUO(DOUBLE-1 downto SINGLE) + DIVISOR;
-        REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) - 1;
-    end if;
-
-    XREM := RESIZE(REMQUO(DOUBLE-1 downto SINGLE), DIVISOR'length);
-    XQUO := RESIZE(REMQUO(SINGLE-1 downto 0), DIVIDEND'length);
-  end procedure TDIV_BTERN;
-
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   -- Euclidean division working for all 6-trit pos/neg numbers
   procedure BTE_DIVMOD (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
@@ -360,7 +306,7 @@ package body bal_numeric is
     variable HIGHQUO   : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
     variable LOWQUO    : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
   begin
-    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
+    assert DIVISOR /= 0 report "TVL.BAL_NUMERIC.BTE_DIVMOD: DIV or MOD by zero"
       severity error;
 
     REMQUO(SINGLE-1 downto 0) := DIVIDEND;
@@ -401,9 +347,9 @@ package body bal_numeric is
     XQUO := REMQUO(SINGLE-1 downto 0);
   end procedure BTE_DIVMOD;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
-  procedure JONES1_PROG (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+  procedure DIV_TESTING (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
                         XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
     variable SINGLE    : INTEGER := DIVIDEND'length;
     variable DOUBLE    : INTEGER := DIVIDEND'length*2;
@@ -414,8 +360,11 @@ package body bal_numeric is
                           := (others => '0');
     variable HIGH      : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
     variable LOW       : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
+    variable CLOSEST_Z : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
+    variable HIGHQUO   : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
+    variable LOWQUO    : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
   begin
-    assert DIVISOR /= 0 report "TVL.BAL_LOGIC.DIVMOD: DIV, MOD, or REM by zero"
+    assert DIVISOR /= 0 report "TVL.BAL_NUMERIC.DIVMOD: DIV, MOD, or REM by zero"
       severity error;
 
     REMQUO(SINGLE-1 downto 0) := DIVIDEND;
@@ -427,19 +376,17 @@ package body bal_numeric is
       HIGH := REMQUO(DOUBLE-1 downto SINGLE) + ("0" & DIVISOR);
       LOW  := REMQUO(DOUBLE-1 downto SINGLE) - ("0" & DIVISOR);
 
-      if abs(HIGH(SINGLE-1 downto 0)) < abs(REMQUO(DOUBLE-1 downto SINGLE)) then
-        if abs(HIGH(SINGLE-1 downto 0)) <= abs(LOW(SINGLE-1 downto 0)) then
-          REMQUO(DOUBLE-1 downto SINGLE) := HIGH(SINGLE-1 downto 0);
-          REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) - 1;
-        else
-          REMQUO(DOUBLE-1 downto SINGLE) := LOW(SINGLE-1 downto 0);
-          REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) + 1;
-        end if;
-      elsif abs(LOW(SINGLE-1 downto 0)) < abs(REMQUO(DOUBLE-1 downto SINGLE)) then
-        REMQUO(DOUBLE-1 downto SINGLE) := LOW(SINGLE-1 downto 0);
-        REMQUO(SINGLE-1 downto 0)      := REMQUO(SINGLE-1 downto 0) + 1;
-      end if;
+      HIGHQUO   := HIGH & REMQUO(SINGLE-1 downto 0);
+      LOWQUO    := LOW  & REMQUO(SINGLE-1 downto 0);
+      CLOSEST_Z := MINIMUM(abs(LOWQUO), MINIMUM(abs(REMQUO), abs(HIGHQUO)));
 
+      if CLOSEST_Z = abs(HIGHQUO) then
+        REMQUO := HIGHQUO(DOUBLE-1 downto 0);
+        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) - 1;
+      elsif CLOSEST_Z = abs(LOWQUO) then 
+        REMQUO := LOWQUO(DOUBLE-1 downto 0);
+        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) + 1;
+      end if;
     end loop;
 
     if REMQUO(DOUBLE-1 downto SINGLE) < 0 then
@@ -454,31 +401,35 @@ package body bal_numeric is
 
     XREM := REMQUO(DOUBLE-1 downto SINGLE);
     XQUO := REMQUO(SINGLE-1 downto 0);
-  end procedure JONES1_PROG;
+  end procedure DIV_TESTING;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
-  -- Returns the number of trits necessary to express any integer
+  -- Returns the number of balanced trits necessary to 
+  -- express any integer.
   function NUM_BTRITS (ARG : INTEGER) return NATURAL is
     variable NTRITS : NATURAL := 0;
-    variable N      : NATURAL;
+    variable REMAIN : NATURAL := 0;
+    variable N      : NATURAL := abs(ARG);
   begin
-    if ARG = 0 then
+    if N = 0 then
       NTRITS := 1;
-      return NTRITS;
-    elsif ARG > 0 then
-      N := ARG;
-    else
-      N := -(ARG);
-    end if;
-    while N > 0 loop
+      return NTRITS; 
+    end if;   
+    while N /= 0 loop
       NTRITS := NTRITS+1;
+      REMAIN := N mod 3;
+      if REMAIN = 1 then
+        N := N - 1;
+      elsif REMAIN = 2 then
+        N := N + 1;
+      end if;
       N := N / 3;
     end loop;
-    return NTRITS;
+    return NTRITS; 
   end function NUM_BTRITS;
   
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   -- Returns the BTERN_ULOGIC value of the leftmost trit which is not 0.
   -- Returns '0' if none was found.
@@ -493,9 +444,9 @@ package body bal_numeric is
     return '0';
   end function leftmost_nz;
 
-  ------------------------------------------------------------------------
-  -- absolute value and 1-arity "-"
-  ------------------------------------------------------------------------
+  --=================================================================
+  -- Arithmetic operators for simplification
+  --=================================================================
 
   function "abs" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     constant L_LEFT : INTEGER := L'length-1;
@@ -513,16 +464,16 @@ package body bal_numeric is
     return RESULT;
   end function "abs";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "-" (L : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
   begin
     return STI(L);
   end function "-";
   
-  ------------------------------------------------------------------------
+  --=================================================================
   -- Overloads of the "+" predefined operator
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function "+" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
@@ -540,46 +491,54 @@ package body bal_numeric is
     return ADD_BTERN_VEC(LM2P, RM2P, '0');
   end function "+";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "+" (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
   return BTERN_ULOGIC_VECTOR is
     variable XR : BTERN_ULOGIC_VECTOR(L'length-1 downto 0) := (others => '0');
   begin
+    if L'length < 1 then return NAC;
+    end if;
     XR(0) := R;
     return (L + XR);
   end function "+";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "+" (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
     variable XL : BTERN_ULOGIC_VECTOR(R'length-1 downto 0) := (others => '0');
   begin
+    if R'length < 1 then return NAC;
+    end if;
     XL(0) := L;
     return (XL + R);
   end function "+";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
   
   function "+" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
    return BTERN_ULOGIC_VECTOR is
   begin
-   return L + TO_BALTERN(R, L'length);
+    if L'length < 1 then return NAC;
+    end if;
+    return L + TO_BALTERN(R, L'length);
   end function "+";
 
-  -- ------------------------------------------------------------------------
+  -------------------------------------------------------------------
   
   function "+" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
    return BTERN_ULOGIC_VECTOR is
   begin
-   return TO_BALTERN(L, R'length) + R;
+    if R'length < 1 then return NAC;
+    end if;
+    return TO_BALTERN(L, R'length) + R;
   end function "+";
  
-  ------------------------------------------------------------------------
+  --=================================================================
   -- Overloads of the "-" predefined operator
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function "-" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
@@ -596,53 +555,59 @@ package body bal_numeric is
     end if;
     return ADD_BTERN_VEC(LM2P, STI(RM2P), '0');
   end function "-";
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "-" (L : BTERN_ULOGIC_VECTOR; R : BTERN_ULOGIC)
     return BTERN_ULOGIC_VECTOR
   is
     variable XR : BTERN_ULOGIC_VECTOR(L'length-1 downto 0) := (others => '0');
   begin
+    if L'length < 1 then return NAC;
+    end if;
     XR(0) := R;
     return (L + STI(XR));
   end function "-";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "-" (L : BTERN_ULOGIC; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
   is
     variable XL : BTERN_ULOGIC_VECTOR(R'length-1 downto 0) := (others => '0');
   begin
+    if R'length < 1 then return NAC;
+    end if;
     XL(0) := L;
     return (XL + STI(R));
   end function "-";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
   
   function "-" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
    return BTERN_ULOGIC_VECTOR is
   begin
+    if L'length < 1 then return NAC;
+    end if;
    return L + STI(TO_BALTERN(R, L'length));
   end function "-";
 
-  -- ------------------------------------------------------------------------
+  -------------------------------------------------------------------
   
   function "-" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
    return BTERN_ULOGIC_VECTOR is
   begin
+    if R'length < 1 then return NAC;
+    end if;
    return TO_BALTERN(L, R'length) + STI(R);
   end function "-";
 
-  ------------------------------------------------------------------------
+  --=================================================================
   -- Overloads of the "*" predefined operator
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function "*" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     constant L_LEFT : INTEGER := L'length-1;
     constant R_LEFT : INTEGER := R'length-1;
-    alias XL        : BTERN_ULOGIC_VECTOR(L_LEFT downto 0) is L;
-    alias XR        : BTERN_ULOGIC_VECTOR(R_LEFT downto 0) is R;
     variable LM2P   : BTERN_ULOGIC_VECTOR(L_LEFT downto 0);
     variable RM2P   : BTERN_ULOGIC_VECTOR(R_LEFT downto 0);
     variable RESULT : BTERN_ULOGIC_VECTOR(L'length+R'length-1 downto 0) :=
@@ -651,23 +616,23 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(XL, 'X');
-    RM2P := TO_M2P(XR, 'X');
+    LM2P := TO_M2P(L, 'X');
+    RM2P := TO_M2P(R, 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       RESULT := (others => 'X');
       return RESULT;
     end if;
-    ADVAL := RESIZE(XR, RESULT'length);
+    ADVAL := RESIZE(RM2P, RESULT'length);
     for I in 0 to L_LEFT loop
-      if XL(I) = '+' then RESULT    := RESULT + ADVAL;
-      elsif XL(I) = '-' then RESULT := RESULT - ADVAL;
+      if LM2P(I)    = '+' then RESULT := RESULT + ADVAL;
+      elsif LM2P(I) = '-' then RESULT := RESULT - ADVAL;
       end if;
       ADVAL := ADVAL sll 1;
     end loop;
     return RESULT;
   end function "*";
 
-  -----------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "*" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR is
@@ -675,17 +640,18 @@ package body bal_numeric is
     return L * TO_BALTERN(R, L'length);
   end function "*";
 
-  -----------------------------------------------------------------------
+  -------------------------------------------------------------------
 
-  function "*" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+  function "*" (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
+    return BTERN_ULOGIC_VECTOR is
   begin
     return TO_BALTERN(L, R'length) * R;
   end function "*";
 
-  ------------------------------------------------------------------------
-  -- Utility functions for use like the "/" predefined operator.
+  --=================================================================
+  -- Functions for use like the "/" predefined operator. 
   -- Returns the quotient of Euclidean division.
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function BTEDIV (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     variable SIZE    : INTEGER := MAXIMUM(L'length, R'length);
@@ -696,42 +662,128 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := RESIZE(TO_M2P(L, 'X'), SIZE);
-    RM2P := RESIZE(TO_M2P(R, 'X'), SIZE);
+    LM2P := TO_M2P(RESIZE(L, SIZE), 'X');
+    RM2P := TO_M2P(RESIZE(R, SIZE), 'X');
     if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
       FQUOT := (others => 'X');
-      return FQUOT;
+      return RESIZE(FQUOT, L'length);
     end if;
     BTE_DIVMOD(LM2P, RM2P, FQUOT, FREMAIN);
-    return FQUOT;
+    return RESIZE(FQUOT, L'length);
   end function BTEDIV;
 
-  ------------------------------------------------------------------------
-  -- Utility functions for use like the "rem" or "mod" predefined 
-  -- operators. Returns the remainder of Euclidean division.
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
+
+  function BTEDIV (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
+    return BTERN_ULOGIC_VECTOR
+  is
+    constant R_LENGTH : NATURAL := MAXIMUM(L'length, NUM_BTRITS(R));
+    variable XR, QUOT : BTERN_ULOGIC_VECTOR(R_LENGTH-1 downto 0);
+  begin
+    if (L'length < 1) then return NAC;
+    end if;
+    if (R_LENGTH > L'length) then
+      QUOT := (others => '0');
+      return RESIZE(QUOT, L'length);
+    end if;
+    XR   := TO_BALTERN(R, R_LENGTH);
+    QUOT := BTEDIV(L, XR);
+    return RESIZE(QUOT, L'length);
+  end function BTEDIV;
+
+  -------------------------------------------------------------------
+
+  function BTEDIV (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
+    return BTERN_ULOGIC_VECTOR
+  is
+    constant L_LENGTH : NATURAL := MAXIMUM(NUM_BTRITS(L), R'length);
+    variable XL, QUOT : BTERN_ULOGIC_VECTOR(L_LENGTH-1 downto 0);
+  begin
+    if (R'length < 1) then return NAC;
+    end if;
+    XL   := TO_BALTERN(L, L_LENGTH);
+    QUOT := BTEDIV(XL, R);
+    if L_LENGTH > R'length and QUOT(0) /= 'X'
+      and QUOT(L_LENGTH-1 downto R'length)
+      /= (L_LENGTH-1 downto R'length => QUOT(R'length-1))
+    then
+      assert NO_WARNING report "TVL.BAL_NUMERIC.BTEDIV: Quotient Truncated"
+        severity warning;
+    end if;
+    return RESIZE(QUOT, R'length);
+  end function BTEDIV;
+
+  --=================================================================
+  -- Functions for use like the "rem" or "mod" predefined operators. 
+  -- Returns the remainder of Euclidean division.
+  --=================================================================
 
   function BTEMOD (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
-    variable LM2P    : BTERN_ULOGIC_VECTOR(L'length-1 downto 0);
-    variable RM2P    : BTERN_ULOGIC_VECTOR(R'length-1 downto 0);
-    variable FQUOT   : BTERN_ULOGIC_VECTOR(L'length-1 downto 0);
-    variable FREMAIN : BTERN_ULOGIC_VECTOR(R'length-1 downto 0);
+    variable SIZE    : INTEGER := MAXIMUM(L'length, R'length);
+    variable LM2P    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable RM2P    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable FQUOT   : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable FREMAIN : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(L, 'X');
-    RM2P := TO_M2P(R, 'X');
-    if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
+    LM2P := RESIZE(TO_M2P(L, 'X'), SIZE);
+    RM2P := RESIZE(TO_M2P(R, 'X'), SIZE);
+    if ((LM2P(LM2P'right) = 'X') or (RM2P(RM2P'right) = 'X')) then
       FREMAIN := (others => 'X');
-      return FREMAIN;
+      return RESIZE(FREMAIN, R'length);
     end if;
     BTE_DIVMOD(LM2P, RM2P, FQUOT, FREMAIN);
-    return FREMAIN;
+    return RESIZE(FREMAIN, R'length);
   end function BTEMOD;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
+
+ function BTEMOD (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
+    return BTERN_ULOGIC_VECTOR
+  is
+    constant R_LENGTH : NATURAL := MAXIMUM(L'length, NUM_BTRITS(R));
+    variable XR, XREM : BTERN_ULOGIC_VECTOR(R_LENGTH-1 downto 0);
+  begin
+    if (L'length < 1) then return NAC;
+    end if;
+    XR   := TO_BALTERN(R, R_LENGTH);
+    XREM := RESIZE(BTEMOD(L, XR), XREM'length);
+    if R_LENGTH > L'length and XREM(0) /= 'X' 
+      and XREM(R_LENGTH-1 downto L'length) 
+      /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
+    then
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""mod"": Modulus Truncated"
+        severity warning;
+    end if;
+    return RESIZE(XREM, L'length);
+  end function BTEMOD;
+
+  -------------------------------------------------------------------
+
+  function BTEMOD (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
+    return BTERN_ULOGIC_VECTOR
+  is
+    constant L_LENGTH : NATURAL := MAXIMUM(NUM_BTRITS(L), R'length);
+    variable XL, XREM : BTERN_ULOGIC_VECTOR(L_LENGTH-1 downto 0);
+  begin
+    if (R'length < 1) then return NAC;
+    end if;
+    XL   := TO_BALTERN(L, L_LENGTH);
+    XREM := RESIZE(BTEMOD(XL, R), XREM'length);
+    if L_LENGTH > R'length and XREM(0) /= 'X'
+      and XREM(L_LENGTH-1 downto R'length)
+      /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
+    then
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""mod"": Modulus Truncated"
+        severity warning;
+    end if;
+    return RESIZE(XREM, R'length);
+  end function BTEMOD;
+
+  --=================================================================
   -- Overloads of the "/" predefined operator
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function "/" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
     variable SIZE    : INTEGER := MAXIMUM(L'length, R'length);
@@ -745,9 +797,9 @@ package body bal_numeric is
     end if;
     LM2P := RESIZE(TO_M2P(L, 'X'), SIZE);
     RM2P := RESIZE(TO_M2P(R, 'X'), SIZE);
-    if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
+    if ((LM2P(LM2P'right) = 'X') or (RM2P(RM2P'right) = 'X')) then
       FQUOT := (others => 'X');
-      return FQUOT;
+      return RESIZE(FQUOT, L'length);
     end if;
     if LEFTMOST_NZ(LM2P) = '-' then
       LM2P := STI(LM2P);
@@ -760,10 +812,10 @@ package body bal_numeric is
     DIVMOD(LM2P, RM2P, FQUOT, FREMAIN);
     if QNEG then FQUOT := "0"-FQUOT;
     end if;
-    return FQUOT;
+    return RESIZE(FQUOT, L'length);
   end function "/";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "/" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
@@ -782,7 +834,7 @@ package body bal_numeric is
     return RESIZE(QUOT, L'length);
   end function "/";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "/" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
@@ -792,33 +844,37 @@ package body bal_numeric is
   begin
     if (R'length < 1) then return NAC;
     end if;
-    if (L_LENGTH > R'length) then
-      QUOT := (others => '0');
-      return RESIZE(QUOT, R'length);
-    end if;
     XL   := TO_BALTERN(L, L_LENGTH);
     QUOT := RESIZE((XL / R), QUOT'length);
+    if L_LENGTH > R'length and QUOT(0) /= 'X'
+      and QUOT(L_LENGTH-1 downto R'length)
+      /= (L_LENGTH-1 downto R'length => '0')
+    then
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""/"": Quotient Truncated"
+        severity warning;
+    end if;
     return RESIZE(QUOT, R'length);
   end function "/";
 
-  ------------------------------------------------------------------------
+  --=================================================================
   -- "rem" overloads
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function "rem" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
-    variable LM2P    : BTERN_ULOGIC_VECTOR(L'length-1 downto 0);
-    variable RM2P    : BTERN_ULOGIC_VECTOR(R'length-1 downto 0);
-    variable FQUOT   : BTERN_ULOGIC_VECTOR(L'length-1 downto 0);
-    variable FREMAIN : BTERN_ULOGIC_VECTOR(R'length-1 downto 0);
+    variable SIZE    : INTEGER := MAXIMUM(L'length, R'length);
+    variable LM2P    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable RM2P    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable FQUOT   : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable FREMAIN : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
     variable RNEG    : BOOLEAN := false;
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(L, 'X');
-    RM2P := TO_M2P(R, 'X');
-    if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
+    LM2P := RESIZE(TO_M2P(L, 'X'), SIZE);
+    RM2P := RESIZE(TO_M2P(R, 'X'), SIZE);
+    if ((LM2P(LM2P'right) = 'X') or (RM2P(RM2P'right) = 'X')) then
       FREMAIN := (others => 'X');
-      return FREMAIN;
+      return RESIZE(FREMAIN, R'length);
     end if;
     if LEFTMOST_NZ(LM2P) = '-' then
       LM2P := STI(LM2P);
@@ -831,10 +887,10 @@ package body bal_numeric is
     if RNEG then
       FREMAIN := "0"-FREMAIN;
     end if;
-    return FREMAIN;
+    return RESIZE(FREMAIN, R'length);
   end function "rem";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "rem" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
@@ -850,13 +906,13 @@ package body bal_numeric is
       and XREM(R_LENGTH-1 downto L'length)
       /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
     then
-      assert NO_WARNING report "BAL_NUMERIC.""rem"": Remainder Truncated"
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""rem"": Remainder Truncated"
         severity warning;
     end if;
     return RESIZE(XREM, L'length);
   end function "rem";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
  function "rem" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
@@ -872,30 +928,31 @@ package body bal_numeric is
       and XREM(L_LENGTH-1 downto R'length)
       /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
     then
-      assert NO_WARNING report "BAL_NUMERIC.""rem"": Remainder Truncated"
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""rem"": Remainder Truncated"
         severity warning;
     end if;
     return RESIZE(XREM, R'length);
   end function "rem";
 
-  ------------------------------------------------------------------------
+  --=================================================================
   -- "mod" overloads
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function "mod" (L, R : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
-    variable LM2P    : BTERN_ULOGIC_VECTOR(L'length-1 downto 0);
-    variable RM2P    : BTERN_ULOGIC_VECTOR(R'length-1 downto 0);
-    variable FQUOT   : BTERN_ULOGIC_VECTOR(L'length-1 downto 0);
-    variable FREMAIN : BTERN_ULOGIC_VECTOR(R'length-1 downto 0);
+    variable SIZE    : INTEGER := MAXIMUM(L'length, R'length);
+    variable LM2P    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable RM2P    : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable FQUOT   : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable FREMAIN : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
     variable RNEG    : BOOLEAN := false;
   begin
     if ((L'length < 1) or (R'length < 1)) then return NAC;
     end if;
-    LM2P := TO_M2P(L, 'X');
-    RM2P := TO_M2P(R, 'X');
-    if ((LM2P(LM2P'left) = 'X') or (RM2P(RM2P'left) = 'X')) then
+    LM2P := RESIZE(TO_M2P(L, 'X'), SIZE);
+    RM2P := RESIZE(TO_M2P(R, 'X'), SIZE);
+    if ((LM2P(LM2P'right) = 'X') or (RM2P(RM2P'right) = 'X')) then
       FREMAIN := (others => 'X');
-      return FREMAIN;
+      return RESIZE(FREMAIN, R'length);
     end if;
     if LEFTMOST_NZ(LM2P) = '-' then
       LM2P := STI(LM2P);
@@ -912,10 +969,10 @@ package body bal_numeric is
     elsif LEFTMOST_NZ(L) = '-' and FREMAIN /= "0" then
       FREMAIN := RM2P-FREMAIN;
     end if;
-    return FREMAIN;
+    return RESIZE(FREMAIN, R'length);
   end function "mod";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
  function "mod" (L : BTERN_ULOGIC_VECTOR; R : INTEGER)
     return BTERN_ULOGIC_VECTOR
@@ -931,13 +988,13 @@ package body bal_numeric is
       and XREM(R_LENGTH-1 downto L'length)
       /= (R_LENGTH-1 downto L'length => XREM(L'length-1))
     then
-      assert NO_WARNING report "BAL_NUMERIC.""mod"": Modulus Truncated"
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""mod"": Modulus Truncated"
         severity warning;
     end if;
     return RESIZE(XREM, L'length);
   end function "mod";
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function "mod" (L : INTEGER; R : BTERN_ULOGIC_VECTOR)
     return BTERN_ULOGIC_VECTOR
@@ -953,15 +1010,15 @@ package body bal_numeric is
       and XREM(L_LENGTH-1 downto R'length)
       /= (L_LENGTH-1 downto R'length => XREM(R'length-1))
     then
-      assert NO_WARNING report "BAL_NUMERIC.""mod"": Modulus Truncated"
+      assert NO_WARNING report "TVL.BAL_NUMERIC.""mod"": Modulus Truncated"
         severity warning;
     end if;
     return RESIZE(XREM, R'length);
   end function "mod";
 
-  ------------------------------------------------------------------------
+  --=================================================================
   -- find_ functions
-  ------------------------------------------------------------------------
+  --=================================================================
 
   function find_leftmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC)
     return INTEGER is
@@ -974,7 +1031,7 @@ package body bal_numeric is
     return -1;
   end function find_leftmost;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function find_rightmost (ARG : BTERN_ULOGIC_VECTOR; Y : BTERN_ULOGIC)
     return INTEGER is
@@ -987,12 +1044,100 @@ package body bal_numeric is
     return -1;
   end function find_rightmost;
 
+  --=================================================================
+  -- MINIMUM functions
+  --=================================================================
 
-  ------------------------------------------------------------------------
+  function MINIMUM (L, R : BTERN_ULOGIC_VECTOR) 
+  return BTERN_ULOGIC_VECTOR is
+    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
+    variable LM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable RM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    alias XL      : BTERN_ULOGIC_VECTOR(L'length-1 downto 0) is L;
+    alias XR      : BTERN_ULOGIC_VECTOR(R'length-1 downto 0) is R;
+  begin
+    if ((L'length < 1) or (R'length < 1)) then return NAC;
+    end if;
+    LM2P := TO_M2P(RESIZE(XL, SIZE), 'X');
+    if (LM2P(LM2P'left) = 'X') then return LM2P;
+    end if;
+    RM2P := TO_M2P(RESIZE(XR, SIZE), 'X');
+    if (RM2P(RM2P'left) = 'X') then return RM2P;
+    end if;
+    if LM2P < RM2P then
+      return LM2P;
+    else
+      return RM2P;
+    end if;
+  end function MINIMUM;
+
+  -------------------------------------------------------------------
+
+  function MINIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
+  return BTERN_ULOGIC_VECTOR is
+  begin
+    return MINIMUM(TO_BALTERN(L, R'length), R);
+  end function MINIMUM;
+
+  -------------------------------------------------------------------
+
+  function MINIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
+  return BTERN_ULOGIC_VECTOR is
+  begin
+    return MINIMUM(L, TO_BALTERN(R, L'length));
+  end function MINIMUM;
+
+  --=================================================================
+  -- MAXIMUM functions
+  --=================================================================
+
+  function MAXIMUM (L, R : BTERN_ULOGIC_VECTOR) 
+  return BTERN_ULOGIC_VECTOR is
+    constant SIZE : NATURAL := MAXIMUM(L'length, R'length);
+    variable LM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    variable RM2P : BTERN_ULOGIC_VECTOR(SIZE-1 downto 0);
+    alias XL      : BTERN_ULOGIC_VECTOR(L'length-1 downto 0) is L;
+    alias XR      : BTERN_ULOGIC_VECTOR(R'length-1 downto 0) is R;
+  begin
+    if ((L'length < 1) or (R'length < 1)) then return NAC;
+    end if;
+    LM2P := TO_M2P(RESIZE(XL, SIZE), 'X');
+    if (LM2P(LM2P'left) = 'X') then return LM2P;
+    end if;
+    RM2P := TO_M2P(RESIZE(XR, SIZE), 'X');
+    if (RM2P(RM2P'left) = 'X') then return RM2P;
+    end if;
+    if LM2P < RM2P then
+      return RM2P;
+    else
+      return LM2P;
+    end if;
+  end function MAXIMUM;
+
+  -------------------------------------------------------------------
+
+  function MAXIMUM (L : INTEGER; R : BTERN_ULOGIC_VECTOR) 
+  return BTERN_ULOGIC_VECTOR is
+  begin
+    return MAXIMUM(TO_BALTERN(L, R'length), R);
+  end function MAXIMUM;
+
+  -------------------------------------------------------------------
+
+  function MAXIMUM (L : BTERN_ULOGIC_VECTOR; R : INTEGER) 
+  return BTERN_ULOGIC_VECTOR is
+  begin
+    return MAXIMUM(L, TO_BALTERN(R, L'length));
+  end function MAXIMUM;
+
+  --=================================================================
   -- STD_MATCH functions
-  ------------------------------------------------------------------------
+  --=================================================================
 
-  -- support constants for STD_MATCH:
+  -------------------------------------------------------------------
+  -- support constants for STD_MATCH
+  -------------------------------------------------------------------
+
   type BOOLEAN_TABLE is array(BTERN_ULOGIC, BTERN_ULOGIC) of BOOLEAN;
 
   constant MATCH_TABLE : BOOLEAN_TABLE := (
@@ -1012,14 +1157,14 @@ package body bal_numeric is
         (true,  true,  true,  true,  true,  true,  true,  true,  true,  true,  true)   -- | D |
         ); 
 
-
+  -------------------------------------------------------------------
 
   function STD_MATCH (L, R : BTERN_ULOGIC) return BOOLEAN is
   begin
     return MATCH_TABLE(L, R);
   end function STD_MATCH;
 
-  ------------------------------------------------------------------------
+  -------------------------------------------------------------------
 
   function STD_MATCH (L, R : BTERN_ULOGIC_VECTOR) return BOOLEAN is
     alias LV : BTERN_ULOGIC_VECTOR(1 to L'length) is L;
@@ -1027,13 +1172,13 @@ package body bal_numeric is
   begin
     if ((L'length < 1) or (R'length < 1)) then
       assert NO_WARNING
-        report "BAL_NUMERIC.STD_MATCH: null detected, returning FALSE"
+        report "TVL.BAL_NUMERIC.STD_MATCH: null detected, returning FALSE"
         severity warning;
       return false;
     end if;
     if LV'length /= RV'length then
       assert NO_WARNING
-        report "BAL_NUMERIC.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
+        report "TVL.BAL_NUMERIC.STD_MATCH: L'LENGTH /= R'LENGTH, returning FALSE"
         severity warning;
       return false;
     else
@@ -1045,8 +1190,6 @@ package body bal_numeric is
       return true;
     end if;
   end function STD_MATCH;
-
-
 
 end package body bal_numeric;
 
