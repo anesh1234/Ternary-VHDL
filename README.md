@@ -1,5 +1,7 @@
 # Ternary-VHDL
 VHDL library based on [IEEE-1076](https://gitlab.com/IEEE-P1076/packages) which enables description of balanced ternary RTL hardware.
+All arithmetic operations are supported, including several novel balanced ternary integer division algorithms.
+The new Kleene type is introduced, being the ternary equivalent of the binary Boolean.
 
 ## Prerequisites
 * Microsoft VSCode is recommended because it allows seamless usage of the extensions:

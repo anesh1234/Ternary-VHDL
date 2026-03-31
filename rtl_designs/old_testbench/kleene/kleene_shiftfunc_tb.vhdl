@@ -1,10 +1,10 @@
 library TVL;
 use TVL.kleene_pkg.all;
 
-entity kleene_shift_tb is
+entity kleene_shiftfunc_tb is
 end entity;
 
-architecture sim of kleene_shift_tb is
+architecture sim of kleene_shiftfunc_tb is
     signal input_vec : KLEENE_VECTOR(3 downto 0) := (TRUE, UNK, FALSE, FALSE);
 
     signal out_sll : KLEENE_VECTOR(3 downto 0);
