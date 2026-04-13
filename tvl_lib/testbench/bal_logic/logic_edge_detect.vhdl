@@ -18,7 +18,7 @@ end entity;
 
 architecture test of logic_edge_detect_tb is
   
-  signal test_sig  : BTERN_ULOGIC := '-';
+  signal test_sig  : BTERN_LOGIC := '-';
   signal reset_sig : BOOLEAN := false;
   
   -- Helper signals to capture edge detection results
@@ -67,13 +67,13 @@ begin
   main : process
     
     -- Variables for test_mutual_exclusivity
-    variable from_value : BTERN_ULOGIC;
-    variable to_value   : BTERN_ULOGIC;
+    variable from_value : BTERN_LOGIC;
+    variable to_value   : BTERN_LOGIC;
 
     -- Helper procedure to apply a transition and verify edge detection
     procedure test_transition(
-      from_val : BTERN_ULOGIC;
-      to_val   : BTERN_ULOGIC;
+      from_val : BTERN_LOGIC;
+      to_val   : BTERN_LOGIC;
       expect_any_rising  : BOOLEAN := false;
       expect_mz_rising   : BOOLEAN := false;
       expect_zp_rising   : BOOLEAN := false;
@@ -99,36 +99,36 @@ begin
       
       -- Check all edge detections
       check_equal(any_rising_detected, expect_any_rising,
-                  "any_rising_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "any_rising_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(mz_rising_detected, expect_mz_rising,
-                  "mz_rising_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "mz_rising_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(zp_rising_detected, expect_zp_rising,
-                  "zp_rising_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "zp_rising_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(mp_rising_detected, expect_mp_rising,
-                  "mp_rising_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "mp_rising_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(any_falling_detected, expect_any_falling,
-                  "any_falling_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "any_falling_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(pz_falling_detected, expect_pz_falling,
-                  "pz_falling_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "pz_falling_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(zm_falling_detected, expect_zm_falling,
-                  "zm_falling_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "zm_falling_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
       
       check_equal(pm_falling_detected, expect_pm_falling,
-                  "pm_falling_edge: " & BTERN_ULOGIC'image(from_val) & 
-                  " -> " & BTERN_ULOGIC'image(to_val));
+                  "pm_falling_edge: " & BTERN_LOGIC'image(from_val) & 
+                  " -> " & BTERN_LOGIC'image(to_val));
     end procedure;
     
   begin
@@ -184,8 +184,8 @@ begin
           -- Rising and falling should never both be true
           check_false(any_rising_detected and any_falling_detected,
                       "Both rising and falling detected for " &
-                      BTERN_ULOGIC'image(from_value) & " -> " &
-                      BTERN_ULOGIC'image(to_value));
+                      BTERN_LOGIC'image(from_value) & " -> " &
+                      BTERN_LOGIC'image(to_value));
         end loop;
       end loop;
 

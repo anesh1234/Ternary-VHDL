@@ -52,6 +52,11 @@ begin
       check_true(MINIMUM(kscal_f, kscal_u) = kscal_f);
 
     elsif run("Double vector MAXIMUM/MINIMUM") then
+
+      -- As of 13.04.2026 the language server used by the VSC-extension "VHDL by HGB" 
+      -- cannot resolve these implicitly defined MAXIMUM/MINIMUM functions. 
+      -- However, this code works with both VUnit and GHDL.
+
       check_true(MAXIMUM(kvec_t, kvec_u) = kvec_t);
       check_true(MAXIMUM(kvec_f, kvec_u) = kvec_u);
 
@@ -65,6 +70,18 @@ begin
       check_true(MINIMUM(kvec_tu) = kscal_u);
       check_true(MINIMUM(kvec_fu) = kscal_f);
       
+    elsif run("TO_BOOLEAN Vector/Scalar") then
+      
+      check_true(TO_BOOLEAN(KLEENE'(true)) = BOOLEAN'(true));
+      check_true(TO_BOOLEAN(KLEENE'(false)) = BOOLEAN'(false));
+      -- should fail:
+      -- check_true(TO_BOOLEAN(KLEENE'(unk)) = BOOLEAN'(true));
+
+    elsif run("TO_KLEENE Vector/Scalar") then
+      
+      check_true(TO_KLEENE(BOOLEAN'(true)) = KLEENE'(true));
+      check_true(TO_KLEENE(BOOLEAN'(false)) = KLEENE'(false));
+
     end if;
 
     test_runner_cleanup(runner);

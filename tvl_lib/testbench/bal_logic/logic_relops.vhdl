@@ -3,7 +3,7 @@
 -- Notes   : The IEEE numeric package does not provide any overloads
 --           for scalar relational operators intended to behave 
 --           numerically. Therefore, such operators for pairs of 
---           BTERN_ULOGIC have not been implemented.
+--           BTERN_(U)LOGIC have not been implemented.
 -- --------------------------------------------------------------------
 
 library vunit_lib;

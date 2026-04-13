@@ -26,7 +26,7 @@ architecture test of numeric_trunc_division_tb is
   
   -- null-array testing
   signal v_empty : BTERN_LOGIC_VECTOR(-1 downto 0);
-  signal TNAC    : BTERN_ULOGIC_VECTOR (0 downto 1) := (others => '0');
+  signal TNAC    : BTERN_LOGIC_VECTOR (0 downto 1) := (others => '0');
 
   -- signals for random tests
   signal a_rand_i, b_rand_i, res_rand_i,

@@ -170,47 +170,47 @@
     "problemMatcher": []
 },
 {
-    "label": "ANA kleene_kleene_shift",
+    "label": "ANA kleene_kleene_shiftfunc",
     "type": "shell",
-    "command": "ghdl -a --std=08 --work=work --workdir=rtl_designs/old_testbench/kleene/workdir -Ptvl_lib/workdir rtl_designs/old_testbench/kleene/kleene_shift_tb.vhdl",
+    "command": "ghdl -a --std=08 --work=work --workdir=rtl_designs/old_testbench/kleene/workdir -Ptvl_lib/workdir rtl_designs/old_testbench/kleene/kleene_shiftfunc_tb.vhdl",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "ELA kleene_kleene_shift",
+    "label": "ELA kleene_kleene_shiftfunc",
     "type": "shell",
-    "command": "ghdl -e --std=08 --work=work --workdir=rtl_designs/old_testbench/kleene/workdir -Ptvl_lib/workdir kleene_shift_tb",
+    "command": "ghdl -e --std=08 --work=work --workdir=rtl_designs/old_testbench/kleene/workdir -Ptvl_lib/workdir kleene_shiftfunc_tb",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "Compile kleene_kleene_shift",
+    "label": "Compile kleene_kleene_shiftfunc",
     "dependsOn": [
-        "ANA kleene_kleene_shift",
-        "ELA kleene_kleene_shift"
+        "ANA kleene_kleene_shiftfunc",
+        "ELA kleene_kleene_shiftfunc"
     ],
     "dependsOrder": "sequence",
     "problemMatcher": []
 },
 {
-    "label": "run kleene_kleene_shift",
+    "label": "run kleene_kleene_shiftfunc",
     "type": "shell",
-    "command": "ghdl -r kleene_shift_tb --wave=rtl_designs/old_testbench/kleene/workdir/kleene_shift_wave.ghw",
+    "command": "ghdl -r kleene_shiftfunc_tb --wave=rtl_designs/old_testbench/kleene/workdir/kleene_shiftfunc_wave.ghw",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "gtk kleene_kleene_shift",
+    "label": "gtk kleene_kleene_shiftfunc",
     "type": "shell",
-    "command": "gtkwave rtl_designs/old_testbench/kleene/workdir/kleene_shift_wave.ghw",
+    "command": "gtkwave rtl_designs/old_testbench/kleene/workdir/kleene_shiftfunc_wave.ghw",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "Sim kleene_kleene_shift",
+    "label": "Sim kleene_kleene_shiftfunc",
     "dependsOn": [
-        "run kleene_kleene_shift",
-        "gtk kleene_kleene_shift"
+        "run kleene_kleene_shiftfunc",
+        "gtk kleene_kleene_shiftfunc"
     ],
     "dependsOrder": "sequence",
     "problemMatcher": []
@@ -860,139 +860,47 @@
     "problemMatcher": []
 },
 {
-    "label": "ANA numeric_to_tern_to_int",
+    "label": "ANA paper_arith_logops_examples",
     "type": "shell",
-    "command": "ghdl -a --std=08 --work=work --workdir=rtl_designs/old_testbench/numeric/workdir -Ptvl_lib/workdir rtl_designs/old_testbench/numeric/to_tern_to_int_tb.vhdl",
+    "command": "ghdl -a --std=08 --work=work --workdir=rtl_designs/old_testbench/paper/workdir -Ptvl_lib/workdir rtl_designs/old_testbench/paper/arith_logops_examples_tb.vhdl",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "ELA numeric_to_tern_to_int",
+    "label": "ELA paper_arith_logops_examples",
     "type": "shell",
-    "command": "ghdl -e --std=08 --work=work --workdir=rtl_designs/old_testbench/numeric/workdir -Ptvl_lib/workdir to_tern_to_int_tb",
+    "command": "ghdl -e --std=08 --work=work --workdir=rtl_designs/old_testbench/paper/workdir -Ptvl_lib/workdir arith_logops_examples_tb",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "Compile numeric_to_tern_to_int",
+    "label": "Compile paper_arith_logops_examples",
     "dependsOn": [
-        "ANA numeric_to_tern_to_int",
-        "ELA numeric_to_tern_to_int"
+        "ANA paper_arith_logops_examples",
+        "ELA paper_arith_logops_examples"
     ],
     "dependsOrder": "sequence",
     "problemMatcher": []
 },
 {
-    "label": "run numeric_to_tern_to_int",
+    "label": "run paper_arith_logops_examples",
     "type": "shell",
-    "command": "ghdl -r to_tern_to_int_tb --wave=rtl_designs/old_testbench/numeric/workdir/to_tern_to_int_wave.ghw",
+    "command": "ghdl -r arith_logops_examples_tb --wave=rtl_designs/old_testbench/paper/workdir/arith_logops_examples_wave.ghw",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "gtk numeric_to_tern_to_int",
+    "label": "gtk paper_arith_logops_examples",
     "type": "shell",
-    "command": "gtkwave rtl_designs/old_testbench/numeric/workdir/to_tern_to_int_wave.ghw",
+    "command": "gtkwave rtl_designs/old_testbench/paper/workdir/arith_logops_examples_wave.ghw",
     "problemMatcher": [],
     "hide": true
 },
 {
-    "label": "Sim numeric_to_tern_to_int",
+    "label": "Sim paper_arith_logops_examples",
     "dependsOn": [
-        "run numeric_to_tern_to_int",
-        "gtk numeric_to_tern_to_int"
-    ],
-    "dependsOrder": "sequence",
-    "problemMatcher": []
-},
-{
-    "label": "ANA paper_paper",
-    "type": "shell",
-    "command": "ghdl -a --std=08 --work=work --workdir=rtl_designs/old_testbench/paper/workdir -Ptvl_lib/workdir rtl_designs/old_testbench/paper/paper_tb.vhdl",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "ELA paper_paper",
-    "type": "shell",
-    "command": "ghdl -e --std=08 --work=work --workdir=rtl_designs/old_testbench/paper/workdir -Ptvl_lib/workdir paper_tb",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "Compile paper_paper",
-    "dependsOn": [
-        "ANA paper_paper",
-        "ELA paper_paper"
-    ],
-    "dependsOrder": "sequence",
-    "problemMatcher": []
-},
-{
-    "label": "run paper_paper",
-    "type": "shell",
-    "command": "ghdl -r paper_tb --wave=rtl_designs/old_testbench/paper/workdir/paper_wave.ghw",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "gtk paper_paper",
-    "type": "shell",
-    "command": "gtkwave rtl_designs/old_testbench/paper/workdir/paper_wave.ghw",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "Sim paper_paper",
-    "dependsOn": [
-        "run paper_paper",
-        "gtk paper_paper"
-    ],
-    "dependsOrder": "sequence",
-    "problemMatcher": []
-},
-{
-    "label": "ANA paper_tests",
-    "type": "shell",
-    "command": "ghdl -a --std=08 --work=work --workdir=rtl_designs/old_testbench/paper/workdir -Ptvl_lib/workdir rtl_designs/old_testbench/paper/tests_tb.vhdl",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "ELA paper_tests",
-    "type": "shell",
-    "command": "ghdl -e --std=08 --work=work --workdir=rtl_designs/old_testbench/paper/workdir -Ptvl_lib/workdir tests_tb",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "Compile paper_tests",
-    "dependsOn": [
-        "ANA paper_tests",
-        "ELA paper_tests"
-    ],
-    "dependsOrder": "sequence",
-    "problemMatcher": []
-},
-{
-    "label": "run paper_tests",
-    "type": "shell",
-    "command": "ghdl -r tests_tb --wave=rtl_designs/old_testbench/paper/workdir/tests_wave.ghw",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "gtk paper_tests",
-    "type": "shell",
-    "command": "gtkwave rtl_designs/old_testbench/paper/workdir/tests_wave.ghw",
-    "problemMatcher": [],
-    "hide": true
-},
-{
-    "label": "Sim paper_tests",
-    "dependsOn": [
-        "run paper_tests",
-        "gtk paper_tests"
+        "run paper_arith_logops_examples",
+        "gtk paper_arith_logops_examples"
     ],
     "dependsOrder": "sequence",
     "problemMatcher": []

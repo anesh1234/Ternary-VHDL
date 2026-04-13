@@ -8,4 +8,5 @@ settings.json
 python/logops_experiment/
 relevant_ieee_testbenches/
 vunit_out/
+workdir/
 python/nick/

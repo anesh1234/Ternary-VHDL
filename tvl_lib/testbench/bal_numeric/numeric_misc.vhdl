@@ -16,7 +16,7 @@ end entity;
 
 architecture tb of numeric_misc_tb is
     signal v_empty : BTERN_LOGIC_VECTOR(-1 downto 0);
-    signal TNAC   : BTERN_ULOGIC_VECTOR (0 downto 1) := (others => '0');
+    signal TNAC   : BTERN_LOGIC_VECTOR (0 downto 1) := (others => '0');
     signal find_test_vec : BTERN_LOGIC_VECTOR (11 downto 0);
 begin
   test_runner : process
@@ -50,16 +50,16 @@ begin
                     TO_STRING(TNAC));
 
     elsif run("find_ functions") then
-      find_test_vec <= BTERN_ULOGIC_VECTOR'("UX-0+++ZWLMH");
+      find_test_vec <= BTERN_LOGIC_VECTOR'("UX-0+++ZWLMH");
       wait for 1 ns;
 
-      check_equal(find_leftmost(find_test_vec, BTERN_ULOGIC'('+')), 7);
-      check_equal(find_leftmost(find_test_vec, BTERN_ULOGIC'('U')), 11);
-      check_equal(find_leftmost(find_test_vec, BTERN_ULOGIC'('D')), -1);
+      check_equal(find_leftmost(find_test_vec, BTERN_LOGIC'('+')), 7);
+      check_equal(find_leftmost(find_test_vec, BTERN_LOGIC'('U')), 11);
+      check_equal(find_leftmost(find_test_vec, BTERN_LOGIC'('D')), -1);
 
-      check_equal(find_rightmost(find_test_vec, BTERN_ULOGIC'('+')), 5);
-      check_equal(find_rightmost(find_test_vec, BTERN_ULOGIC'('U')), 11);
-      check_equal(find_rightmost(find_test_vec, BTERN_ULOGIC'('D')), -1);
+      check_equal(find_rightmost(find_test_vec, BTERN_LOGIC'('+')), 5);
+      check_equal(find_rightmost(find_test_vec, BTERN_LOGIC'('U')), 11);
+      check_equal(find_rightmost(find_test_vec, BTERN_LOGIC'('D')), -1);
 
     elsif run("STD_MATCH functions") then
       check_true(STD_MATCH(BTERN_LOGIC'('+'), BTERN_LOGIC'('+')));

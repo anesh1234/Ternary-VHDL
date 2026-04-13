@@ -1866,7 +1866,7 @@ package body bal_logic is
     );
 
   --=================================================================
-  -- Conversion functions and strength strippers
+  -- conversion functions and strength strippers
   --=================================================================
 
   function To_btrit (ARG : BTERN_ULOGIC; xmap : BTRIT := '0') return BTRIT is
@@ -1896,6 +1896,138 @@ package body bal_logic is
     end loop;
     return RESULT;
   end function To_btritvector;
+
+  -------------------------------------------------------------------
+  -- from balanced ternary to binary
+  -------------------------------------------------------------------
+
+  function TO_STD_LOGIC (ARG : BTERN_ULOGIC) return STD_LOGIC is
+  begin
+    case ARG is
+      when 'U' => return 'U';
+      when 'X' => return 'X';
+      when '-' => return '0';
+      -- when '0' => not convertible
+      when '+' => return '1';
+      when 'Z' => return 'Z';
+      when 'W' => return 'W';
+      when 'L' => return 'L';
+      -- when 'M' => => not convertible
+      when 'H' => return 'H';
+      when 'D' => return '-';
+      when others => assert false
+                    report "TVL.BAL_LOGIC.TO_STD_LOGIC: An incompatible value '" & 
+                    TO_STRING(ARG) & "' could not be converted to STD_LOGIC."
+                    severity failure; 
+    end case;
+  end function TO_STD_LOGIC;
+
+  -------------------------------------------------------------------
+
+  function TO_STD_LOGIC (ARG : BTERN_ULOGIC_VECTOR) return STD_LOGIC_VECTOR is
+    alias XARG : BTERN_ULOGIC_VECTOR(ARG'length-1 downto 0) is ARG;
+    variable RESULT : STD_LOGIC_VECTOR(ARG'length-1 downto 0);
+  begin
+    for I in ARG'length-1 downto 0 loop
+      RESULT(I) := TO_STD_LOGIC(XARG(I));
+    end loop;
+    return RESULT;
+  end function TO_STD_LOGIC;
+
+  -------------------------------------------------------------------
+
+  function TO_STD_ULOGIC (ARG : BTERN_ULOGIC) return STD_ULOGIC is
+  begin
+    case ARG is
+      when 'U' => return 'U';
+      when 'X' => return 'X';
+      when '-' => return '0';
+      -- when '0' => not convertible
+      when '+' => return '1';
+      when 'Z' => return 'Z';
+      when 'W' => return 'W';
+      when 'L' => return 'L';
+      -- when 'M' => not convertible
+      when 'H' => return 'H';
+      when 'D' => return '-';
+      when others => assert false
+                    report "TVL.BAL_LOGIC.TO_STD_ULOGIC: An incompatible value '" & 
+                    TO_STRING(ARG) & "' could not be converted to STD_ULOGIC."
+                    severity failure; 
+    end case;
+  end function TO_STD_ULOGIC;
+  
+  -------------------------------------------------------------------
+
+  function TO_STD_ULOGIC (ARG : BTERN_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR is
+    alias XARG : BTERN_ULOGIC_VECTOR(ARG'length-1 downto 0) is ARG;
+    variable RESULT : STD_ULOGIC_VECTOR(ARG'length-1 downto 0);
+  begin
+    for I in ARG'length-1 downto 0 loop
+      RESULT(I) := TO_STD_ULOGIC(XARG(I));
+    end loop;
+    return RESULT;
+  end function TO_STD_ULOGIC;
+
+  -------------------------------------------------------------------
+  -- from binary to balanced ternary
+  -------------------------------------------------------------------
+
+  function TO_BTERN_LOGIC (ARG : STD_ULOGIC) return BTERN_LOGIC is
+  begin
+    case ARG is
+      when 'U' => return 'U';
+      when 'X' => return 'X';
+      when '0' => return '-';
+      when '1' => return '+';
+      when 'Z' => return 'Z';
+      when 'W' => return 'W';
+      when 'L' => return 'L';
+      when 'H' => return 'H';
+      when '-' => return 'D';
+    end case;
+  end function TO_BTERN_LOGIC;
+
+  -------------------------------------------------------------------
+
+  function TO_BTERN_LOGIC (ARG : STD_ULOGIC_VECTOR) return BTERN_LOGIC_VECTOR is
+    alias XARG : STD_ULOGIC_VECTOR(ARG'length-1 downto 0) is ARG;
+    variable RESULT : BTERN_LOGIC_VECTOR(ARG'length-1 downto 0);
+  begin
+    for I in ARG'length-1 downto 0 loop
+      RESULT(I) := TO_BTERN_LOGIC(XARG(I));
+    end loop;
+    return RESULT;
+  end function TO_BTERN_LOGIC;
+
+  -------------------------------------------------------------------
+
+  function TO_BTERN_ULOGIC (ARG : STD_ULOGIC) return BTERN_ULOGIC is
+  begin
+    case ARG is
+      when 'U' => return 'U';
+      when 'X' => return 'X';
+      when '0' => return '-';
+      when '1' => return '+';
+      when 'Z' => return 'Z';
+      when 'W' => return 'W';
+      when 'L' => return 'L';
+      when 'H' => return 'H';
+      when '-' => return 'D';
+    end case;
+  end function TO_BTERN_ULOGIC;
+  
+  -------------------------------------------------------------------
+
+  function TO_BTERN_ULOGIC (ARG : STD_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR is
+    alias XARG : STD_ULOGIC_VECTOR(ARG'length-1 downto 0) is ARG;
+    variable RESULT : BTERN_ULOGIC_VECTOR(ARG'length-1 downto 0);
+  begin
+    for I in ARG'length-1 downto 0 loop
+      RESULT(I) := TO_BTERN_ULOGIC(XARG(I));
+    end loop;
+    return RESULT;
+  end function TO_BTERN_ULOGIC;
 
   -------------------------------------------------------------------
 

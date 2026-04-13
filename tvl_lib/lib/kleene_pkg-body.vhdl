@@ -7,7 +7,8 @@
 --             :
 --   Developers:  Anders Mørk Minde, University of South Eastern Norway
 --             :
---   Purpose   :  This packages defines the type KLEENE
+--   Purpose   :  This packages defines the type KLEENE and its 
+--             :  necessary utility functions.
 --             :
 --   Limitation:  
 --             :
@@ -20,8 +21,7 @@
 
 package body kleene_pkg is
 
-  -- null range array constant and implementation controls
-  constant NAC : KLEENE_VECTOR (0 downto 1) := (others => UNK);
+  -- implementation controls
   constant NO_WARNING : BOOLEAN := FALSE;  -- default to emit warnings
 
   -------------------------------------------------------------------
@@ -1705,51 +1705,52 @@ package body kleene_pkg is
   end function pm_falling_edge;
 
   -------------------------------------------------------------------
-  -- conversion functions
+  -- from Boolean to Kleene
   -------------------------------------------------------------------
 
   function TO_KLEENE (ARG : BOOLEAN) return KLEENE is
   begin
     case ARG is
       when true   => return true;
-      when others => return false;
+      when false  => return false;
     end case;
   end function;
 
   -------------------------------------------------------------------
 
   function TO_KLEENE (ARG : BOOLEAN_VECTOR) return KLEENE_VECTOR is
+    alias XARG      : BOOLEAN_VECTOR(ARG'length-1 downto 0) is ARG;
     variable RESULT : KLEENE_VECTOR(ARG'length-1 downto 0);
   begin
-    for i in ARG'length-1 downto 0 loop
-      case ARG(i) is
-        when true   => RESULT(i) := true;
-        when others => RESULT(i) := false;
-      end case;
+    for I in ARG'length-1 downto 0 loop
+      RESULT(I) := TO_KLEENE(XARG(I));
     end loop;
     return RESULT;
   end function;
 
   -------------------------------------------------------------------
+  -- from Kleene to Boolean
+  -------------------------------------------------------------------
 
   function TO_BOOLEAN (ARG : KLEENE) return BOOLEAN is
   begin
     case ARG is
-      when true   => return true;
-      when others => return false;
+      when true  => return true;
+      when false => return false;
+      when unk   => assert false
+                      report "TVL.KLEENE_PKG.TO_BOOLEAN: Identifier ""UNK"" cannot be converted to BOOLEAN."
+                      severity failure; 
     end case;
   end function;
 
   -------------------------------------------------------------------
 
   function TO_BOOLEAN (ARG : KLEENE_VECTOR) return BOOLEAN_VECTOR is
+    alias XARG      : KLEENE_VECTOR(ARG'length-1 downto 0) is ARG;
     variable RESULT : BOOLEAN_VECTOR(ARG'length-1 downto 0);
   begin
-    for i in ARG'length-1 downto 0 loop
-      case ARG(i) is
-        when true   => RESULT(i) := true;
-        when others => RESULT(i) := false;
-      end case;
+    for I in ARG'length-1 downto 0 loop
+      RESULT(I) := TO_BOOLEAN(XARG(I));
     end loop;
     return RESULT;
   end function;

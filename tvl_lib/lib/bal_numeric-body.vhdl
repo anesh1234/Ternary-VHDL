@@ -22,12 +22,9 @@
 -- $Revision: 1 $
 -- $Date: 2025-07-10 (Tue, 10 Oct 2025) $
 -- --------------------------------------------------------------------
+
 library TVL;
 use TVL.kleene_pkg.all;
-
---DEBUG
-library vunit_lib;
-context vunit_lib.vunit_context;
 
 package body bal_numeric is
 
@@ -349,59 +346,71 @@ package body bal_numeric is
 
   -------------------------------------------------------------------
 
-  procedure DIV_TESTING (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
-                        XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
-    variable SINGLE    : INTEGER := DIVIDEND'length;
-    variable DOUBLE    : INTEGER := DIVIDEND'length*2;
-    -- REMQUO should not be more than 2x argument's length.
-    -- Others need to account for overflow in calculation
-    -- of partial remainder contenders.
-    variable REMQUO    : BTERN_ULOGIC_VECTOR(DOUBLE-1 downto 0)
-                          := (others => '0');
-    variable HIGH      : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
-    variable LOW       : BTERN_ULOGIC_VECTOR(SINGLE downto 0);
-    variable CLOSEST_Z : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
-    variable HIGHQUO   : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
-    variable LOWQUO    : BTERN_ULOGIC_VECTOR(DOUBLE downto 0);
-  begin
-    assert DIVISOR /= 0 report "TVL.BAL_NUMERIC.DIVMOD: DIV, MOD, or REM by zero"
-      severity error;
+procedure DIV_TESTING (DIVIDEND, DIVISOR : BTERN_ULOGIC_VECTOR;
+                       XQUO, XREM : out BTERN_ULOGIC_VECTOR) is
+  variable E         : BTERN_ULOGIC_VECTOR(DIVIDEND'length-1 downto 0) := (others => '0');
+  variable SC        : INTEGER;
+  variable SD        : INTEGER;
+  variable QUOT_TRIT : BTERN_ULOGIC_VECTOR(0 downto 0);
+  variable G         : BTERN_ULOGIC_VECTOR(DIVIDEND'length*2-1 downto 0);
+  variable C         : BTERN_ULOGIC_VECTOR(DIVIDEND'length*2-1 downto 0);
+  variable D         : BTERN_ULOGIC_VECTOR(DIVIDEND'length*2-1 downto 0); -- FIX 1: added
+  variable TEMP      : BTERN_ULOGIC_VECTOR(DIVIDEND'length*4-1 downto 0);
 
-    REMQUO(SINGLE-1 downto 0) := DIVIDEND;
+begin
+  assert DIVISOR /= 0
+    report "TVL.BAL_NUMERIC.DIVMOD: DIV, MOD, or REM by zero"
+    severity error;
 
-    for I in SINGLE-1 downto 0 loop
-      
-      REMQUO := REMQUO sll 1;
+  -- FIX 1: prepare — sign of divisor and take absolute value
+  if DIVISOR > 0 then
+    SD := 1;
+  else
+    SD := -1;
+  end if;
+  D := RESIZE(abs(DIVISOR), DIVIDEND'length*2);
 
-      HIGH := REMQUO(DOUBLE-1 downto SINGLE) + ("0" & DIVISOR);
-      LOW  := REMQUO(DOUBLE-1 downto SINGLE) - ("0" & DIVISOR);
+  -- FIX 2: prepare — double C exactly once before the loop, not inside it
+  TEMP := DIVIDEND * 2;
+  C    := TEMP(DIVIDEND'length*2-1 downto 0);
 
-      HIGHQUO   := HIGH & REMQUO(SINGLE-1 downto 0);
-      LOWQUO    := LOW  & REMQUO(SINGLE-1 downto 0);
-      CLOSEST_Z := MINIMUM(abs(LOWQUO), MINIMUM(abs(REMQUO), abs(HIGHQUO)));
+  -- E is zeroed by initialisation above
 
-      if CLOSEST_Z = abs(HIGHQUO) then
-        REMQUO := HIGHQUO(DOUBLE-1 downto 0);
-        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) - 1;
-      elsif CLOSEST_Z = abs(LOWQUO) then 
-        REMQUO := LOWQUO(DOUBLE-1 downto 0);
-        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) + 1;
-      end if;
-    end loop;
+  for I in 0 to DIVIDEND'length-1 loop
 
-    if REMQUO(DOUBLE-1 downto SINGLE) < 0 then
-      if LEFTMOST_NZ(REMQUO(DOUBLE-1 downto SINGLE)) /= LEFTMOST_NZ(DIVISOR) then
-        REMQUO(DOUBLE-1 downto SINGLE) := REMQUO(DOUBLE-1 downto SINGLE) + DIVISOR;
-        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) - 1;
-      else
-        REMQUO(DOUBLE-1 downto SINGLE) := REMQUO(DOUBLE-1 downto SINGLE) - DIVISOR;
-        REMQUO(SINGLE-1 downto 0) := REMQUO(SINGLE-1 downto 0) + 1;
-      end if;
+    if C > 0 then
+      SC := 1;
+    else
+      SC := -1;
     end if;
 
-    XREM := REMQUO(DOUBLE-1 downto SINGLE);
-    XQUO := REMQUO(SINGLE-1 downto 0);
-  end procedure DIV_TESTING;
+    -- FIX 2: G = |C| - D, no extra doubling here
+    TEMP := C * SC - D;
+    G    := TEMP(DIVIDEND'length*2-1 downto 0);
+
+    if G > 0 then
+      QUOT_TRIT := TO_BALTERN(SC * SD, 1);
+      E(I)      := QUOT_TRIT(0);
+      TEMP := (G - D) * SC;
+      C    := TEMP(DIVIDEND'length*2-1 downto 0);
+    end if;
+
+    -- FIX 3: do not multiply on the last iteration
+    -- otherwise C carries an extra factor of 3 into the remainder
+    if I < DIVIDEND'length-1 then
+      TEMP := C * 3;
+      C    := TEMP(DIVIDEND'length*2-1 downto 0);
+    end if;
+
+  end loop;
+
+  -- FIX 3: C = 2 * remainder because of the initial doubling in prepare
+  -- halve C to recover the true remainder
+-- divide by 2 using your type's operation
+  XREM := RESIZE(C / 2, XREM'length);
+  XQUO := RESIZE(E, XQUO'length);
+
+end procedure DIV_TESTING;
 
   -------------------------------------------------------------------
 

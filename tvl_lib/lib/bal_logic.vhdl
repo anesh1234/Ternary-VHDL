@@ -30,6 +30,14 @@
 library TVL;
 use TVL.kleene_pkg.all;
 
+-- IEEE library types needed for mixed-radix
+-- conversion functions
+library IEEE;
+use IEEE.std_logic_1164.STD_ULOGIC;
+use IEEE.std_logic_1164.STD_ULOGIC_VECTOR;
+use IEEE.std_logic_1164.STD_LOGIC;
+use IEEE.std_logic_1164.STD_LOGIC_VECTOR;
+
 package bal_logic is
 
   -------------------------------------------------------------------
@@ -311,13 +319,9 @@ package bal_logic is
   -- This kind of function is not part of std_logic_1164, 
   -- but has been kept here for convenience because the TO_BALTERN 
   -- function was forced here.
-  -- Converts a BTERN_(U)LOGIC_VECTOR to an integer.
-  -- The predefined 32-bit INTEGER type in VHDL is guaranteed by the 
-  -- VHDL LRM to include the range –/+ 2'147'483'647.
-  -- The closest trit-count with all +'s or -'s is 20 with 
-  -- values +/- 1'743'392'200. As it is the norm to not 
-  -- protect against overflows in the IEEE library, 
-  -- the same applies here
+  -- Converts a BTERN_(U)LOGIC(_VECTOR) to an integer.
+  -- As it is the norm to not protect against overflows in 
+  -- the IEEE library, the same is true here.
   function TO_INTEGER (ARG : BTERN_ULOGIC_VECTOR) return INTEGER;
   function TO_INTEGER (ARG : BTERN_ULOGIC) return INTEGER;
 
@@ -326,6 +330,29 @@ package bal_logic is
   -- '-' or 'L' returns FALSE
   -- '+' or 'H' returns TRUE
   -- All others returns UNKNOWN
+
+  -------------------------------------------------------------------
+  -- Mixed-radix conversion functions 
+  -------------------------------------------------------------------
+  -- These are dependent upon the IEEE library.
+
+  -- The following converts the forcing and weak values of 
+  -- M/0/H/+ to L/0/H/1. The values U, W/X, "Don't care" and Z 
+  -- are propagated. Other values issue severity failure.
+  function TO_STD_LOGIC (ARG : BTERN_ULOGIC) return STD_LOGIC;
+  function TO_STD_LOGIC (ARG : BTERN_ULOGIC_VECTOR) return STD_LOGIC_VECTOR;
+
+  function TO_STD_ULOGIC (ARG : BTERN_ULOGIC) return STD_ULOGIC;
+  function TO_STD_ULOGIC (ARG : BTERN_ULOGIC_VECTOR) return STD_ULOGIC_VECTOR;
+
+  -- The following converts the forcing and weak values of 
+  -- L/0/H/1 to M/0/H/+. The values U, W/X, "Don't care" and Z
+  -- are propagated.
+  function TO_BTERN_LOGIC (ARG : STD_ULOGIC) return BTERN_LOGIC;
+  function TO_BTERN_LOGIC (ARG : STD_ULOGIC_VECTOR) return BTERN_LOGIC_VECTOR;
+
+  function TO_BTERN_ULOGIC (ARG : STD_ULOGIC) return BTERN_ULOGIC;
+  function TO_BTERN_ULOGIC (ARG : STD_ULOGIC_VECTOR) return BTERN_ULOGIC_VECTOR;
   
   -------------------------------------------------------------------
   -- Edge detection functions
