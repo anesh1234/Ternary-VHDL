@@ -1,5 +1,5 @@
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.std_logic_1164.all;
 library TVL;
 use TVL.bal_logic.all;
 
@@ -13,6 +13,8 @@ end flip_flop;
 architecture behavioral of flip_flop is
     signal q_reg : BTERN_LOGIC := '0';
 begin
+
+    -- Behavioral description (process)
     process (clk)
     begin
         if rising_edge(clk) then
@@ -23,6 +25,9 @@ begin
             end if;
         end if;
     end process;
+
+    -- Dataflow description (signal assignment)
     q_out <= q_reg;
+
 end architecture behavioral;
  

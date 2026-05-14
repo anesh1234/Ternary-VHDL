@@ -235,16 +235,16 @@ package kleene_pkg is
   function pm_falling_edge  (signal S : KLEENE) return BOOLEAN;
 
   -------------------------------------------------------------------
-  -- conversion functions
+  -- mixed-radix conversion functions
   -------------------------------------------------------------------
 
-  -- The following converts unk/true to false/true.
-  -- If the ternary "false" is encountered, an error of severity 
+  -- converts ternary false/true to binary false/true.
+  -- If the ternary "unk" is encountered, an error of severity 
   -- failure is issued.
   function TO_BOOLEAN (ARG : KLEENE) return BOOLEAN;
   function TO_BOOLEAN (ARG : KLEENE_VECTOR) return BOOLEAN_VECTOR;
 
-  -- The following converts false/true to unk/true.
+  -- converts binary false/true to ternary false/true.
   function TO_KLEENE (ARG : BOOLEAN) return KLEENE;
   function TO_KLEENE (ARG : BOOLEAN_VECTOR) return KLEENE_VECTOR;
 

@@ -40,16 +40,10 @@ def toDec(balTern: list[str]) -> int:
 
 def showBalTern(start:int, stop: int):
     """
-    Prints a sequence of balanced ternary numbers from \n
-    decimal integer start to decimal integer stop.
+    Prints a sequence of balanced ternary integers from start to stop.
     """
     for i in range(start, stop + 1):
-        balTernNum = toBaltern(i)
-        print(balTernNum)
-
-        newDec = toDec(balTernNum)
-        if newDec != i:
-            print(f'Error with Decimal {i}')
+        print(toBaltern(i))
     print('DONE')
 
 def addBalTern(num1: list[str], num2: list[str]):
@@ -64,10 +58,8 @@ def verifyToBaltern ():
         dnum = toDec(bnum)
         if dnum != i:
             raise ValueError(f"Calculated Btern num: {bnum} was not equal to decimal: {i}")
-        else:
-            print(bnum, f"Length: {len(bnum)}")
 
 
 if __name__ == "__main__":
-    verifyToBaltern()
+    
 

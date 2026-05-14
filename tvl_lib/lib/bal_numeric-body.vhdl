@@ -414,8 +414,6 @@ end procedure DIV_TESTING;
 
   -------------------------------------------------------------------
 
-  -- Returns the number of balanced trits necessary to 
-  -- express any integer.
   function NUM_BTRITS (ARG : INTEGER) return NATURAL is
     variable NTRITS : NATURAL := 0;
     variable REMAIN : NATURAL := 0;

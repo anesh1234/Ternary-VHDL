@@ -186,7 +186,12 @@ package bal_numeric is
   -- Visible here only for verification purposes, 
   -- should maybe not be visible?
 
+  -- Returns the leftmost non-zero element's value i.e., 
+  -- the sign-trit
   function LEFTMOST_NZ (ARG : BTERN_ULOGIC_VECTOR) return BTERN_ULOGIC;
+
+  -- Returns the number of balanced trits necessary to 
+  -- express any decimal integer.
   function NUM_BTRITS (ARG : INTEGER) return NATURAL;
 
   -------------------------------------------------------------------

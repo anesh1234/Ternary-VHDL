@@ -14,6 +14,8 @@ begin
     y <= SUM(a, b);
 end architecture rtl;
 
+-------------------------------------------------------------------
+
 library TVL;
 use TVL.bal_logic.all;
 
@@ -30,6 +32,8 @@ begin
     y <= CON(a, b);
 end architecture rtl;
 
+-------------------------------------------------------------------
+
 library TVL;
 use TVL.bal_logic.all;
 
@@ -44,5 +48,22 @@ end entity any_gate;
 architecture rtl of any_gate is
 begin
     y <= ANY(a, b);
+end architecture rtl;
+
+-------------------------------------------------------------------
+
+library TVL;
+use TVL.bal_logic.all;
+
+entity max_gate is
+    Port ( 
+        a : in  BTERN_LOGIC; 
+        b : in  BTERN_LOGIC;
+        y : out BTERN_LOGIC );
+end max_gate;
+
+architecture rtl of max_gate is
+begin
+    y <= MAX(a, b);
 end architecture rtl;
 

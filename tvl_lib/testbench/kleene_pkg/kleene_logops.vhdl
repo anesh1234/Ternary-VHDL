@@ -279,12 +279,12 @@ begin
             (false, unk,   true,  unk,   unk, true, true,  true, true));
 
     elsif run("2-arity NMI") then
-      D_NMI((false, false, false, unk,   unk, unk,   true,  true,  true), 
+      D_NMA((false, false, false, unk,   unk, unk,   true,  true,  true), 
             (false, unk,   true,  false, unk, true,  false, unk,   true), 
             (true,  unk,   false, unk,   unk, false, false, false, false));
 
     elsif run("2-arity NMA") then
-      D_NMA((false, false, false, unk,   unk, unk,  true,  true, true), 
+      D_NMI((false, false, false, unk,   unk, unk,  true,  true, true), 
             (false, unk,   true,  false, unk, true, false, unk,  true),  
             (true,  true,  true,  true,  unk, unk,  true,  unk,  false));
 

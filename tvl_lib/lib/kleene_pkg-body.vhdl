@@ -196,8 +196,8 @@ package body kleene_pkg is
         (TRUE,  TRUE,  TRUE )   -- | TRUE  |
         ); 
 
-  -- [045] NMIN (NMI)
-  constant nmi_table : kleene_table := (
+  -- [045] NMAX (NMA)
+  constant nma_table : kleene_table := (
     -- ----------------------
     -- | FALSE  UNK    TRUE  |
     -- ----------------------   
@@ -206,8 +206,8 @@ package body kleene_pkg is
         (FALSE, FALSE, FALSE)   -- | TRUE  |
         ); 
 
-  -- [5EZ] NMAX (NMA)
-  constant nma_table : kleene_table := (
+  -- [5EZ] NMIN (NMI)
+  constant nmi_table : kleene_table := (
     -- ----------------------
     -- | FALSE  UNK    TRUE  |
     -- ----------------------     
@@ -907,7 +907,7 @@ package body kleene_pkg is
   end function MAX;
 
   -------------------------------------------------------------------
-  -- [045] NMIN (NMI)
+  -- [5EZ] NMIN (NMI)
   -------------------------------------------------------------------
 
   function NMI (L, R : KLEENE) return KLEENE is
@@ -964,7 +964,7 @@ package body kleene_pkg is
   end function NMI;
 
   -------------------------------------------------------------------
-  -- [5EZ] NMAX (NMA)
+  -- [045] NMAX (NMA)
   -------------------------------------------------------------------
 
   function NMA (L, R : KLEENE) return KLEENE is

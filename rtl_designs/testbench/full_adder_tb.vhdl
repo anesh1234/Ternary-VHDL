@@ -36,7 +36,7 @@ begin
 
     -- Apply all nine input combinations
     main : process
-        procedure test_adder (arg1, arg2, arg3, sum_exp, car_exp : btern_logic) is
+        procedure test_adder (arg1, arg2, arg3, exp_sum, exp_car : btern_logic) is
         begin
             a <= arg1; 
             b <= arg2; 
@@ -44,8 +44,8 @@ begin
 
             wait for 10 ns;
 
-            check_equal(TO_STRING(sum),   TO_STRING(sum_exp));
-            check_equal(TO_STRING(carry), TO_STRING(car_exp));
+            check_equal(TO_STRING(sum),   TO_STRING(exp_sum));
+            check_equal(TO_STRING(carry), TO_STRING(exp_car));
             
         end procedure;
     begin

@@ -9,7 +9,7 @@ os.environ['VUNIT_SIMULATOR'] = 'ghdl'
 root = Path(__file__).parent
 
 # Create VUnit instance by parsing command line arguments
-vu = VUnit.from_argv(compile_builtins=False)
+vu = VUnit.from_argv()
 
 # Add VUnit's builtin HDL utilities for checking, logging, communication...
 # See http://vunit.github.io/hdl_libraries.html.
