@@ -15,14 +15,12 @@ architecture behavioral of flip_flop is
 begin
 
     -- Behavioral description (process)
-    process (clk)
+    process (clk, reset)
     begin
-        if rising_edge(clk) then
-            if reset = '1' then
-                q_reg <= '0';   
-            else
-                q_reg <= d_in;  
-            end if;
+        if reset = '1' then
+            q_reg <= '0';   
+        elsif rising_edge(clk) then
+            q_reg <= d_in;  
         end if;
     end process;
 

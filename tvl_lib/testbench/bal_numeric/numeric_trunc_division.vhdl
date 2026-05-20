@@ -28,19 +28,6 @@ architecture test of numeric_trunc_division_tb is
   signal v_empty : BTERN_LOGIC_VECTOR(-1 downto 0);
   signal TNAC    : BTERN_LOGIC_VECTOR (0 downto 1) := (others => '0');
 
-  -- signals for random tests
-  signal a_rand_i, b_rand_i, res_rand_i,
-          exp_rand_i : INTEGER;
-
-  -- As we don't need to worry about overflow
-  -- with division, we can max out the integer type.
-  -- The closest we get to the integer maximum without
-  -- being to big with max/min vectors is 20 trits.
-  signal a_rand_vec, b_rand_vec
-          : BTERN_LOGIC_VECTOR(19 downto 0);
-
-  signal res_rand_vec : BTERN_LOGIC_VECTOR(19 downto 0);
-
 begin
 
   main : process

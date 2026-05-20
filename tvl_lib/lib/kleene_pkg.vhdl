@@ -92,9 +92,9 @@ package kleene_pkg is
   -- [4DE] NCONS (NCO)
   -- [PC0] Minimum (MINI), Ternary AND
   -- [ZRP] Maximum (MAX), Ternary OR
-  -- [045] NMIN (NMI) 
-  -- [5EZ] NMAX (NMA)
-  -- [5DP] XOR, already predefined for binary logic, thus overloading
+  -- [045] NMAX (NMA)
+  -- [5EZ] NMIN (NMI) 
+  -- [5DP] XOR, overload of predefined logical operator
   -- [PD5] MULTIPLY (MUL), DIVIDE (div/0 is 0)
   -- [PRZ] IMPLICATION (IMP), Kleene Logic version
   -- [XP9] ANY 
